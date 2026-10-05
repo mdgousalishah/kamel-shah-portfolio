@@ -77,7 +77,7 @@ const skillCategories = [
 
 export default function Skills() {
   return (
-    <section id="skills" className="relative w-full py-20 md:py-28 px-6 lg:px-12 bg-[#0B0C10] border-t border-white/[0.06] scroll-mt-[50px] z-10">
+    <section id="skills" className="relative w-full py-20 md:py-28 px-4 sm:px-6 lg:px-12 bg-[#0B0C10] border-t border-white/[0.06] scroll-mt-[50px] z-10">
       <div className="max-w-7xl mx-auto w-full">
         {/* Editorial Section Label */}
         <div className="flex items-center justify-between pb-8 border-b border-white/[0.08] mb-12 md:mb-16">
@@ -111,7 +111,7 @@ export default function Skills() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
-                className="flex flex-col justify-between p-7 rounded-2xl bg-[#0F1015]/90 border border-white/[0.08] hover:border-white/[0.2] transition-all group"
+                className="flex flex-col justify-between p-5 sm:p-7 rounded-2xl bg-[#0F1015]/90 border border-white/[0.08] hover:border-white/[0.2] transition-all group"
               >
                 <div>
                   {/* Category Header */}

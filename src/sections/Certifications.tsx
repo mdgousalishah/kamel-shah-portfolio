@@ -30,7 +30,7 @@ export default function Certifications() {
   }, [activeCert]);
 
   return (
-    <section id="certifications" className="relative w-full py-20 md:py-28 px-6 lg:px-12 bg-[#08080A] border-t border-white/[0.06] scroll-mt-[50px] z-10">
+    <section id="certifications" className="relative w-full py-20 md:py-28 px-4 sm:px-6 lg:px-12 bg-[#08080A] border-t border-white/[0.06] scroll-mt-[50px] z-10">
       <div className="max-w-7xl mx-auto w-full">
         {/* Editorial Section Label */}
         <div className="flex items-center justify-between pb-8 border-b border-white/[0.08] mb-12 md:mb-16">
@@ -104,7 +104,7 @@ export default function Certifications() {
                 )}
 
                 {/* Card Meta */}
-                <div className="p-6 flex flex-col justify-between flex-grow">
+                <div className="p-5 sm:p-6 flex flex-col justify-between flex-grow">
                   <div>
                     <div className="flex items-center justify-between gap-2 mb-2">
                       <span className="text-[10px] font-mono text-indigo-400 uppercase tracking-wider font-semibold">
@@ -156,7 +156,7 @@ export default function Certifications() {
                           e.stopPropagation();
                           setActiveCert(cert);
                         }}
-                        className="inline-flex items-center gap-1.5 font-semibold text-indigo-400 hover:text-white transition-colors cursor-pointer"
+                        className="inline-flex items-center gap-1.5 min-h-[44px] py-1 font-semibold text-indigo-400 hover:text-white transition-colors cursor-pointer"
                       >
                         <span>View Certificate</span>
                         <ExternalLink size={12} />

@@ -62,18 +62,18 @@ export default function IdentityPhilosophy({ reducedMotion = false }: IdentityPh
     <section
       ref={containerRef}
       id="about"
-      className="relative w-full min-h-screen py-24 md:py-36 px-6 lg:px-16 bg-[#08080A] border-t border-white/[0.08] overflow-hidden flex flex-col justify-center scroll-mt-[50px] z-10"
+      className="relative w-full min-h-screen py-16 md:py-36 px-4 sm:px-6 lg:px-16 bg-[#08080A] border-t border-white/[0.08] overflow-hidden flex flex-col justify-center scroll-mt-[50px] z-10"
     >
       {/* =====================================================================
           LAYER 1: BACK — SUBTLE ARCHITECTURAL GRID & PARTICLES (0.1x)
           ===================================================================== */}
       <motion.div
         style={{ y: reducedMotion ? 0 : bgY }}
-        className="absolute inset-0 pointer-events-none opacity-20"
+        className="absolute inset-0 pointer-events-none opacity-20 overflow-hidden"
       >
         <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:5rem_5rem]" />
-        <div className="absolute top-1/4 left-1/3 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[140px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-[450px] h-[450px] bg-red-600/10 rounded-full blur-[140px]" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[min(400px,80vw)] h-[min(400px,80vw)] bg-indigo-600/10 rounded-full blur-[120px]" />
+        <div className="absolute bottom-1/4 left-1/2 -translate-x-1/2 w-[min(360px,70vw)] h-[min(360px,70vw)] bg-red-600/10 rounded-full blur-[120px]" />
       </motion.div>
 
       <div className="max-w-7xl mx-auto w-full relative z-10 flex flex-col">
@@ -124,7 +124,7 @@ export default function IdentityPhilosophy({ reducedMotion = false }: IdentityPh
           {/* Word 1: IDENTITY (Masked reveal from left) */}
           <div className="overflow-hidden leading-[0.9]">
             <h2
-              className="text-[clamp(2.75rem,8.5vw,7.5rem)] font-black text-white tracking-tighter uppercase font-sans inline-block"
+              className="text-[clamp(2.1rem,8.5vw,7.5rem)] font-black text-white tracking-tighter uppercase font-sans inline-block"
               style={{
                 clipPath: inView ? 'inset(0% 0% 0% 0%)' : 'inset(0% 100% 0% 0%)',
                 WebkitClipPath: inView ? 'inset(0% 0% 0% 0%)' : 'inset(0% 100% 0% 0%)',
@@ -141,7 +141,7 @@ export default function IdentityPhilosophy({ reducedMotion = false }: IdentityPh
           {/* Word 2: PHILOSOPHY (Masked reveal from right) */}
           <div className="overflow-hidden leading-[0.9]">
             <span
-              className="text-[clamp(2.75rem,8.5vw,7.5rem)] font-black text-transparent bg-clip-text bg-gradient-to-r from-neutral-200 via-neutral-400 to-neutral-600 tracking-tighter uppercase font-sans inline-block"
+              className="text-[clamp(2.1rem,8.5vw,7.5rem)] font-black text-transparent bg-clip-text bg-gradient-to-r from-neutral-200 via-neutral-400 to-neutral-600 tracking-tighter uppercase font-sans inline-block break-words"
               style={{
                 clipPath: inView ? 'inset(0% 0% 0% 0%)' : 'inset(0% 0% 0% 100%)',
                 WebkitClipPath: inView ? 'inset(0% 0% 0% 0%)' : 'inset(0% 0% 0% 100%)',
@@ -174,7 +174,7 @@ export default function IdentityPhilosophy({ reducedMotion = false }: IdentityPh
           {/* Middle Layer: Expanding Slice Image Reveal */}
           <motion.div
             style={{ y: reducedMotion ? 0 : photoY }}
-            className="lg:col-span-5 relative"
+            className="lg:col-span-5 relative w-full max-w-[320px] lg:max-w-none mx-auto overflow-hidden"
           >
             <div
               className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-neutral-950 border border-white/20 shadow-[0_25px_60px_rgba(0,0,0,0.85)] group"
@@ -199,8 +199,9 @@ export default function IdentityPhilosophy({ reducedMotion = false }: IdentityPh
                 className="absolute inset-0 pointer-events-none"
                 style={{
                   background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%)',
-                  transform: inView ? 'translateX(200%)' : 'translateX(-200%)',
-                  transition: 'transform 1.3s ease-in-out 600ms',
+                  transform: inView ? 'translateX(100%)' : 'translateX(-100%)',
+                  opacity: inView ? 1 : 0,
+                  transition: 'transform 1.3s ease-in-out 600ms, opacity 0.3s ease',
                 }}
               />
 
@@ -244,7 +245,7 @@ export default function IdentityPhilosophy({ reducedMotion = false }: IdentityPh
             LAYER 4: UI — DEDICATED PROFILE CARD & EDITORIAL METRICS (1x)
             ===================================================================== */}
         {/* Profile Identity Callout */}
-        <div className="my-10 p-6 md:p-8 rounded-2xl bg-[#0F1015] border border-white/[0.08] hover:border-indigo-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-6 transition-all shadow-lg">
+        <div className="my-10 p-5 sm:p-6 md:p-8 rounded-2xl bg-[#0F1015] border border-white/[0.08] hover:border-indigo-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-6 transition-all shadow-lg">
           <div className="space-y-1.5 text-left">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-400" />
@@ -261,7 +262,7 @@ export default function IdentityPhilosophy({ reducedMotion = false }: IdentityPh
           </div>
           <a
             href="/kamel-shah"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-white text-black font-semibold text-xs font-mono uppercase tracking-wider hover:bg-neutral-200 transition-all shrink-0 hover:scale-105 active:scale-95 shadow-lg shadow-white/10"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 min-h-[44px] rounded-full bg-white text-black font-semibold text-xs font-mono uppercase tracking-wider hover:bg-neutral-200 transition-all shrink-0 hover:scale-105 active:scale-95 shadow-lg shadow-white/10"
           >
             <span>View Identity Profile</span>
             <ArrowRight size={14} />

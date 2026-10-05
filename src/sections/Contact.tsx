@@ -43,7 +43,7 @@ ${formData.message.trim()}`;
   };
 
   return (
-    <section id="contact" className="relative w-full py-20 md:py-28 px-6 lg:px-12 bg-[#08080A] border-t border-white/[0.06] scroll-mt-[50px] z-10">
+    <section id="contact" className="relative w-full py-20 md:py-28 px-4 sm:px-6 lg:px-12 bg-[#08080A] border-t border-white/[0.06] scroll-mt-[50px] z-10">
       <div className="max-w-7xl mx-auto w-full">
         {/* Editorial Section Label */}
         <div className="flex items-center justify-between pb-8 border-b border-white/[0.08] mb-12 md:mb-16">
@@ -179,7 +179,7 @@ ${formData.message.trim()}`;
 
             <form
               onSubmit={handleSubmit}
-              className="p-8 rounded-3xl bg-[#0F1015] border border-white/[0.08] shadow-2xl space-y-5"
+              className="p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-[#0F1015] border border-white/[0.08] shadow-2xl space-y-5"
             >
               {error && (
                 <div className="p-3.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-mono">
@@ -256,7 +256,7 @@ ${formData.message.trim()}`;
 
               <button
                 type="submit"
-                className="w-full py-4 rounded-full bg-white text-black font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-neutral-200 transition-all hover:scale-[1.01] active:scale-[0.99] shadow-xl"
+                className="w-full min-h-[48px] py-3.5 sm:py-4 rounded-full bg-white text-black font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-neutral-200 transition-all hover:scale-[1.01] active:scale-[0.99] shadow-xl cursor-pointer"
               >
                 <span>Dispatch Via WhatsApp</span>
                 <Send size={14} />

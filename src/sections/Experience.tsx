@@ -36,7 +36,7 @@ const experiences = [
 
 export default function Experience() {
   return (
-    <section id="experience" className="relative w-full py-20 md:py-28 px-6 lg:px-12 bg-[#08080A] border-t border-white/[0.06] scroll-mt-[50px] z-10">
+    <section id="experience" className="relative w-full py-20 md:py-28 px-4 sm:px-6 lg:px-12 bg-[#08080A] border-t border-white/[0.06] scroll-mt-[50px] z-10">
       <div className="max-w-7xl mx-auto w-full">
         {/* Editorial Section Label */}
         <div className="flex items-center justify-between pb-8 border-b border-white/[0.08] mb-12 md:mb-16">

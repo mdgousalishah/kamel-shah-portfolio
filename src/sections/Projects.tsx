@@ -4,7 +4,7 @@ import { ArrowUpRight, Github, ExternalLink } from 'lucide-react';
 
 export default function Projects() {
   return (
-    <section id="projects" className="relative w-full py-20 md:py-28 px-6 lg:px-12 bg-[#08080A] border-t border-white/[0.06] scroll-mt-[50px] z-10">
+    <section id="projects" className="relative w-full py-20 md:py-28 px-4 sm:px-6 lg:px-12 bg-[#08080A] border-t border-white/[0.06] scroll-mt-[50px] z-10">
       <div className="max-w-7xl mx-auto w-full">
         {/* Editorial Section Label */}
         <div className="flex items-center justify-between pb-8 border-b border-white/[0.08] mb-12 md:mb-16">
@@ -110,12 +110,12 @@ export default function Projects() {
                       ))}
                     </div>
 
-                    <div className="flex items-center gap-4 pt-1">
+                    <div className="flex flex-wrap items-center gap-3 pt-1">
                       <a
                         href={project.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-black font-bold text-xs uppercase tracking-wider hover:bg-neutral-200 transition-all hover:scale-105 active:scale-95"
+                        className="inline-flex items-center justify-center gap-2 min-h-[44px] px-5 py-2.5 rounded-full bg-white text-black font-bold text-xs uppercase tracking-wider hover:bg-neutral-200 transition-all hover:scale-105 active:scale-95"
                       >
                         <span>Live Platform</span>
                         <ArrowUpRight size={14} />
@@ -126,7 +126,7 @@ export default function Projects() {
                           href={project.github}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/[0.04] text-neutral-300 hover:text-white border border-white/[0.08] hover:border-white/20 transition-all text-xs font-mono"
+                          className="inline-flex items-center justify-center gap-2 min-h-[44px] px-4 py-2.5 rounded-full bg-white/[0.04] text-neutral-300 hover:text-white border border-white/[0.08] hover:border-white/20 transition-all text-xs font-mono"
                         >
                           <Github size={14} />
                           <span>Code</span>

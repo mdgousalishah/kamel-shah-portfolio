@@ -43,6 +43,8 @@ export default function ScrollSceneStage({ timelineState, reducedMotion = false 
       renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
       renderer.setSize(container.clientWidth, container.clientHeight);
       renderer.setClearColor(0x08080a, 1);
+      renderer.domElement.style.touchAction = 'pan-y';
+      container.style.touchAction = 'pan-y';
       container.appendChild(renderer.domElement);
     } catch (e) {
       console.warn('WebGL initialization failed:', e);
@@ -467,9 +469,9 @@ export default function ScrollSceneStage({ timelineState, reducedMotion = false 
 
     const orbitalProjectMeshes: THREE.Mesh[] = [];
     const numProjects = 7;
-    const orbitRadiusX = 7.4;
-    const orbitRadiusZ = 4.2;
-    const orbitTiltY = 1.3;
+    let orbitRadiusX = container.clientWidth < 768 ? 3.4 : 7.4;
+    let orbitRadiusZ = container.clientWidth < 768 ? 2.2 : 4.2;
+    let orbitTiltY = container.clientWidth < 768 ? 0.6 : 1.3;
 
     // Single reusable card geometry
     const cardGeo = new THREE.PlaneGeometry(3.6, 2.25);
@@ -536,6 +538,55 @@ export default function ScrollSceneStage({ timelineState, reducedMotion = false 
     window.addEventListener('mousedown', onMouseDown);
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('mouseup', onMouseUp);
+
+    // Touch interaction with pan-y safety so vertical swipe continues page scrolling
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let isHorizontalTouch = false;
+    let isTouching = false;
+
+    const onTouchStart = (e: TouchEvent) => {
+      if (stateRef.current.activeSceneIndex === 3 && e.touches.length === 1) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        dragStartX = touchStartX;
+        isHorizontalTouch = false;
+        isTouching = true;
+      }
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (!isTouching || stateRef.current.activeSceneIndex !== 3) return;
+      const currentX = e.touches[0].clientX;
+      const currentY = e.touches[0].clientY;
+      const dx = currentX - touchStartX;
+      const dy = currentY - touchStartY;
+
+      if (!isHorizontalTouch) {
+        if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 8) {
+          isHorizontalTouch = true;
+        } else if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 8) {
+          isTouching = false;
+          return; // Allow native vertical page scrolling uninterrupted!
+        }
+      }
+
+      if (isHorizontalTouch) {
+        if (e.cancelable) e.preventDefault();
+        const deltaX = currentX - dragStartX;
+        dragStartX = currentX;
+        targetOrbitAngle += deltaX * 0.008;
+      }
+    };
+
+    const onTouchEnd = () => {
+      isTouching = false;
+      isHorizontalTouch = false;
+    };
+
+    container.addEventListener('touchstart', onTouchStart, { passive: true });
+    container.addEventListener('touchmove', onTouchMove, { passive: false });
+    container.addEventListener('touchend', onTouchEnd, { passive: true });
 
     // Raycasting for direct 3D project card clicks
     const raycaster = new THREE.Raycaster();
@@ -662,36 +713,61 @@ export default function ScrollSceneStage({ timelineState, reducedMotion = false 
       // =======================================================================
       // Scene 1 Dynamics (PHOTO A: Suit Portrait & Rings)
       // =======================================================================
+      const isMobile = container.clientWidth < 768;
+
       s1Points.rotation.y = time * 0.03 + mouseX * 0.1;
       gyroRing1.rotation.x = time * 0.15;
       gyroRing1.rotation.y = time * 0.25;
       gyroRing2.rotation.y = -time * 0.2;
       gyroRing2.rotation.z = time * 0.12;
+
+      // On mobile, hide 3D plane so it does not compete with DOM HoloIdentityCard
+      suitPortraitMesh.visible = !isMobile;
       suitPortraitMesh.position.y = 0.2 + Math.sin(time * 0.75) * 0.1;
       suitPortraitMesh.rotation.y = mouseX * 0.08;
+
+      gyroRing1.position.x = isMobile ? 0 : 3.4;
+      gyroRing2.position.x = isMobile ? 0 : 3.4;
+      gyroRing1.scale.setScalar(isMobile ? 0.65 : 1.0);
+      gyroRing2.scale.setScalar(isMobile ? 0.65 : 1.0);
 
       // =======================================================================
       // Scene 2 Dynamics (Agentic AI Core, 3 Clusters, & Data Flow)
       // =======================================================================
       const s2Progress = state.sceneProgress;
+      const isLLMStage = s2Progress >= 0.7;
+      const pulseSpeed = isLLMStage ? 4.5 : 2.0;
+
       if (state.activeSceneIndex === 1) {
-        // Cognitive bridge: B&W portrait dissolves into neural network
+        // Cognitive bridge: B&W portrait dissolves into neural network (desktop only)
+        bwPortraitMesh.visible = !isMobile;
         bwPortraitMat.opacity = Math.max(0, 0.88 * (1 - s2Progress * 2.2));
         bwPortraitMesh.position.y = 0.2 + s2Progress * 0.4;
         bwPortraitMesh.scale.setScalar(1 + s2Progress * 0.08);
 
         // Core pulsing depends on activation stage
-        const isLLMStage = s2Progress >= 0.7;
-        const pulseSpeed = isLLMStage ? 4.5 : 2.0;
         const coreScale = 1 + Math.sin(time * pulseSpeed) * (isLLMStage ? 0.15 : 0.06);
-        coreMesh.scale.setScalar(coreScale);
+        coreMesh.scale.setScalar(isMobile ? 0.65 * coreScale : coreScale);
       } else {
+        bwPortraitMesh.visible = !isMobile;
         bwPortraitMat.opacity = 0.88;
+        coreMesh.scale.setScalar(isMobile ? 0.65 : 1.0);
       }
 
+      // Move neural core behind DOM text on mobile
+      coreMesh.position.set(0, isMobile ? -0.4 : 0.5, isMobile ? -3.5 : 0);
       coreMesh.rotation.x = time * 0.2;
       coreMesh.rotation.y = time * 0.28;
+
+      nodeGroup.position.set(0, isMobile ? -0.4 : 0, isMobile ? -3.5 : 0);
+      nodeGroup.scale.setScalar(isMobile ? 0.65 : 1.0);
       nodeGroup.rotation.y = -time * 0.1;
+
+      connLines.position.set(0, isMobile ? -0.4 : 0, isMobile ? -3.5 : 0);
+      connLines.scale.setScalar(isMobile ? 0.65 : 1.0);
+
+      packetPoints.position.set(0, isMobile ? -0.4 : 0, isMobile ? -3.5 : 0);
+      packetPoints.scale.setScalar(isMobile ? 0.65 : 1.0);
 
       // Update traveling data packets
       const packetArr = packetGeo.attributes.position.array as Float32Array;
@@ -707,8 +783,14 @@ export default function ScrollSceneStage({ timelineState, reducedMotion = false 
       // =======================================================================
       // Scene 3 Dynamics (Full-Stack Slabs)
       // =======================================================================
-      wsMesh.position.y = 0.6 + Math.sin(time * 0.5) * 0.06;
+      // Move server slabs behind DOM content on mobile
+      stackGroup.position.set(0, isMobile ? -1.6 : -0.6, isMobile ? -4.5 : 0);
+      stackGroup.scale.setScalar(isMobile ? 0.55 : 1.0);
       stackGroup.rotation.y = -0.52 + Math.sin(time * 0.4) * 0.07 + mouseX * 0.14;
+
+      wsMesh.position.set(0, isMobile ? 0.2 : 0.6 + Math.sin(time * 0.5) * 0.06, isMobile ? -6.5 : -4.5);
+      wsMesh.scale.setScalar(isMobile ? 0.65 : 1.0);
+
       slabMeshes.forEach((mesh, idx) => {
         mesh.position.y = slabLayers[idx].y + Math.sin(time * 0.9 + idx * 1.2) * 0.1;
       });
@@ -717,7 +799,7 @@ export default function ScrollSceneStage({ timelineState, reducedMotion = false 
       // Scene 4 Dynamics (3D Solar System Project Orbit)
       // =======================================================================
       // Continuous slow, majestic idle orbit when not dragging
-      if (!isDraggingOrbit) {
+      if (!isDraggingOrbit && !isTouching) {
         targetOrbitAngle += delta * 0.06;
       }
       currentOrbitAngle += (targetOrbitAngle - currentOrbitAngle) * (1 - Math.exp(-delta * 3.5));
@@ -727,15 +809,25 @@ export default function ScrollSceneStage({ timelineState, reducedMotion = false 
       // At end of Scene 04: orbit departs into depth.
       if (state.activeSceneIndex === 3) {
         const sp = state.sceneProgress;
-        let targetZ = -1.8;
+        let targetZ = isMobile ? -2.2 : -1.8;
         if (sp < 0.18) {
-          targetZ = -12 + (sp / 0.18) * 10.2;
+          targetZ = -12 + (sp / 0.18) * (isMobile ? 9.8 : 10.2);
         } else if (sp > 0.82) {
-          targetZ = -1.8 - ((sp - 0.82) / 0.18) * 10.2;
+          targetZ = (isMobile ? -2.2 : -1.8) - ((sp - 0.82) / 0.18) * (isMobile ? 9.8 : 10.2);
         }
         projectOrbitGroup.position.z += (targetZ - projectOrbitGroup.position.z) * (1 - Math.exp(-delta * 5.0));
         projectCoreGroup.position.z = projectOrbitGroup.position.z;
       }
+
+      // Responsive orbit radii
+      orbitRadiusX = isMobile ? 3.4 : 7.4;
+      orbitRadiusZ = isMobile ? 2.2 : 4.2;
+      orbitTiltY = isMobile ? 0.6 : 1.3;
+
+      projectCoreGroup.scale.setScalar(isMobile ? 0.68 : 1.0);
+      orbitRing1.scale.setScalar(isMobile ? 0.48 : 1.0);
+      orbitRing2.scale.setScalar(isMobile ? 0.48 : 1.0);
+      orbitRing3.scale.setScalar(isMobile ? 0.48 : 1.0);
 
       // Subtle precession / tilt movement of the entire orbital system
       projectOrbitGroup.rotation.x = Math.sin(time * 0.25) * 0.04;
@@ -753,7 +845,7 @@ export default function ScrollSceneStage({ timelineState, reducedMotion = false 
       for (let i = 0; i < orbitParticleCount; i++) {
         orbitParticleAngles[i] += delta * orbitParticleSpeeds[i];
         const a = orbitParticleAngles[i];
-        const r = orbitParticleRadii[i];
+        const r = orbitParticleRadii[i] * (isMobile ? 0.48 : 1.0);
         pArr[i * 3] = Math.cos(a) * r;
         pArr[i * 3 + 1] = Math.sin(a) * (orbitTiltY * (r / orbitRadiusX));
         pArr[i * 3 + 2] = Math.sin(a) * (orbitRadiusZ * (r / orbitRadiusX));
@@ -779,17 +871,16 @@ export default function ScrollSceneStage({ timelineState, reducedMotion = false 
         let targetScale: number;
         let targetOpacity: number;
 
-        // Strict 3D Depth Hierarchy:
-        // ACTIVE: scale ~1.36, opacity 1.0, pulled forward in Z (Z = 3.2)
-        // NEAR:   scale ~0.90, opacity ~0.65
-        // FAR:    scale ~0.68, opacity ~0.28
+        // Strict 3D Depth Hierarchy
         if (isActive) {
-          targetZ = 3.2;
-          targetScale = 1.36;
+          targetZ = isMobile ? 2.4 : 3.2;
+          targetScale = isMobile ? 1.15 : 1.36;
           targetOpacity = 1.0;
         } else {
-          targetScale = 0.68 + depthFactor * 0.22;
-          targetOpacity = 0.28 + depthFactor * 0.37;
+          targetScale = isMobile ? (0.50 + depthFactor * 0.22) : (0.68 + depthFactor * 0.22);
+          targetOpacity = isMobile
+            ? (depthFactor > 0.35 ? 0.45 * depthFactor : 0.12)
+            : (0.28 + depthFactor * 0.37);
           targetZ = z;
         }
 
@@ -829,6 +920,7 @@ export default function ScrollSceneStage({ timelineState, reducedMotion = false 
       if (isS5Active) {
         gridHelper.position.x = mouseX * 0.08;
       }
+      gridHelper.material.opacity = isMobile ? 0.10 : 0.28;
 
       const emberArr = emberGeo.attributes.position.array as Float32Array;
       for (let i = 1; i < emberCount * 3; i += 3) {
@@ -836,6 +928,7 @@ export default function ScrollSceneStage({ timelineState, reducedMotion = false 
         if (emberArr[i] > 8) emberArr[i] = -6;
       }
       emberGeo.attributes.position.needsUpdate = true;
+      emberPoints.material.opacity = isMobile ? 0.45 : 0.75;
 
       // WebGL Rendering: Either Single Scene or Shader Transition
       const activeIdx = Math.min(state.activeSceneIndex, scenesArray.length - 1);
@@ -867,6 +960,9 @@ export default function ScrollSceneStage({ timelineState, reducedMotion = false 
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('mouseup', onMouseUp);
       window.removeEventListener('click', onWindowClick);
+      container.removeEventListener('touchstart', onTouchStart);
+      container.removeEventListener('touchmove', onTouchMove);
+      container.removeEventListener('touchend', onTouchEnd);
 
       transitionManager.dispose();
       s1Geo.dispose();

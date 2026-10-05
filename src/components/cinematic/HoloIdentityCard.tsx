@@ -192,9 +192,9 @@ export default function HoloIdentityCard({
 
   return (
     <div
-      className={`holo-identity-card relative select-none ${className}`}
+      className={`holo-identity-card relative select-none w-fit mx-auto ${className}`}
       data-testid="holo-identity-card"
-      style={{ perspective: 1400 }}
+      style={{ perspective: 1200 }}
       role="region"
       aria-label="Kamel Shah Holographic Identity Card"
     >
@@ -222,7 +222,7 @@ export default function HoloIdentityCard({
             ? 'filter 0.5s ease-out'
             : 'opacity 0.8s ease-out, filter 0.8s ease-out',
         }}
-        className="relative w-[300px] xs:w-[330px] sm:w-[350px] aspect-[1/1.54] rounded-3xl cursor-pointer shadow-[0_30px_70px_rgba(0,0,0,0.9)] group focus:outline-none focus:ring-2 focus:ring-indigo-400/50"
+        className="relative w-[min(82vw,330px)] lg:w-[350px] aspect-[1/1.54] rounded-3xl cursor-pointer shadow-[0_30px_70px_rgba(0,0,0,0.9)] group focus:outline-none focus:ring-2 focus:ring-indigo-400/50 mx-auto"
       >
         {/* ===================================================================
             THIN EMISSIVE RIM (Dominant at 70° - 110° Edge Region)
@@ -378,10 +378,10 @@ export default function HoloIdentityCard({
           </div>
 
           {/* 2. NEW FRONT-FACING PORTRAIT with slice reveal (110° -> 180°) */}
-          <div className="relative z-20 my-1.5 flex items-center gap-2.5">
+          <div className="relative z-20 my-1 flex items-center gap-2">
             {/* Portrait Thumbnail with Clip-Path Inset Slice & Light Scan */}
             <div
-              className="relative w-[82px] h-[82px] rounded-xl overflow-hidden border border-white/20 shadow-md shrink-0 bg-neutral-950"
+              className="relative w-[68px] h-[68px] sm:w-[80px] sm:h-[80px] rounded-xl overflow-hidden border border-white/20 shadow-md shrink-0 bg-neutral-950"
               style={{
                 clipPath: `inset(0% ${photoClipRight}% 0% 0%)`,
                 WebkitClipPath: `inset(0% ${photoClipRight}% 0% 0%)`,
@@ -409,28 +409,28 @@ export default function HoloIdentityCard({
 
             {/* Title Next to Portrait */}
             <div
-              className="flex-1"
+              className="flex-1 min-w-0"
               style={{
                 opacity: nameProgress,
                 transform: `translateX(${(1 - nameProgress) * 12}px)`,
               }}
             >
-              <span className="text-[10.5px] font-bold text-neutral-100 tracking-tight leading-tight block uppercase">
+              <span className="text-[10px] sm:text-[11px] font-bold text-neutral-100 tracking-tight leading-tight block uppercase truncate">
                 Electronics & Computer Engineer
               </span>
-              <span className="text-[8.5px] font-mono text-indigo-300 block mt-0.5">
-                B.Tech · PES College of Engineering
+              <span className="text-[8px] sm:text-[8.5px] font-mono text-indigo-300 block mt-0.5 truncate">
+                B.Tech · PES College of Engg.
               </span>
-              <span className="text-[8px] font-mono text-neutral-400 block">
+              <span className="text-[7.5px] sm:text-[8px] font-mono text-neutral-400 block truncate">
                 Online MBA in AI & ML · DY Patil
               </span>
             </div>
           </div>
 
-          {/* 3. SPECIALIZATION: Staggered Reveals */}
+          {/* 3. SPECIALIZATION: Compact Two-Column Format for Guaranteed Fit */}
           <div className="relative z-20 space-y-1 my-0.5">
             <div
-              className="text-[9px] font-mono font-bold text-indigo-300 uppercase tracking-widest pb-0.5 border-b border-white/10 flex items-center justify-between"
+              className="text-[8.5px] sm:text-[9px] font-mono font-bold text-indigo-300 uppercase tracking-widest pb-0.5 border-b border-white/10 flex items-center justify-between"
               style={{
                 opacity: specHeaderProgress,
                 transform: `translateY(${(1 - specHeaderProgress) * 6}px)`,
@@ -443,29 +443,25 @@ export default function HoloIdentityCard({
               <span className="text-[8px] text-neutral-400">01–06</span>
             </div>
 
-            <div className="grid grid-cols-1 gap-1 pt-0.5">
+            <div className="grid grid-cols-2 gap-x-2 gap-y-1 pt-0.5">
               {SPECIALIZATIONS.map((spec, i) => {
-                // Stagger each specialization starting from 145° to 175°
-                const itemThreshold = 142 + i * 5;
-                const itemProgress = Math.max(0, Math.min(1, (currentAngle - itemThreshold) / 20));
-                const itemOffset = (1 - itemProgress) * (i % 2 === 0 ? -12 : 12);
+                const itemThreshold = 142 + i * 4;
+                const itemProgress = Math.max(0, Math.min(1, (currentAngle - itemThreshold) / 18));
+                const itemOffset = (1 - itemProgress) * (i % 2 === 0 ? -8 : 8);
 
                 return (
                   <div
                     key={spec.num}
-                    className="flex items-center justify-between text-[9.5px] font-mono"
+                    className="flex items-center gap-1.5 text-[8px] sm:text-[8.5px] font-mono truncate"
                     style={{
                       opacity: itemProgress,
                       transform: `translateX(${itemOffset}px)`,
-                      filter: `blur(${(1 - itemProgress) * 3}px)`,
+                      filter: `blur(${(1 - itemProgress) * 2}px)`,
                     }}
                   >
-                    <div className="flex items-center gap-1.5 text-neutral-200">
-                      <span className="text-[8px] font-mono text-neutral-500">{spec.num}</span>
-                      <span className={`w-1.5 h-1.5 rounded-full ${spec.dot}`} />
-                      <span className="font-semibold text-neutral-100">{spec.name}</span>
-                    </div>
-                    <span className="text-[8px] text-neutral-500 font-mono">ACTIVE</span>
+                    <span className="text-[7.5px] font-mono text-neutral-500 shrink-0">{spec.num}</span>
+                    <span className={`w-1.5 h-1.5 rounded-full ${spec.dot} shrink-0`} />
+                    <span className="font-semibold text-neutral-200 truncate">{spec.name}</span>
                   </div>
                 );
               })}
@@ -480,21 +476,21 @@ export default function HoloIdentityCard({
               transform: `translateY(${(1 - techProgress) * 6}px)`,
             }}
           >
-            <div className="text-[8.5px] font-mono font-bold text-indigo-300 uppercase tracking-widest mb-0.5 flex items-center gap-1">
+            <div className="text-[8px] sm:text-[8.5px] font-mono font-bold text-indigo-300 uppercase tracking-widest mb-0.5 flex items-center gap-1">
               <Code2 className="w-3 h-3 text-cyan-400" />
-              <span>TECH:</span>
+              <span>TECH STACK:</span>
             </div>
-            <div className="grid grid-cols-2 gap-x-2 gap-y-0.5 text-[8.5px] font-mono text-neutral-300">
-              <div>React · TypeScript · Node.js</div>
-              <div>Python · PHP · Laravel · Lumen</div>
-              <div>MongoDB · MySQL · PostgreSQL</div>
-              <div>AI / LLM · RAG · APIs</div>
+            <div className="grid grid-cols-2 gap-x-2 gap-y-0.5 text-[8px] sm:text-[8.5px] font-mono text-neutral-300">
+              <div className="truncate">React 19 · TypeScript · Node.js</div>
+              <div className="truncate">PHP · Laravel · Lumen · Python</div>
+              <div className="truncate">MongoDB · MySQL · PostgreSQL</div>
+              <div className="truncate">Agentic AI · RAG · REST APIs</div>
             </div>
           </div>
 
           {/* 5. Footer: 2026 · ENGINEERING / AI */}
           <div
-            className="relative z-20 pt-1 border-t border-white/10 flex items-center justify-between text-[8px] font-mono text-neutral-400"
+            className="relative z-20 pt-1 border-t border-white/10 flex items-center justify-between text-[7.5px] sm:text-[8px] font-mono text-neutral-400"
             style={{ opacity: techProgress }}
           >
             <span className="text-neutral-300 font-bold">2026 · ENGINEERING / AI</span>
@@ -503,16 +499,16 @@ export default function HoloIdentityCard({
         </div>
       </div>
 
-      {/* Floating Interactive Flip Pill Beneath Card */}
-      <div className="mt-3 flex items-center justify-center gap-2">
+      {/* Floating Interactive Flip Pill Beneath Card (Touch Friendly >= 44px) */}
+      <div className="mt-3.5 flex items-center justify-center gap-2">
         <button
           type="button"
           onClick={toggleFlip}
           aria-label="Flip holographic identity card"
           data-testid="flip-card-btn"
-          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-[10px] font-mono text-neutral-300 transition-all hover:scale-105 active:scale-95 shadow-md pointer-events-auto"
+          className="min-h-[44px] inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.08] hover:bg-white/[0.14] border border-white/20 text-[11px] font-mono text-neutral-200 transition-all hover:scale-105 active:scale-95 shadow-md pointer-events-auto cursor-pointer"
         >
-          <RotateCcw className={`w-3 h-3 text-indigo-400 transition-transform duration-500 ${isFlipped ? 'rotate-180' : ''}`} />
+          <RotateCcw className={`w-3.5 h-3.5 text-indigo-400 transition-transform duration-500 ${isFlipped ? 'rotate-180' : ''}`} />
           <span>{isFlipped ? 'SHOW FRONT IDENTITY [F]' : 'FLIP FOR SPECIALIZATION [F]'}</span>
         </button>
       </div>

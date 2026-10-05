@@ -113,7 +113,7 @@ export default function CinematicScroll({ onNavigateToSection }: CinematicScroll
     <div
       ref={containerRef}
       id="cinematic-timeline"
-      className="relative w-full h-[520vh] bg-[#08080A]"
+      className="relative w-full h-[460vh] bg-[#08080A]"
     >
       {/* Pinned Sticky Visual Stage (100svh) */}
       <div className="sticky top-0 w-full h-[100svh] overflow-hidden bg-[#08080A] flex flex-col justify-center">

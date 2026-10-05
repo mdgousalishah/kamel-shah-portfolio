@@ -102,13 +102,18 @@ export default function SceneTypography({
   };
 
   // Generic Scene container visibility style
+  // Generic Scene container visibility style
   const getSceneContainerStyle = (index: number): React.CSSProperties => {
     let opacity = 0;
     let pointerEvents: 'auto' | 'none' = 'none';
 
     if (activeSceneIndex === index) {
-      opacity = isTransitioning ? 1 - transitionProgress : 1;
-      pointerEvents = isTransitioning && transitionProgress > 0.4 ? 'none' : 'auto';
+      if (index === 4 && timelineState.isTimelineExiting) {
+        opacity = Math.max(0, 1 - timelineState.timelineExitProgress * 1.1);
+      } else {
+        opacity = isTransitioning ? 1 - transitionProgress : 1;
+      }
+      pointerEvents = (isTransitioning && transitionProgress > 0.4) || (index === 4 && timelineState.timelineExitProgress > 0.5) ? 'none' : 'auto';
     } else if (nextSceneIndex === index && isTransitioning) {
       opacity = transitionProgress;
       pointerEvents = transitionProgress > 0.6 ? 'auto' : 'none';
@@ -117,7 +122,7 @@ export default function SceneTypography({
     return {
       opacity,
       pointerEvents,
-      transition: 'opacity 0.2s ease-out',
+      transition: 'opacity 0.15s ease-out',
     };
   };
 
@@ -141,8 +146,9 @@ export default function SceneTypography({
   const ctaExitScale = reducedMotion ? 1 : 1 - s1Exit * 0.08;
 
   // Scene 02 Progressive Activation State (0.0 -> 1.0)
+  const isS2Present = activeSceneIndex === 1 || (nextSceneIndex === 1 && isTransitioning);
   const isS2Active = activeSceneIndex === 1;
-  const s2Progress = isS2Active ? sceneProgress : 0;
+  const s2Progress = isS2Active ? sceneProgress : (isTransitioning && nextSceneIndex === 1 ? transitionProgress * 0.3 : 0);
   const activeModuleIndex = s2Progress < 0.35 ? 0 : s2Progress < 0.7 ? 1 : 2;
 
   // Scene 04 Active Project Data
@@ -212,7 +218,7 @@ export default function SceneTypography({
       <div
         style={{
           ...getSceneContainerStyle(0),
-          transform: isMobile && isS1Active ? `translate3d(0, ${-Math.min(320, sceneProgress * 380)}px, 0)` : undefined,
+          transform: isMobile && isS1Active ? `translate3d(0, ${-Math.min(240, sceneProgress * 280)}px, 0)` : undefined,
         }}
         className="absolute inset-0 flex flex-col justify-start lg:justify-center items-center px-4 sm:px-8 lg:px-16 pt-[max(4.5rem,calc(env(safe-area-inset-top,0px)+3.8rem))] lg:pt-0 pb-12 lg:pb-0 overflow-y-auto lg:overflow-visible scrollbar-none"
       >
@@ -327,14 +333,14 @@ export default function SceneTypography({
               Building intelligent, autonomous web architectures with production-grade engineering, LLM orchestration, structured RAG pipelines, and grounded enterprise IT experience.
             </p>
 
-            {/* 7. CTA Buttons with Authored GlassAiButton Visual System */}
+            {/* 7. CTA Buttons with Authored GlassAiButton Visual System (Desktop / Tablet >= 768px) */}
             <div
               style={{
                 opacity: isS1Active && heroMounted ? 1 - s1Exit : 0,
                 transform: `scale(${ctaExitScale}) translate3d(0, ${isS1Active && heroMounted ? 0 : 20}px, 0)`,
                 transition: 'transform 0.6s ease-out 980ms, opacity 0.5s ease-out 980ms',
               }}
-              className="flex flex-col xs:flex-row flex-wrap items-stretch xs:items-center gap-2.5 sm:gap-3.5 pointer-events-auto w-full sm:w-auto"
+              className="hidden md:flex flex-col xs:flex-row flex-wrap items-stretch xs:items-center gap-2.5 sm:gap-3.5 pointer-events-auto w-full sm:w-auto"
             >
               <GlassActionButton
                 href="#projects"
@@ -380,7 +386,7 @@ export default function SceneTypography({
                 opacity: isS1Active && heroMounted ? 1 - s1Exit : 0,
                 transition: 'transform 0.6s ease-out 1150ms, opacity 0.5s ease-out 1150ms',
               }}
-              className="hidden lg:flex flex-wrap items-center gap-3 pt-5 mt-4 border-t border-white/10"
+              className="hidden md:flex flex-wrap items-center gap-3 pt-5 mt-4 border-t border-white/10"
             >
               <span className="text-[10px] sm:text-[11px] font-mono text-neutral-400 tracking-wider">01 / FULL-STACK</span>
               <span className="text-neutral-600">·</span>
@@ -390,8 +396,8 @@ export default function SceneTypography({
             </div>
           </div>
 
-          {/* Right Column: 3D Holographic Identity Card (Front Photo A / Back Photo Front) */}
-          <div className="flex flex-col lg:col-span-5 justify-center items-center pointer-events-auto w-full my-6 lg:my-0 origin-center">
+          {/* Right Column: 3D Holographic Identity Card + Mobile CTA Buttons */}
+          <div className="flex flex-col lg:col-span-5 justify-center items-center pointer-events-auto w-full my-4 lg:my-0 origin-center">
             <HoloIdentityCard
               scrollProgress={sceneProgress}
               isTransitioning={isTransitioning && activeSceneIndex === 0}
@@ -399,13 +405,57 @@ export default function SceneTypography({
               reducedMotion={reducedMotion}
             />
 
-            {/* Mobile Bottom Capability Micro-Tags (positioned below card on mobile) */}
+            {/* Mobile CTA Buttons (<= 767px: strictly below Identity Card) */}
+            <div
+              style={{
+                opacity: isS1Active && heroMounted ? 1 - s1Exit : 0,
+                transform: `scale(${ctaExitScale}) translate3d(0, ${isS1Active && heroMounted ? 0 : 20}px, 0)`,
+                transition: 'transform 0.6s ease-out 980ms, opacity 0.5s ease-out 980ms',
+              }}
+              className="flex md:hidden flex-col items-center gap-2.5 mt-6 w-full max-w-[330px] pointer-events-auto"
+            >
+              <GlassActionButton
+                href="#projects"
+                onClick={(e) => handleNav('#projects', e)}
+                variant="vermilion"
+                icon={<ArrowRight className="w-4 h-4" />}
+                delayNavigation={220}
+                className="w-full justify-center min-h-[44px]"
+              >
+                VIEW MY WORK
+              </GlassActionButton>
+
+              <GlassActionButton
+                href={LINKEDIN_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="linkedin"
+                icon={<Linkedin className="w-4 h-4" />}
+                delayNavigation={200}
+                className="w-full justify-center min-h-[44px]"
+              >
+                CONNECT ON LINKEDIN
+              </GlassActionButton>
+
+              <GlassActionButton
+                href="/Photos/MOHAMMED GOUS ALI SHAH RESUME.pdf"
+                download="Mohammed_Gous_Ali_Shah_Resume.pdf"
+                variant="default"
+                icon={<Download className="w-4 h-4" />}
+                delayNavigation={180}
+                className="w-full justify-center min-h-[44px]"
+              >
+                RESUME
+              </GlassActionButton>
+            </div>
+
+            {/* Mobile Bottom Capability Micro-Tags (positioned below CTA buttons on mobile) */}
             <div
               style={{
                 opacity: isS1Active && heroMounted ? 1 - s1Exit : 0,
                 transition: 'opacity 0.6s ease-out 1150ms',
               }}
-              className="flex lg:hidden flex-wrap items-center justify-center gap-2 pt-4 mt-2 border-t border-white/10 w-full text-center"
+              className="flex md:hidden flex-wrap items-center justify-center gap-2 pt-4 mt-3 border-t border-white/10 w-full text-center"
             >
               <span className="text-[10px] font-mono text-neutral-400 tracking-wider">01 / FULL-STACK</span>
               <span className="text-neutral-600">·</span>
@@ -434,8 +484,8 @@ export default function SceneTypography({
           <span className="block overflow-hidden leading-[1.05]">
             <span
               style={{
-                transform: isS2Active ? 'translateY(0%)' : 'translateY(100%)',
-                opacity: isS2Active ? 1 : 0,
+                transform: isS2Present ? 'translateY(0%)' : 'translateY(100%)',
+                opacity: isS2Present ? 1 : 0,
                 transition: 'transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease-out',
               }}
               className="inline-block"
@@ -446,8 +496,8 @@ export default function SceneTypography({
           <span className="block overflow-hidden leading-[1.05]">
             <span
               style={{
-                transform: isS2Active ? 'translateY(0%)' : 'translateY(100%)',
-                opacity: isS2Active ? 1 : 0,
+                transform: isS2Present ? 'translateY(0%)' : 'translateY(100%)',
+                opacity: isS2Present ? 1 : 0,
                 transition: 'transform 0.75s cubic-bezier(0.16, 1, 0.3, 1) 100ms, opacity 0.55s ease-out 100ms',
               }}
               className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-white via-indigo-200 to-indigo-400"
@@ -738,7 +788,12 @@ export default function SceneTypography({
           SCENE 05: COLLABORATION & INITIATIVE (FEATURING CIRCULAR ME.JPG PORTAL)
           ===================================================================== */}
       <div
-        style={getSceneContainerStyle(4)}
+        style={{
+          ...getSceneContainerStyle(4),
+          transform: timelineState.isTimelineExiting
+            ? `translate3d(0, ${-timelineState.timelineExitProgress * 40}px, 0)`
+            : undefined,
+        }}
         className="absolute inset-0 flex items-center justify-center px-4 sm:px-8 lg:px-16 overflow-y-auto lg:overflow-visible scrollbar-none py-16 lg:py-0"
       >
         <div className="w-full max-w-7xl mx-auto flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-12 items-center">

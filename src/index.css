@@ -24,11 +24,15 @@
 }
 
 html,
-body,
-#root {
+body {
   width: 100%;
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
 }
 
 body {

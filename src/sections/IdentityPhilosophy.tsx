@@ -41,7 +41,7 @@ export default function IdentityPhilosophy({ reducedMotion = false }: IdentityPh
           setInView(true);
         }
       },
-      { threshold: 0.15 }
+      { threshold: 0.01, rootMargin: '120px 0px 0px 0px' }
     );
 
     observer.observe(el);
@@ -62,7 +62,7 @@ export default function IdentityPhilosophy({ reducedMotion = false }: IdentityPh
     <section
       ref={containerRef}
       id="about"
-      className="relative w-full min-h-screen py-16 md:py-36 px-4 sm:px-6 lg:px-16 bg-[#08080A] border-t border-white/[0.08] overflow-hidden flex flex-col justify-center scroll-mt-[50px] z-10"
+      className="relative w-full min-h-screen pt-8 sm:pt-12 md:pt-16 pb-16 md:pb-28 px-4 sm:px-6 lg:px-16 bg-[#08080A] border-t border-white/[0.08] overflow-hidden flex flex-col justify-center scroll-mt-[50px] z-10"
     >
       {/* =====================================================================
           LAYER 1: BACK — SUBTLE ARCHITECTURAL GRID & PARTICLES (0.1x)

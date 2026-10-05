@@ -76,7 +76,7 @@ export default function App() {
   };
 
   return (
-    <div className="relative w-full min-h-screen bg-[#08080A] text-[#F3F4F6] font-sans selection:bg-indigo-500/30 selection:text-white overflow-x-clip">
+    <div className="relative w-full min-h-screen bg-[#08080A] text-[#F3F4F6] font-sans selection:bg-indigo-500/30 selection:text-white">
       {/* Interactive Custom Mouse Cursor */}
       <CustomCursor />
 

@@ -127,10 +127,10 @@ export default function CinematicScroll({ onNavigateToSection }: CinematicScroll
     <div
       ref={containerRef}
       id="cinematic-timeline"
-      className="relative w-full h-[460vh] bg-[#08080A]"
+      className="relative w-full h-[460vh] bg-[#08080A] touch-pan-y"
     >
       {/* Pinned Sticky Visual Stage (100svh) */}
-      <div className="sticky top-0 w-full h-[100svh] overflow-hidden bg-[#08080A] flex flex-col justify-center">
+      <div className="sticky top-0 w-full h-[100svh] overflow-hidden bg-[#08080A] flex flex-col justify-center touch-pan-y">
         {/* 1. WebGL Canvas & Organic Torn Shader Transition */}
         {sceneReady ? (
           <Suspense fallback={<div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_40%,rgba(49,46,129,0.2),transparent_65%)]" />}>

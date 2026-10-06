@@ -60,7 +60,9 @@ body {
   background-color: #08080A;
   color: #F3F4F6;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  overflow-x: hidden;
+  /* `hidden` also creates a vertical scroll container on some browsers,
+     which prevents the cinematic sticky stage from following page scroll. */
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;

@@ -8,7 +8,7 @@
  *   Photo A (Black Suit) + Verified chip + Holographic foil + Parbhani MH badge
  * Back Face (rotationY = 180deg):
  *   100% Upright & readable (no vertical/horizontal mirroring)
- *   New Front-Facing Portrait (/Photos/kamel-shah-front.png) with animated slice reveal (110° -> 180°)
+ *   New Front-Facing Portrait (/Photos/kamel-shah-portrait.png) with animated slice reveal (110° -> 180°)
  *   Sequential staggered specialisation & tech stack reveals
  */
 
@@ -391,7 +391,7 @@ export default function HoloIdentityCard({
               }}
             >
               <img
-                src="/Photos/kamel-shah-front.png"
+                src="/Photos/kamel-shah-portrait.png"
                 alt="Kamel Shah professional front-facing portrait"
                 className="w-full h-full object-cover object-top filter brightness-100 contrast-105"
                 loading="eager"

@@ -117,9 +117,9 @@ export default function KamelShahProfile({ onNavigateHome }: ProfileProps) {
             <div className="lg:col-span-4 flex justify-center lg:justify-start">
               <div className="relative w-56 sm:w-64 md:w-72 aspect-[4/5] rounded-2xl overflow-hidden border border-white/15 shadow-2xl bg-[#0A0A0E]">
                 <img
-                  src="/Photos/Me.jpg"
+                  src="/Photos/kamel-shah-portrait.png"
                   alt="Kamel Shah (Mohammed Gous Ali Shah) - Professional Portrait"
-                  className="w-full h-full object-cover [object-position:50%_15%]"
+                  className="w-full h-full object-cover [object-position:50%_36%]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#08080A]/90 via-transparent to-transparent opacity-75" />
                 <div className="absolute bottom-3 left-3 right-3 p-2.5 rounded-xl bg-black/60 backdrop-blur-md border border-white/10 flex items-center justify-between text-[11px] font-mono">

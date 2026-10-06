@@ -26,7 +26,7 @@
  *    - Floating cinematic HUD panel (non-blocking) with real project screenshots, tech tags, and GlassAiButtons
  *    - Compact orbital node selector tabs for quick access
  * 5. Scene 05 Closing Collaboration Nexus ("LET'S BUILD SOMETHING INTELLIGENT."):
- *    - Me.jpg visibly integrated inside circular background portal with soft vignette, dark edge, indigo rim, depth parallax, and blur/scale reveal
+ *    - Kamel's portrait visibly integrated inside circular background portal with soft vignette, dark edge, indigo rim, depth parallax, and blur/scale reveal
  *    - All 4 action buttons powered by authored GlassAiButton visual language
  */
 
@@ -156,7 +156,7 @@ export default function SceneTypography({
 
   // Staged Reveal Parameters:
   // 0%: portal barely visible
-  // 20%: thin slice of Me.jpg appears
+  // 20%: thin slice of the portrait appears
   // 45%: face becomes recognizable
   // 70%: most of portrait visible
   // 100%: full portrait sharp and stable
@@ -209,7 +209,7 @@ export default function SceneTypography({
           ===================================================================== */}
       <div
         style={getSceneContainerStyle(0)}
-        className="absolute inset-0 flex flex-col justify-start lg:justify-center items-center px-4 sm:px-8 lg:px-16 pt-[max(4.5rem,calc(env(safe-area-inset-top,0px)+3.8rem))] lg:pt-0 pb-12 lg:pb-0 overflow-y-auto lg:overflow-visible scrollbar-none pointer-events-auto lg:pointer-events-none"
+        className="absolute inset-0 flex flex-col justify-start lg:justify-center items-center px-4 sm:px-8 lg:px-16 pt-[max(4.5rem,calc(env(safe-area-inset-top,0px)+3.8rem))] lg:pt-0 pb-12 lg:pb-0 overflow-y-auto lg:overflow-visible scrollbar-none overscroll-y-auto pointer-events-auto lg:pointer-events-none"
       >
         <div className="w-full max-w-7xl mx-auto flex flex-col compact:grid compact:grid-cols-[1.35fr_0.9fr] compact:gap-4 lg:grid-cols-12 lg:gap-12 items-center">
           {/* Left Column: Hero Editorial Title Sequence */}
@@ -461,7 +461,7 @@ export default function SceneTypography({
           ===================================================================== */}
       <div
         style={getSceneContainerStyle(1)}
-        className="absolute inset-x-4 sm:inset-x-8 lg:inset-x-16 top-1/2 -translate-y-1/2 flex flex-col justify-center max-w-4xl mx-auto"
+        className="absolute inset-x-4 sm:inset-x-8 lg:inset-x-16 top-1/2 -translate-y-1/2 max-h-[calc(100svh-7rem)] overflow-y-auto overscroll-y-auto touch-pan-y scrollbar-none flex flex-col justify-center max-w-4xl mx-auto lg:max-h-none lg:overflow-visible lg:overscroll-auto"
       >
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-mono tracking-wider mb-2.5 sm:mb-3 w-fit">
           <Sparkles className="w-3.5 h-3.5 text-indigo-400 animate-spin" />
@@ -591,7 +591,7 @@ export default function SceneTypography({
           ===================================================================== */}
       <div
         style={getSceneContainerStyle(2)}
-        className="absolute inset-x-4 sm:inset-x-8 lg:inset-x-16 top-1/2 -translate-y-1/2 flex flex-col justify-center max-w-4xl mx-auto"
+        className="absolute inset-x-4 sm:inset-x-8 lg:inset-x-16 top-1/2 -translate-y-1/2 max-h-[calc(100svh-7rem)] overflow-y-auto overscroll-y-auto touch-pan-y scrollbar-none flex flex-col justify-center max-w-4xl mx-auto lg:max-h-none lg:overflow-visible lg:overscroll-auto"
       >
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 text-xs font-mono tracking-wider mb-3 sm:mb-4 w-fit">
           <Terminal className="w-3.5 h-3.5 text-cyan-400" />
@@ -657,7 +657,7 @@ export default function SceneTypography({
           ===================================================================== */}
       <div
         style={getSceneContainerStyle(3)}
-        className="absolute inset-x-3 sm:inset-x-8 lg:inset-x-16 inset-y-4 sm:inset-y-6 flex flex-col justify-between max-w-7xl mx-auto"
+        className="absolute inset-x-3 sm:inset-x-8 lg:inset-x-16 inset-y-4 sm:inset-y-6 overflow-y-auto overscroll-y-auto touch-pan-y scrollbar-none flex flex-col justify-between max-w-7xl mx-auto lg:overflow-visible lg:overscroll-auto"
       >
         {/* Top Header Strip */}
         <div className="flex items-center justify-between pt-1 sm:pt-2">
@@ -783,7 +783,7 @@ export default function SceneTypography({
             ? `translate3d(0, ${-timelineState.timelineExitProgress * 40}px, 0)`
             : undefined,
         }}
-        className="absolute inset-0 flex items-center justify-center px-4 sm:px-8 lg:px-16 overflow-y-auto lg:overflow-visible scrollbar-none py-16 lg:py-0"
+        className="absolute inset-0 flex items-center justify-center px-4 sm:px-8 lg:px-16 overflow-y-auto lg:overflow-visible scrollbar-none overscroll-y-auto py-16 lg:py-0"
       >
         <div className="w-full max-w-7xl mx-auto flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-12 items-center">
           {/* Left Column: Editorial Headline & Glass Action Buttons */}
@@ -856,7 +856,7 @@ export default function SceneTypography({
             </div>
           </div>
 
-          {/* Right Column: Circular Portal Framing /Photos/Me.jpg with 5-stage progressive reveal */}
+          {/* Right Column: Circular Portal Framing the portrait with 5-stage progressive reveal */}
           <div className="flex justify-center items-center lg:col-span-5 relative mt-4 lg:mt-0 overflow-hidden">
             {/* Layer 6: Portal Glow (outer soft ambient halo) */}
             <div
@@ -873,9 +873,9 @@ export default function SceneTypography({
               className="relative w-[220px] xs:w-[250px] sm:w-[280px] lg:w-[380px] aspect-square rounded-full overflow-hidden shadow-[0_0_60px_rgba(0,0,0,0.9),0_0_30px_rgba(99,102,241,0.2)] mx-auto"
               style={getPortalRevealStyle(s5RevealProgress)}
             >
-              {/* Layer 1: Me.jpg with subtle brightness/contrast adjustment */}
+              {/* Layer 1: Portrait with subtle brightness/contrast adjustment */}
               <img
-                src="/Photos/Me.jpg"
+                src="/Photos/kamel-shah-portrait.png"
                 alt="Kamel Shah portrait"
                 className="w-full h-full object-cover object-top select-none pointer-events-none"
                 style={{

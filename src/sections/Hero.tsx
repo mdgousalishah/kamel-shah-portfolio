@@ -108,9 +108,9 @@ export default function Hero() {
             {/* Image frame */}
             <div className="absolute inset-0 bg-[#121212] rounded-2xl overflow-hidden border border-white/10 shadow-2xl z-10">
               <img 
-                src="/Photos/Me.jpg" 
+                src="/Photos/kamel-shah-portrait.png" 
                 alt="Mohammed Gous Ali Shah" 
-                className="w-full h-full object-cover object-center grayscale hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
+                className="w-full h-full object-cover [object-position:50%_36%] grayscale hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
               />
             </div>
             {/* Decorative element */}

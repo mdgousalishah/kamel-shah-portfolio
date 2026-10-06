@@ -78,7 +78,7 @@ export default function ScrollSceneStage({ timelineState, reducedMotion = false 
     const suitPortraitTex = loadTex('/Photos/kamel-shah-suit.png'); // Photo A: Suit
     const bwPortraitTex = loadTex('/Photos/kamel-shah-bw.png');     // Photo B: B&W "THINK"
     const workspaceTex = loadTex('/Photos/tech-workspace.png');     // Photo C: Tech Workspace
-    const meTex = loadTex('/Photos/Me.jpg');                        // Photo D: Me (Scene 05 Nexus)
+    const meTex = loadTex('/Photos/kamel-shah-portrait.png');        // Photo D: Kamel portrait (Scene 05 Nexus)
 
     // All 7 Real Project Textures for 3D Solar System
     const projectTextures = [

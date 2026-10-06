@@ -1,3 +1,5 @@
+import { SITE_CONFIG } from './config';
+
 export const CHATBOT_KNOWLEDGE = {
   profile: {
     name: "Kamel Shah",
@@ -64,8 +66,7 @@ export const CHATBOT_KNOWLEDGE = {
     {
       name: "CampusOne",
       description: "School administration and ERP SaaS platform for Kamel Education Society featuring Institutional Badge ID Generator with QR codes, Touch Roster Attendance Register, fees ledger, and multi-tenant management.",
-      technologies: ["React", "TypeScript", "Tailwind CSS", "Node.js", "Express", "QR Code Generation", "Multi-Tenant Architecture"],
-      link: "https://kamelshah.ai.studio/#projects"
+      technologies: ["React", "TypeScript", "Tailwind CSS", "Node.js", "Express", "QR Code Generation", "Multi-Tenant Architecture"]
     },
     {
       name: "Decent Apparels",
@@ -100,8 +101,7 @@ export const CHATBOT_KNOWLEDGE = {
     {
       name: "Laravel & Lumen REST API Services",
       description: "Modular RESTful backend services built with PHP, Laravel, and Lumen micro-framework featuring SQLite databases, request validation, and Postman testing.",
-      technologies: ["PHP", "Laravel", "Lumen", "REST APIs", "SQLite", "Postman"],
-      link: "https://github.com/mdgousalishah"
+      technologies: ["PHP", "Laravel", "Lumen", "REST APIs", "SQLite", "Postman"]
     }
   ],
   skills: {
@@ -187,48 +187,82 @@ export const CHATBOT_KNOWLEDGE = {
   }
 };
 
+const hasAny = (query: string, terms: string[]) => terms.some((term) => query.includes(term));
+
 export function getChatbotResponse(query: string): string {
-  const q = query.toLowerCase();
+  const q = query.toLowerCase().replace(/[’']/g, "'").replace(/\s+/g, " ").trim();
+  if (!q) return "Ask me about Kamel's projects, skills, experience, education, services, or how to get in touch.";
 
-  // Who is Kamel / About / Positioning
-  if (q.includes("who is") || q.includes("about") || q.includes("introduce") || q.includes("bio") || q.includes("background")) {
-    return `**${CHATBOT_KNOWLEDGE.profile.name}** (known professionally as **${CHATBOT_KNOWLEDGE.profile.preferredName}**) is an **Electronics & Computer Engineer**, **Full-Stack Developer**, and **AI / GenAI / Agentic AI Learner** based in Parbhani, Maharashtra, India.\n\nHe is in his final year of B.Tech at PES College of Engineering, Aurangabad (Expected 2026), pursuing an Online MBA in Artificial Intelligence & Machine Learning at Dr. D. Y. Patil Vidyapeeth, Pune (2026–2028), completed his B.A. from YCMOU (2026), and is enrolled in IIT Madras Pravartak's Advanced Certificate in UI-UX Design with Agentic AI & GenAI. He builds practical web and SaaS systems like CampusOne and Decent Apparels, alongside providing hands-on IT support across 5 schools.`;
+  if (/^(hello|hi|hey|good morning|good afternoon|good evening)\b/.test(q)) {
+    return "Hi! I can help you explore Kamel's work, technical background, services, or contact details. What are you looking for?";
+  }
+  if (hasAny(q, ["thank", "thx", "thanks"])) return "You're welcome! If you'd like, I can also point you to a project or help you contact Kamel.";
+
+  const projectAliases: Record<string, string[]> = {
+    "CampusOne": ["campusone", "campus one", "school erp"],
+    "Decent Apparels": ["decent apparels", "decent apparel", "ecommerce", "e-commerce", "online store"],
+    "The Soap & Soul": ["soap & soul", "soap and soul", "skincare"],
+    "Masjid e Mehtab Ali Shah / Ashoorkhana Nale Hyder": ["masjid", "ashoor", "community portal"],
+    "Shah Construction": ["shah construction", "construction site", "epc"],
+    "Who Will Pay?": ["who will pay", "roulette", "expense app", "bill app"],
+    "Laravel & Lumen REST API Services": ["laravel & lumen", "laravel and lumen", "laravel/lumen", "lumen api project", "laravel lumen project"],
+  };
+  const specificProject = CHATBOT_KNOWLEDGE.projects.find((project) =>
+    projectAliases[project.name]?.some((alias) => q.includes(alias))
+  );
+  if (specificProject) {
+    const link = specificProject.link ? `\n\nLive project: ${specificProject.link}` : "";
+    return `**${specificProject.name}**\n${specificProject.description}\n\n**Built with:** ${specificProject.technologies.join(", ")}${link}`;
   }
 
-  // Projects
-  if (q.includes("project") || q.includes("work") || q.includes("portfolio") || q.includes("built") || q.includes("app") || q.includes("campusone") || q.includes("decent")) {
-    const list = CHATBOT_KNOWLEDGE.projects.map(p => `• **${p.name}**: ${p.description}`).join("\n\n");
-    return `Here are the featured engineering projects Kamel has built:\n\n${list}\n\nYou can explore live demos and repositories in the **Selected Work** section!`;
+  if (hasAny(q, ["project", "projects", "portfolio", "what has he built", "show me his work", "featured work"])) {
+    const projects = CHATBOT_KNOWLEDGE.projects.map((project) => `• **${project.name}** — ${project.description}`).join("\n\n");
+    return `Here are Kamel's featured projects:\n\n${projects}\n\nThe project cards in the Selected Work section include available demos and source links.`;
   }
 
-  // Skills / Tech / AI
-  if (q.includes("skill") || q.includes("tech") || q.includes("stack") || q.includes("react") || q.includes("node") || q.includes("ai") || q.includes("language")) {
-    return `Kamel's technical capabilities include:\n\n• **Languages**: ${CHATBOT_KNOWLEDGE.skills.programming.join(", ")}\n• **Frontend**: ${CHATBOT_KNOWLEDGE.skills.frontend.join(", ")}\n• **Backend**: ${CHATBOT_KNOWLEDGE.skills.backend.join(", ")}\n• **Databases & Vector**: ${CHATBOT_KNOWLEDGE.skills.databases.join(", ")}\n• **AI & Agentic AI**: ${CHATBOT_KNOWLEDGE.skills.ai.join(", ")}\n• **UI/UX**: ${CHATBOT_KNOWLEDGE.skills.uiux.join(", ")}\n• **IoT**: ${CHATBOT_KNOWLEDGE.skills.iot.join(", ")}\n• **Tools**: ${CHATBOT_KNOWLEDGE.skills.tools.slice(0, 6).join(", ")}`;
+  const isGeneralAboutQuestion = hasAny(q, ["who is", "about kamel", "introduce", "bio", "background"])
+    || (q.includes("tell me about") && !hasAny(q, ["project", "work", "skill", "experience", "education", "cert", "service", "technology"]));
+  if (isGeneralAboutQuestion) {
+    return `**${CHATBOT_KNOWLEDGE.profile.name}** is an Electronics & Computer Engineering professional focused on full-stack web development, Agentic AI, and IT support. He is based in ${CHATBOT_KNOWLEDGE.profile.location}.\n\nHe supports IT operations across five schools, builds practical web applications and APIs, and continues his studies in engineering, AI/ML, and UI/UX design.`;
   }
 
-  // Experience / Job / Kamel Education / Bilim
-  if (q.includes("experience") || q.includes("job") || q.includes("intern") || q.includes("career") || q.includes("history")) {
-    const exp = CHATBOT_KNOWLEDGE.experience.map(e => `• **${e.role}** at ${e.company} (${e.duration})\n  ${e.details[0]}`).join("\n\n");
-    return `Kamel's practical experience includes:\n\n${exp}`;
+  if (hasAny(q, ["service", "services", "offer", "hire", "freelance", "what can he do", "what does he do for clients"])) {
+    return `Kamel offers:\n\n${CHATBOT_KNOWLEDGE.services.map((service) => `• **${service}**`).join("\n")}\n\nFor a project inquiry, use ${CHATBOT_KNOWLEDGE.links.whatsapp} or email ${CHATBOT_KNOWLEDGE.profile.name} at ${SITE_CONFIG.email}.`;
   }
 
-  // Education / Degree / College / University / IIT
-  if (q.includes("education") || q.includes("degree") || q.includes("university") || q.includes("college") || q.includes("b.tech") || q.includes("mba") || q.includes("iit")) {
-    const edu = CHATBOT_KNOWLEDGE.education.map(ed => `• **${ed.degree}** — ${ed.institution} (${ed.duration})`).join("\n");
-    return `Kamel's formal education & advanced credentials:\n\n${edu}`;
+  if (hasAny(q, ["experience", "job", "intern", "career", "worked", "work history"])) {
+    const relevant = q.includes("bilim")
+      ? CHATBOT_KNOWLEDGE.experience.filter((item) => item.company.toLowerCase().includes("bilim"))
+      : q.includes("school") || q.includes("kamel education")
+        ? CHATBOT_KNOWLEDGE.experience.filter((item) => item.company.toLowerCase().includes("education"))
+        : CHATBOT_KNOWLEDGE.experience;
+    return `Kamel's practical experience:\n\n${relevant.map((item) => `**${item.role} — ${item.company}** (${item.duration})\n${item.details.join(" ")}`).join("\n\n")}`;
   }
 
-  // Certifications
-  if (q.includes("cert") || q.includes("certificate") || q.includes("course") || q.includes("learning")) {
-    const certs = CHATBOT_KNOWLEDGE.certifications.map(c => `• **${c.name}** (${c.issuer}, ${c.year})`).join("\n");
-    return `Kamel holds ${CHATBOT_KNOWLEDGE.certifications.length} verified credentials & certifications:\n\n${certs}\n\nYou can inspect the certificates in the **Credentials** section!`;
+  if (hasAny(q, ["education", "degree", "university", "college", "b.tech", "mba", "iit", "study", "studies"])) {
+    const education = CHATBOT_KNOWLEDGE.education.map((item) => `• **${item.degree}** — ${item.institution} (${item.duration})`).join("\n");
+    return `Kamel's education and current study:\n\n${education}`;
   }
 
-  // Contact / Hire / Email / Resume
-  if (q.includes("contact") || q.includes("hire") || q.includes("email") || q.includes("phone") || q.includes("reach") || q.includes("resume") || q.includes("whatsapp")) {
-    return `You can reach Kamel directly:\n\n• **Email**: kamelshah2003@email.com\n• **Phone/WhatsApp**: +91 7588571899\n• **LinkedIn**: ${CHATBOT_KNOWLEDGE.links.linkedin}\n• **GitHub**: ${CHATBOT_KNOWLEDGE.links.github}\n• **X**: ${CHATBOT_KNOWLEDGE.links.x}\n• **Portfolio**: ${CHATBOT_KNOWLEDGE.links.website}\n\nYou can also download his resume using the Download Resume button!`;
+  if (hasAny(q, ["cert", "certificate", "course", "credential", "training"])) {
+    const certifications = CHATBOT_KNOWLEDGE.certifications.map((item) => {
+      const year = item.year ? `, ${item.year}` : "";
+      return `• **${item.name}** — ${item.issuer}${year}`;
+    }).join("\n");
+    return `Kamel's credentials include:\n\n${certifications}\n\nYou can view certificate details in the Credentials section.`;
   }
 
-  // Default fallback
-  return `I can answer questions about Kamel's **projects (including CampusOne & Decent Apparels)**, **technical skills**, **AI / GenAI direction**, **work experience**, **education (PES College of Engineering, DY Patil, IITM Pravartak)**, **certifications**, or help you **contact him directly**! What would you like to know?`;
+  if (hasAny(q, ["contact", "email", "phone", "reach", "resume", "whatsapp", "linkedin", "github", "social", "available"])) {
+    return `You can contact Kamel here:\n\n• **Email:** ${SITE_CONFIG.email}\n• **Phone / WhatsApp:** ${SITE_CONFIG.phone}\n• **LinkedIn:** ${CHATBOT_KNOWLEDGE.links.linkedin}\n• **GitHub:** ${CHATBOT_KNOWLEDGE.links.github}\n• **Resume:** available from the Resume button in the hero.`;
+  }
+
+  if (hasAny(q, ["skill", "skills", "technology", "technologies", "tech stack", "programming", "language", "frontend", "backend", "database", "react", "node", "python", "php", "ai", "genai", "agentic", "rag"])) {
+    if (hasAny(q, ["frontend", "react", "css", "ui", "design"])) return `**Frontend & UI:** ${CHATBOT_KNOWLEDGE.skills.frontend.join(", ")}\n\n**UI/UX:** ${CHATBOT_KNOWLEDGE.skills.uiux.join(", ")}`;
+    if (hasAny(q, ["backend", "node", "php", "api", "server"])) return `**Backend:** ${CHATBOT_KNOWLEDGE.skills.backend.join(", ")}\n\n**Languages:** ${CHATBOT_KNOWLEDGE.skills.programming.join(", ")}`;
+    if (hasAny(q, ["database", "mongo", "mysql", "postgres", "vector", "rag"])) return `**Databases & retrieval:** ${CHATBOT_KNOWLEDGE.skills.databases.join(", ")}`;
+    if (hasAny(q, ["ai", "genai", "agentic", "rag", "llm", "machine learning"])) return `**AI focus:** ${CHATBOT_KNOWLEDGE.skills.ai.join(", ")}\n\nRelated skills include ${CHATBOT_KNOWLEDGE.skills.databases.filter((skill) => /vector|embedding/i.test(skill)).join(" and ")}.`;
+    return `Kamel's strongest areas are **full-stack application development**, **responsive frontend engineering**, **REST API development**, and **institutional IT support**. His day-to-day stack includes React, TypeScript, Node.js, Express, PHP, Laravel, MongoDB, and MySQL. He is also building experience with Generative AI, Agentic AI, and RAG workflows.`;
+  }
+
+  return "I don't have a specific answer for that yet. I can help with Kamel's projects, skills, experience, education, certifications, services, or contact details. Try asking about one of those.";
 }

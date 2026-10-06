@@ -1,20 +1,20 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# Kamel Shah Portfolio
 
-# Run and deploy your AI Studio app
+Responsive, motion-rich portfolio built with React, TypeScript, Vite, and Three.js. The site includes project case studies, a cinematic scroll experience, an accessible mobile menu, and a portfolio assistant.
 
-This contains everything you need to run your app locally.
+## Run locally
 
-View your app in AI Studio: https://ai.studio/apps/09a0f505-de0b-4983-b5f4-107de481ac92
+1. Install packages with `npm install`.
+2. Copy `.env.example` to `.env`.
+3. Add a Google Gemini API key to `GEMINI_API_KEY` in `.env` to enable conversational AI. The key stays on the Node server and is never included in browser assets. Without a key, the assistant uses its built-in portfolio answers.
+4. Start the Vite development server with `npm run dev`.
 
-## Run Locally
+## Production
 
-**Prerequisites:**  Node.js
+Build the site and server with `npm run build`, then run `npm start`. The Express server serves the built site and the `/api/chat` endpoint. Deploy it to a Node.js host and set `GEMINI_API_KEY` as a server environment secret; do not put it in a `VITE_` variable.
 
+`npm run preview` serves the Vite production preview and includes the same assistant API middleware. For production hosting, use `npm start` so the site and API run together.
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Project links
+
+Project demos and repositories are maintained in `src/data/projects.ts`. Only confirmed project-specific repositories are labeled as repositories; profile links are identified as GitHub profiles.

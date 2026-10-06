@@ -69,11 +69,11 @@ export default function GlassActionButton({
   // Variant color mappings for galaxy & caustics
   const variantStyles = {
     default: {
-      rim: 'border-white/20 hover:border-indigo-400/40',
-      glow: 'rgba(99, 102, 241, 0.30)',
-      accentLight: 'rgba(99, 102, 241, 0.40)',
-      particleColors: ['#818cf8', '#a5b4fc', '#c7d2fe', '#ffffff', '#38bdf8'],
-      shadow: 'shadow-[0_4px_20px_rgba(99,102,241,0.14)]',
+      rim: 'border-white/20 hover:border-cyan-400/40',
+      glow: 'rgba(34, 211, 238, 0.30)',
+      accentLight: 'rgba(34, 211, 238, 0.40)',
+      particleColors: ['#22d3ee', '#67e8f9', '#a5f3fc', '#ffffff', '#38bdf8'],
+      shadow: 'shadow-[0_4px_20px_rgba(34,211,238,0.14)]',
     },
     vermilion: {
       rim: 'border-white/20 hover:border-rose-400/40',

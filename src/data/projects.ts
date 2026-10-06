@@ -5,7 +5,7 @@ export interface Project {
   category: string;
   tech: string[];
   description: string | string[];
-  link: string;
+  link?: string;
   github?: string;
   featured?: boolean;
   image: string;
@@ -24,7 +24,6 @@ export const PROJECTS: Project[] = [
       "Built a Touch Roster Attendance Register for classroom attendance management, streamlining daily student tracking for staff.",
       "Implemented integrated accounting, bill & fees ledgers, and multi-tenant institutional record management for multi-school administration."
     ],
-    link: "https://kamelshah.ai.studio/#projects",
     github: "https://github.com/mdgousalishah",
     featured: true,
     image: "/Photos/CampusOne.png"
@@ -117,7 +116,6 @@ export const PROJECTS: Project[] = [
       "Configured SQLite and relational databases with structured migrations, seeders, and model relationships.",
       "Implemented structured REST API routing, controller logic, CRUD endpoints, request validation, and comprehensive Postman API testing."
     ],
-    link: "https://github.com/mdgousalishah",
     github: "https://github.com/mdgousalishah",
     image: "/Photos/LumenAPIs.png"
   }

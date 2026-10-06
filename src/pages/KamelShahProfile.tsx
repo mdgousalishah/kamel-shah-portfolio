@@ -106,10 +106,10 @@ export default function KamelShahProfile({ onNavigateHome }: ProfileProps) {
       </header>
 
       {/* Main Profile Container */}
-      <main className="relative z-10 max-w-6xl mx-auto px-6 lg:px-12 py-12 md:py-20 flex flex-col gap-16 md:gap-24">
+      <main id="main-content" tabIndex={-1} className="relative z-10 max-w-6xl mx-auto px-6 lg:px-12 py-12 md:py-20 flex flex-col gap-16 md:gap-24">
         
         {/* HERO / IDENTITY CARD */}
-        <section className="relative w-full rounded-3xl bg-[#0F1015] border border-white/[0.1] p-8 md:p-12 overflow-hidden shadow-2xl">
+        <section className="warm-panel relative w-full rounded-3xl border p-8 md:p-12 overflow-hidden shadow-2xl">
           <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-[100px] pointer-events-none" />
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
@@ -208,7 +208,7 @@ export default function KamelShahProfile({ onNavigateHome }: ProfileProps) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Kamel Education Society */}
-            <article className="p-7 rounded-2xl bg-[#0F1015] border border-white/[0.08] flex flex-col justify-between">
+            <article className="warm-panel p-7 rounded-2xl border flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-[11px] font-mono text-indigo-400 font-bold uppercase tracking-wider">
@@ -242,7 +242,7 @@ export default function KamelShahProfile({ onNavigateHome }: ProfileProps) {
             </article>
 
             {/* Bilim Technology */}
-            <article className="p-7 rounded-2xl bg-[#0F1015] border border-white/[0.08] flex flex-col justify-between">
+            <article className="warm-panel p-7 rounded-2xl border flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-[11px] font-mono text-indigo-400 font-bold uppercase tracking-wider">
@@ -288,7 +288,7 @@ export default function KamelShahProfile({ onNavigateHome }: ProfileProps) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* PES College of Engineering */}
-            <article className="p-6 rounded-2xl bg-[#0F1015] border border-white/[0.08]">
+            <article className="warm-panel p-6 rounded-2xl border">
               <span className="text-xs font-mono text-indigo-400 uppercase font-bold block mb-1">
                 2022 — 2026 (Expected 2026)
               </span>
@@ -307,7 +307,7 @@ export default function KamelShahProfile({ onNavigateHome }: ProfileProps) {
             </article>
 
             {/* Dr. D. Y. Patil Vidyapeeth */}
-            <article className="p-6 rounded-2xl bg-[#0F1015] border border-white/[0.08]">
+            <article className="warm-panel p-6 rounded-2xl border">
               <span className="text-xs font-mono text-indigo-400 uppercase font-bold block mb-1">
                 2026 — 2028 (In Progress)
               </span>
@@ -326,7 +326,7 @@ export default function KamelShahProfile({ onNavigateHome }: ProfileProps) {
             </article>
 
             {/* YCMOU */}
-            <article className="p-6 rounded-2xl bg-[#0F1015] border border-white/[0.08]">
+            <article className="warm-panel p-6 rounded-2xl border">
               <span className="text-xs font-mono text-indigo-400 uppercase font-bold block mb-1">
                 Completed 2026
               </span>
@@ -384,7 +384,7 @@ export default function KamelShahProfile({ onNavigateHome }: ProfileProps) {
               <article
                 key={cert.id}
                 onClick={() => cert.image && setActiveCert(cert)}
-                className={`p-6 rounded-2xl bg-[#0F1015] border border-white/[0.08] flex flex-col justify-between transition-all ${
+                className={`warm-panel p-6 rounded-2xl border flex flex-col justify-between transition-all ${
                   cert.image ? 'cursor-pointer hover:border-white/25' : ''
                 }`}
               >
@@ -467,7 +467,7 @@ export default function KamelShahProfile({ onNavigateHome }: ProfileProps) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {PROJECTS.map((proj) => (
-              <article key={proj.id} className="p-6 rounded-2xl bg-[#0F1015] border border-white/[0.08] flex flex-col justify-between">
+              <article key={proj.id} className="warm-panel p-6 rounded-2xl border flex flex-col justify-between">
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-2">
                     <span className="text-xs font-mono font-bold text-neutral-500">
@@ -534,7 +534,7 @@ export default function KamelShahProfile({ onNavigateHome }: ProfileProps) {
         </section>
 
         {/* SECTION: ENTITY CONNECTIONS & SOCIAL PROFILES */}
-        <section className="w-full rounded-2xl bg-[#0F1015] border border-white/[0.08] p-8 md:p-10">
+        <section className="warm-panel w-full rounded-2xl border p-8 md:p-10">
           <div className="max-w-3xl">
             <span className="text-xs font-mono text-indigo-400 uppercase tracking-widest font-bold block mb-2">
               05 / VERIFIED ENTITY CONNECTIONS

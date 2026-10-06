@@ -31,6 +31,22 @@ export default function Projects() {
         <div className="flex flex-col gap-24 lg:gap-32">
           {PROJECTS.map((project, idx) => {
             const isEven = idx % 2 === 1;
+            const projectImage = (
+              <>
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="project-visual-image w-full h-full object-cover object-top filter brightness-95 group-hover:scale-105 transition-transform duration-700 ease-out"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#08080A]/80 via-transparent to-transparent opacity-60 group-hover:opacity-30 transition-opacity" />
+                {project.link && (
+                  <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/70 backdrop-blur-md border border-white/20 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                    <ArrowUpRight size={18} />
+                  </div>
+                )}
+              </>
+            );
             return (
               <motion.article
                 key={project.id}
@@ -38,33 +54,23 @@ export default function Projects() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-                className="group flex flex-col lg:flex-row items-center gap-10 lg:gap-14 pb-20 border-b border-white/[0.06] last:border-b-0 last:pb-0"
+                className="project-showcase group flex flex-col lg:flex-row items-center gap-10 lg:gap-14 pb-20 border-b border-white/[0.06] last:border-b-0 last:pb-0"
               >
                 {/* Large Visual Showcase (Alternating Left/Right on Desktop) */}
                 <div className={`w-full lg:w-[56%] ${isEven ? 'lg:order-2' : 'lg:order-1'}`}>
-                  <a
-                    href={project.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block relative w-full aspect-[16/10] rounded-2xl overflow-hidden border border-white/[0.1] bg-[#0E0F14] shadow-2xl transition-all duration-500 group-hover:border-white/25"
-                  >
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-full object-cover object-top filter brightness-95 group-hover:scale-105 transition-transform duration-700 ease-out"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#08080A]/80 via-transparent to-transparent opacity-60 group-hover:opacity-30 transition-opacity" />
-                    
-                    {/* Hover Link Badge */}
-                    <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/70 backdrop-blur-md border border-white/20 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
-                      <ArrowUpRight size={18} />
+                  {project.link ? (
+                    <a href={project.link} target="_blank" rel="noopener noreferrer" className="project-visual block relative w-full aspect-[16/10] rounded-2xl overflow-hidden border border-white/[0.1] bg-[#0E0F14] shadow-2xl transition-all duration-500 group-hover:border-white/25">
+                      {projectImage}
+                    </a>
+                  ) : (
+                    <div className="project-visual relative w-full aspect-[16/10] rounded-2xl overflow-hidden border border-white/[0.1] bg-[#0E0F14] shadow-2xl transition-all duration-500 group-hover:border-white/25">
+                      {projectImage}
                     </div>
-                  </a>
+                  )}
                 </div>
 
                 {/* Project Details */}
-                <div className={`w-full lg:w-[44%] flex flex-col justify-between ${isEven ? 'lg:order-1' : 'lg:order-2'}`}>
+                <div className={`warm-panel w-full lg:w-[44%] p-5 sm:p-6 rounded-2xl border flex flex-col justify-between ${isEven ? 'lg:order-1' : 'lg:order-2'}`}>
                   <div>
                     {/* Meta Header: Number & Category */}
                     <div className="flex items-center gap-3 pb-3 border-b border-white/[0.06] mb-4">
@@ -111,15 +117,15 @@ export default function Projects() {
                     </div>
 
                     <div className="flex flex-wrap items-center gap-3 pt-1">
-                      <a
+                      {project.link && <a
                         href={project.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-2 min-h-[44px] px-5 py-2.5 rounded-full bg-white text-black font-bold text-xs uppercase tracking-wider hover:bg-neutral-200 transition-all hover:scale-105 active:scale-95"
+                        className="warm-action inline-flex items-center justify-center gap-2 min-h-[44px] px-5 py-2.5 rounded-full font-bold text-xs uppercase tracking-wider transition-all hover:scale-105 active:scale-95"
                       >
-                        <span>Live Platform</span>
+                        <span>Visit live site</span>
                         <ArrowUpRight size={14} />
-                      </a>
+                      </a>}
 
                       {project.github && (
                         <a
@@ -129,7 +135,7 @@ export default function Projects() {
                           className="inline-flex items-center justify-center gap-2 min-h-[44px] px-4 py-2.5 rounded-full bg-white/[0.04] text-neutral-300 hover:text-white border border-white/[0.08] hover:border-white/20 transition-all text-xs font-mono"
                         >
                           <Github size={14} />
-                          <span>Code</span>
+                          <span>{project.github.endsWith('/mdgousalishah') ? 'GitHub profile' : 'View repository'}</span>
                         </a>
                       )}
                     </div>

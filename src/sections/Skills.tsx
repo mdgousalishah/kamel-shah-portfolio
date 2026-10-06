@@ -111,7 +111,7 @@ export default function Skills() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.4, delay: index * 0.05 }}
-                className="flex flex-col justify-between p-5 sm:p-7 rounded-2xl bg-[#0F1015]/90 border border-white/[0.08] hover:border-white/[0.2] transition-all group"
+                className="warm-panel flex flex-col justify-between p-5 sm:p-7 rounded-2xl border transition-all group"
               >
                 <div>
                   {/* Category Header */}

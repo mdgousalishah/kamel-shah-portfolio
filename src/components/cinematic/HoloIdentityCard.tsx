@@ -222,7 +222,7 @@ export default function HoloIdentityCard({
             ? 'filter 0.5s ease-out'
             : 'opacity 0.8s ease-out, filter 0.8s ease-out',
         }}
-        className="relative w-[min(82vw,330px)] lg:w-[350px] aspect-[1/1.54] rounded-3xl cursor-pointer shadow-[0_30px_70px_rgba(0,0,0,0.9)] group focus:outline-none focus:ring-2 focus:ring-indigo-400/50 mx-auto"
+        className="relative w-[min(82vw,330px)] compact:w-[min(37vw,240px)] lg:w-[350px] aspect-[1/1.54] rounded-3xl cursor-pointer shadow-[0_30px_70px_rgba(0,0,0,0.9)] group focus:outline-none focus:ring-2 focus:ring-indigo-400/50 mx-auto"
       >
         {/* ===================================================================
             THIN EMISSIVE RIM (Dominant at 70° - 110° Edge Region)

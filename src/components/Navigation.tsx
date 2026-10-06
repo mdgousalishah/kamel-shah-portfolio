@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
 import { SITE_CONFIG } from '../data/config';
@@ -7,6 +7,8 @@ export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -42,6 +44,39 @@ export default function Navigation() {
       observer.disconnect();
     };
   }, []);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    const firstItem = drawerRef.current?.querySelector<HTMLElement>('a[href], button:not([disabled])');
+    firstItem?.focus();
+    const handleKeyboard = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsOpen(false);
+        menuButtonRef.current?.focus();
+        return;
+      }
+      if (event.key !== 'Tab' || !drawerRef.current) return;
+      const focusable = Array.from(drawerRef.current.querySelectorAll<HTMLElement>('a[href], button:not([disabled])'));
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (!first || !last) return;
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', handleKeyboard);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', handleKeyboard);
+      menuButtonRef.current?.focus();
+    };
+  }, [isOpen]);
 
   const closeMenu = () => setIsOpen(false);
 
@@ -105,7 +140,7 @@ export default function Navigation() {
           <div className="hidden xl:flex items-center gap-3">
             <a
               href="#contact"
-              className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider px-4 py-2 rounded-full bg-white text-black font-bold hover:bg-neutral-200 transition-all duration-200 hover:scale-105 active:scale-95 shadow-md shadow-white/10"
+              className="warm-action inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider px-4 py-2 rounded-full font-bold transition-all duration-200 hover:scale-105 active:scale-95"
             >
               <span>Let's Connect</span>
               <ArrowUpRight size={13} />
@@ -114,9 +149,12 @@ export default function Navigation() {
 
           {/* Mobile & Tablet Toggle Button (Touch-Friendly 44px min target) */}
           <button
+            ref={menuButtonRef}
             className="xl:hidden relative z-50 text-white w-11 h-11 flex items-center justify-center rounded-xl bg-white/[0.06] hover:bg-white/10 border border-white/15 focus:outline-none transition-colors cursor-pointer"
             onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle Menu"
+            aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={isOpen}
+            aria-controls="mobile-navigation"
           >
             {isOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
@@ -127,6 +165,11 @@ export default function Navigation() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
+            ref={drawerRef}
+            id="mobile-navigation"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile navigation"
             initial={{ opacity: 0, y: -15 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
@@ -174,7 +217,7 @@ export default function Navigation() {
               <a
                 href="#contact"
                 onClick={closeMenu}
-                className="w-full min-h-[44px] py-3 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-wider text-center flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/20"
+                className="warm-action w-full min-h-[44px] py-3 rounded-full font-bold text-xs uppercase tracking-wider text-center flex items-center justify-center gap-2"
               >
                 <span>Let's Connect</span>
                 <ArrowUpRight size={14} />
@@ -184,7 +227,7 @@ export default function Navigation() {
                 href={SITE_CONFIG.resume}
                 download
                 onClick={closeMenu}
-                className="w-full min-h-[44px] py-3 rounded-full bg-white text-black font-bold text-xs uppercase tracking-wider text-center block hover:bg-neutral-200 transition-colors"
+                className="warm-action w-full min-h-[44px] py-3 rounded-full font-bold text-xs uppercase tracking-wider text-center block transition-colors"
               >
                 Download Resume
               </a>

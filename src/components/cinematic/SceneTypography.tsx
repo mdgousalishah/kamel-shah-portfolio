@@ -75,14 +75,6 @@ export default function SceneTypography({
     return () => clearTimeout(timer);
   }, []);
 
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    const updateSize = () => setIsMobile(window.innerWidth < 1024);
-    updateSize();
-    window.addEventListener('resize', updateSize);
-    return () => window.removeEventListener('resize', updateSize);
-  }, []);
-
   // Listen to external project selection events (e.g., from 3D raycaster)
   useEffect(() => {
     const onProjectSelect = (e: Event) => {
@@ -216,15 +208,12 @@ export default function SceneTypography({
           SCENE 01: PERSONAL IDENTITY (TITLE SEQUENCE CHOREOGRAPHY + 3D HOLO CARD)
           ===================================================================== */}
       <div
-        style={{
-          ...getSceneContainerStyle(0),
-          transform: isMobile && isS1Active ? `translate3d(0, ${-Math.min(240, sceneProgress * 280)}px, 0)` : undefined,
-        }}
-        className="absolute inset-0 flex flex-col justify-start lg:justify-center items-center px-4 sm:px-8 lg:px-16 pt-[max(4.5rem,calc(env(safe-area-inset-top,0px)+3.8rem))] lg:pt-0 pb-12 lg:pb-0 overflow-y-auto lg:overflow-visible scrollbar-none"
+        style={getSceneContainerStyle(0)}
+        className="absolute inset-0 flex flex-col justify-start lg:justify-center items-center px-4 sm:px-8 lg:px-16 pt-[max(4.5rem,calc(env(safe-area-inset-top,0px)+3.8rem))] lg:pt-0 pb-12 lg:pb-0 overflow-y-auto lg:overflow-visible scrollbar-none pointer-events-auto lg:pointer-events-none"
       >
-        <div className="w-full max-w-7xl mx-auto flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-12 items-center">
+        <div className="w-full max-w-7xl mx-auto flex flex-col compact:grid compact:grid-cols-[1.35fr_0.9fr] compact:gap-4 lg:grid-cols-12 lg:gap-12 items-center">
           {/* Left Column: Hero Editorial Title Sequence */}
-          <div className="flex flex-col justify-center lg:col-span-7 text-left w-full">
+          <div className="flex flex-col justify-center compact:col-span-1 lg:col-span-7 text-left w-full">
             {/* 1. Eyebrow Badge (0ms: Fade + Scale) */}
             <div
               style={{
@@ -397,7 +386,7 @@ export default function SceneTypography({
           </div>
 
           {/* Right Column: 3D Holographic Identity Card + Mobile CTA Buttons */}
-          <div className="flex flex-col lg:col-span-5 justify-center items-center pointer-events-auto w-full my-4 lg:my-0 origin-center">
+          <div className="flex flex-col compact:col-span-1 lg:col-span-5 justify-center items-center pointer-events-auto w-full my-4 compact:my-0 lg:my-0 origin-center">
             <HoloIdentityCard
               scrollProgress={sceneProgress}
               isTransitioning={isTransitioning && activeSceneIndex === 0}
@@ -412,7 +401,7 @@ export default function SceneTypography({
                 transform: `scale(${ctaExitScale}) translate3d(0, ${isS1Active && heroMounted ? 0 : 20}px, 0)`,
                 transition: 'transform 0.6s ease-out 980ms, opacity 0.5s ease-out 980ms',
               }}
-              className="flex md:hidden flex-col items-center gap-2.5 mt-6 w-full max-w-[330px] pointer-events-auto"
+              className="flex compact:hidden md:hidden flex-col items-center gap-2.5 mt-6 w-full max-w-[330px] pointer-events-auto"
             >
               <GlassActionButton
                 href="#projects"
@@ -455,7 +444,7 @@ export default function SceneTypography({
                 opacity: isS1Active && heroMounted ? 1 - s1Exit : 0,
                 transition: 'opacity 0.6s ease-out 1150ms',
               }}
-              className="flex md:hidden flex-wrap items-center justify-center gap-2 pt-4 mt-3 border-t border-white/10 w-full text-center"
+              className="flex compact:hidden md:hidden flex-wrap items-center justify-center gap-2 pt-4 mt-3 border-t border-white/10 w-full text-center"
             >
               <span className="text-[10px] font-mono text-neutral-400 tracking-wider">01 / FULL-STACK</span>
               <span className="text-neutral-600">·</span>
@@ -734,7 +723,7 @@ export default function SceneTypography({
               </div>
 
               <div className="flex items-center gap-2">
-                <GlassActionButton
+                {currentProject.link && <GlassActionButton
                   href={currentProject.link}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -743,7 +732,7 @@ export default function SceneTypography({
                   className="px-3 py-1.5 text-xs min-h-[38px]"
                 >
                   LIVE DEMO
-                </GlassActionButton>
+                </GlassActionButton>}
 
                 {currentProject.github && (
                   <GlassActionButton

@@ -4,10 +4,11 @@
  * Interpolates scroll position with exponential damping for smooth 60/120fps motion.
  */
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState, useCallback } from 'react';
 import { computeSceneTimeline, SceneTimelineState, SCENE_DEFINITIONS } from './SceneController';
-import ScrollSceneStage from './ScrollSceneStage';
 import SceneTypography from './SceneTypography';
+
+const ScrollSceneStage = lazy(() => import('./ScrollSceneStage'));
 
 interface CinematicScrollProps {
   onNavigateToSection?: (selector: string) => void;
@@ -16,6 +17,7 @@ interface CinematicScrollProps {
 export default function CinematicScroll({ onNavigateToSection }: CinematicScrollProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [sceneReady, setSceneReady] = useState(false);
 
   // Animation progress state
   const targetProgressRef = useRef(0);
@@ -31,8 +33,49 @@ export default function CinematicScroll({ onNavigateToSection }: CinematicScroll
     return () => mq.removeEventListener('change', handler);
   }, []);
 
-  // Update target progress on scroll
   useEffect(() => {
+    let timeoutId = 0;
+    let idleId = 0;
+    const idleWindow = window as Window & {
+      requestIdleCallback?: (callback: IdleRequestCallback, options?: IdleRequestOptions) => number;
+      cancelIdleCallback?: (handle: number) => void;
+    };
+    if (idleWindow.requestIdleCallback) {
+      idleId = idleWindow.requestIdleCallback(() => setSceneReady(true), { timeout: 1200 });
+    } else {
+      timeoutId = window.setTimeout(() => setSceneReady(true), 350);
+    }
+    return () => {
+      if (timeoutId) window.clearTimeout(timeoutId);
+      if (idleId) idleWindow.cancelIdleCallback?.(idleId);
+    };
+  }, []);
+
+  // Interpolate only while scrolling so the scene does not keep an idle RAF loop alive.
+  useEffect(() => {
+    let animId = 0;
+    let lastTime = performance.now();
+    const damping = reducedMotion ? 1000 : 6.8;
+
+    const tick = (now: number) => {
+      const delta = Math.min((now - lastTime) / 1000, 0.1);
+      lastTime = now;
+      const target = targetProgressRef.current;
+      const current = currentProgressRef.current;
+      const factor = reducedMotion ? 1 : 1 - Math.exp(-delta * damping);
+      const nextProgress = current + (target - current) * factor;
+
+      if (Math.abs(nextProgress - target) > 0.0001) {
+        currentProgressRef.current = nextProgress;
+        setTimelineState(computeSceneTimeline(nextProgress));
+        animId = requestAnimationFrame(tick);
+      } else {
+        currentProgressRef.current = target;
+        setTimelineState(computeSceneTimeline(target));
+        animId = 0;
+      }
+    };
+
     const updateTarget = () => {
       const container = containerRef.current;
       if (!container) return;
@@ -40,15 +83,14 @@ export default function CinematicScroll({ onNavigateToSection }: CinematicScroll
       const rect = container.getBoundingClientRect();
       const containerTop = window.scrollY + rect.top;
       const totalScrollable = container.offsetHeight - window.innerHeight;
+      targetProgressRef.current = totalScrollable <= 0
+        ? 0
+        : Math.max(0, Math.min(1, (window.scrollY - containerTop) / totalScrollable));
 
-      if (totalScrollable <= 0) {
-        targetProgressRef.current = 0;
-        return;
+      if (!animId) {
+        lastTime = performance.now();
+        animId = requestAnimationFrame(tick);
       }
-
-      const relativeScroll = window.scrollY - containerTop;
-      const p = Math.max(0, Math.min(1, relativeScroll / totalScrollable));
-      targetProgressRef.current = p;
     };
 
     window.addEventListener('scroll', updateTarget, { passive: true });
@@ -58,36 +100,8 @@ export default function CinematicScroll({ onNavigateToSection }: CinematicScroll
     return () => {
       window.removeEventListener('scroll', updateTarget);
       window.removeEventListener('resize', updateTarget);
+      if (animId) cancelAnimationFrame(animId);
     };
-  }, []);
-
-  // Smooth interpolation animation loop
-  useEffect(() => {
-    let animId: number;
-    let lastTime = performance.now();
-    const damping = reducedMotion ? 16 : 6.8;
-
-    const tick = (now: number) => {
-      animId = requestAnimationFrame(tick);
-      const delta = Math.min((now - lastTime) / 1000, 0.1);
-      lastTime = now;
-
-      const target = targetProgressRef.current;
-      const current = currentProgressRef.current;
-
-      // Exponential smoothing formula: current += (target - current) * (1 - exp(-delta * damping))
-      const factor = 1 - Math.exp(-delta * damping);
-      const nextProgress = current + (target - current) * factor;
-
-      // Only update state if difference is perceptible
-      if (Math.abs(nextProgress - current) > 0.0001 || Math.abs(nextProgress - target) > 0.0001) {
-        currentProgressRef.current = nextProgress;
-        setTimelineState(computeSceneTimeline(nextProgress));
-      }
-    };
-
-    animId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(animId);
   }, [reducedMotion]);
 
   // Jump to scene via timeline progress
@@ -118,7 +132,13 @@ export default function CinematicScroll({ onNavigateToSection }: CinematicScroll
       {/* Pinned Sticky Visual Stage (100svh) */}
       <div className="sticky top-0 w-full h-[100svh] overflow-hidden bg-[#08080A] flex flex-col justify-center">
         {/* 1. WebGL Canvas & Organic Torn Shader Transition */}
-        <ScrollSceneStage timelineState={timelineState} reducedMotion={reducedMotion} />
+        {sceneReady ? (
+          <Suspense fallback={<div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_40%,rgba(49,46,129,0.2),transparent_65%)]" />}>
+            <ScrollSceneStage timelineState={timelineState} reducedMotion={reducedMotion} />
+          </Suspense>
+        ) : (
+          <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_40%,rgba(49,46,129,0.2),transparent_65%)]" />
+        )}
 
         {/* 2. Interactive DOM Typography Overlay */}
         <SceneTypography

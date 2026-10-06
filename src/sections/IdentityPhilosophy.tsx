@@ -177,7 +177,7 @@ export default function IdentityPhilosophy({ reducedMotion = false }: IdentityPh
             className="lg:col-span-5 relative w-full max-w-[320px] lg:max-w-none mx-auto overflow-hidden"
           >
             <div
-              className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-neutral-950 border border-white/20 shadow-[0_25px_60px_rgba(0,0,0,0.85)] group"
+              className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-neutral-950 border border-indigo-300/25 shadow-[0_25px_60px_rgba(0,0,0,0.85),0_0_34px_rgba(8,145,178,0.12)] group"
               style={{
                 clipPath: inView ? 'inset(0% 0% 0% 0%)' : 'inset(0% 48% 0% 48%)',
                 WebkitClipPath: inView ? 'inset(0% 0% 0% 0%)' : 'inset(0% 48% 0% 48%)',
@@ -190,7 +190,7 @@ export default function IdentityPhilosophy({ reducedMotion = false }: IdentityPh
               <img
                 src="/Photos/kamel-shah-bw.png"
                 alt="Kamel Shah in high contrast portrait"
-                className="w-full h-full object-cover object-top filter grayscale contrast-115 group-hover:scale-105 transition-transform duration-700"
+                className="w-full h-full object-cover [object-position:50%_35%] filter grayscale contrast-115 group-hover:scale-105 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#08080A] via-transparent to-transparent opacity-80 pointer-events-none" />
 
@@ -198,7 +198,7 @@ export default function IdentityPhilosophy({ reducedMotion = false }: IdentityPh
               <div
                 className="absolute inset-0 pointer-events-none"
                 style={{
-                  background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%)',
+                  background: 'linear-gradient(90deg, transparent 0%, rgba(129,140,248,0.36) 50%, transparent 100%)',
                   transform: inView ? 'translateX(100%)' : 'translateX(-100%)',
                   opacity: inView ? 1 : 0,
                   transition: 'transform 1.3s ease-in-out 600ms, opacity 0.3s ease',
@@ -206,7 +206,7 @@ export default function IdentityPhilosophy({ reducedMotion = false }: IdentityPh
               />
 
               {/* Badge */}
-              <div className="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-black/70 backdrop-blur-md border border-white/15 flex items-center justify-between text-[11px] font-mono">
+              <div className="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-black/70 backdrop-blur-md border border-indigo-300/20 flex items-center justify-between text-[11px] font-mono">
                 <span className="text-white font-bold">KAMEL SHAH</span>
                 <span className="text-indigo-400">ENGINEER · DEVELOPER</span>
               </div>
@@ -245,7 +245,7 @@ export default function IdentityPhilosophy({ reducedMotion = false }: IdentityPh
             LAYER 4: UI — DEDICATED PROFILE CARD & EDITORIAL METRICS (1x)
             ===================================================================== */}
         {/* Profile Identity Callout */}
-        <div className="my-10 p-5 sm:p-6 md:p-8 rounded-2xl bg-[#0F1015] border border-white/[0.08] hover:border-indigo-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-6 transition-all shadow-lg">
+        <div className="warm-panel my-10 p-5 sm:p-6 md:p-8 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-6 transition-all shadow-lg">
           <div className="space-y-1.5 text-left">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-400" />
@@ -262,7 +262,7 @@ export default function IdentityPhilosophy({ reducedMotion = false }: IdentityPh
           </div>
           <a
             href="/kamel-shah"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 min-h-[44px] rounded-full bg-white text-black font-semibold text-xs font-mono uppercase tracking-wider hover:bg-neutral-200 transition-all shrink-0 hover:scale-105 active:scale-95 shadow-lg shadow-white/10"
+            className="warm-action inline-flex items-center justify-center gap-2 px-6 py-3 min-h-[44px] rounded-full font-semibold text-xs font-mono uppercase tracking-wider transition-all shrink-0 hover:scale-105 active:scale-95"
           >
             <span>View Identity Profile</span>
             <ArrowRight size={14} />

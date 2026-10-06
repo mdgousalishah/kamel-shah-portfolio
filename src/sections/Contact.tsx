@@ -72,7 +72,7 @@ ${formData.message.trim()}`;
             <div className="space-y-6">
               <a
                 href={`mailto:${SITE_CONFIG.email}`}
-                className="group p-5 rounded-2xl bg-[#0F1015] border border-white/[0.06] hover:border-white/25 flex items-start gap-4 transition-all block"
+                className="warm-panel group p-5 rounded-2xl border flex items-start gap-4 transition-all block"
               >
                 <div className="w-11 h-11 rounded-xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center text-indigo-400 group-hover:text-white transition-colors shrink-0">
                   <Mail size={18} />
@@ -89,7 +89,7 @@ ${formData.message.trim()}`;
 
               <a
                 href={`tel:${SITE_CONFIG.phone}`}
-                className="group p-5 rounded-2xl bg-[#0F1015] border border-white/[0.06] hover:border-white/25 flex items-start gap-4 transition-all block"
+                className="warm-panel group p-5 rounded-2xl border flex items-start gap-4 transition-all block"
               >
                 <div className="w-11 h-11 rounded-xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center text-indigo-400 group-hover:text-white transition-colors shrink-0">
                   <Phone size={18} />
@@ -104,7 +104,7 @@ ${formData.message.trim()}`;
                 </div>
               </a>
 
-              <div className="p-5 rounded-2xl bg-[#0F1015] border border-white/[0.06] flex items-start gap-4">
+              <div className="warm-panel p-5 rounded-2xl border flex items-start gap-4">
                 <div className="w-11 h-11 rounded-xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center text-indigo-400 shrink-0">
                   <MapPin size={18} />
                 </div>
@@ -172,14 +172,14 @@ ${formData.message.trim()}`;
                   Direct Message Dispatch
                 </span>
                 <span className="text-[11px] font-mono text-neutral-400">
-                  Instant connection to Kamel Shah (+91 7588571899)
+                  Instant connection to Kamel Shah ({SITE_CONFIG.phone})
                 </span>
               </div>
             </div>
 
             <form
               onSubmit={handleSubmit}
-              className="p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-[#0F1015] border border-white/[0.08] shadow-2xl space-y-5"
+              className="warm-panel p-5 sm:p-8 rounded-2xl sm:rounded-3xl border shadow-2xl space-y-5"
             >
               {error && (
                 <div className="p-3.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-xs font-mono">
@@ -189,11 +189,14 @@ ${formData.message.trim()}`;
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-xs font-mono text-neutral-400 block mb-1.5">
+                  <label htmlFor="contact-first-name" className="text-xs font-mono text-neutral-400 block mb-1.5">
                     First Name *
                   </label>
                   <input
                     type="text"
+                    id="contact-first-name"
+                    autoComplete="given-name"
+                    required
                     value={formData.firstName}
                     onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                     placeholder="e.g. John"
@@ -201,11 +204,14 @@ ${formData.message.trim()}`;
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-mono text-neutral-400 block mb-1.5">
+                  <label htmlFor="contact-last-name" className="text-xs font-mono text-neutral-400 block mb-1.5">
                     Last Name *
                   </label>
                   <input
                     type="text"
+                    id="contact-last-name"
+                    autoComplete="family-name"
+                    required
                     value={formData.lastName}
                     onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                     placeholder="e.g. Doe"
@@ -216,11 +222,14 @@ ${formData.message.trim()}`;
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-xs font-mono text-neutral-400 block mb-1.5">
+                  <label htmlFor="contact-email" className="text-xs font-mono text-neutral-400 block mb-1.5">
                     Email Address *
                   </label>
                   <input
                     type="email"
+                    id="contact-email"
+                    autoComplete="email"
+                    required
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="e.g. john@example.com"
@@ -228,11 +237,13 @@ ${formData.message.trim()}`;
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-mono text-neutral-400 block mb-1.5">
+                  <label htmlFor="contact-phone" className="text-xs font-mono text-neutral-400 block mb-1.5">
                     Phone Number (Optional)
                   </label>
                   <input
                     type="tel"
+                    id="contact-phone"
+                    autoComplete="tel"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     placeholder="e.g. +91 9876543210"
@@ -242,11 +253,13 @@ ${formData.message.trim()}`;
               </div>
 
               <div>
-                <label className="text-xs font-mono text-neutral-400 block mb-1.5">
+                <label htmlFor="contact-message" className="text-xs font-mono text-neutral-400 block mb-1.5">
                   Message *
                 </label>
                 <textarea
                   rows={4}
+                  id="contact-message"
+                  required
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   placeholder="Tell me about your role, project scope, or technical question..."
@@ -256,7 +269,7 @@ ${formData.message.trim()}`;
 
               <button
                 type="submit"
-                className="w-full min-h-[48px] py-3.5 sm:py-4 rounded-full bg-white text-black font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-neutral-200 transition-all hover:scale-[1.01] active:scale-[0.99] shadow-xl cursor-pointer"
+                className="warm-action w-full min-h-[48px] py-3.5 sm:py-4 rounded-full font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-2 transition-all hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
               >
                 <span>Dispatch Via WhatsApp</span>
                 <Send size={14} />

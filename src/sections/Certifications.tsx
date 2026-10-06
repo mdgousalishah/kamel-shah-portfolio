@@ -69,7 +69,7 @@ export default function Certifications() {
                 viewport={{ once: true, margin: "-30px" }}
                 transition={{ duration: 0.4, delay: index * 0.04 }}
                 onClick={() => cert.image && setActiveCert(cert)}
-                className={`group flex flex-col justify-between rounded-2xl bg-[#0F1015] border border-white/[0.08] overflow-hidden transition-all duration-300 ${
+                className={`warm-panel group flex flex-col justify-between rounded-2xl border overflow-hidden transition-all duration-300 ${
                   cert.image
                     ? 'cursor-pointer hover:border-white/25 hover:shadow-[0_15px_35px_rgba(0,0,0,0.6)]'
                     : 'hover:border-indigo-500/30'

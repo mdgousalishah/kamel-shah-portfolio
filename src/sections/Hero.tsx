@@ -57,17 +57,17 @@ export default function Hero() {
           {/* Portrait column */}
           <figure className="lg:col-span-5 mx-auto w-full max-w-[26rem] sm:max-w-[28rem] lg:max-w-none">
             <Depth strength={6} tilt>
-            <div className="frame unveil aspect-[1200/1490]">
+            <div className="frame unveil aspect-[4/5]">
               <picture>
                 <source srcSet={SITE_CONFIG.images.heroWebp} type="image/webp" />
                 <img
                   src={SITE_CONFIG.images.hero}
-                  alt="Black-and-white close-up portrait of Mohammed Gous Ali Shah, resting his chin on his hand"
-                  width={1200}
-                  height={1490}
+                  alt="Portrait of Mohammed Gous Ali Shah in a navy blazer and white shirt, photographed outdoors"
+                  width={1000}
+                  height={1250}
                   fetchPriority="high"
                   decoding="async"
-                  className="object-cover object-[50%_30%]"
+                  className="object-cover object-[50%_25%]"
                 />
               </picture>
             </div>

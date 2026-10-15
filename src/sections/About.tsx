@@ -4,13 +4,6 @@ import Depth from '../components/Depth';
 
 const DETAILS = [
   {
-    label: 'Education',
-    items: [
-      'B.Tech, Electronics & Computer Engineering — PES College of Engineering, Aurangabad (DBATU). Expected 2026.',
-      'MBA, Artificial Intelligence & Machine Learning — Dr. D. Y. Patil Vidyapeeth, Pune. Pursuing, 2026 – present.'
-    ]
-  },
-  {
     label: 'Interests',
     items: ['Full-stack web applications, REST API design, interface design, and practical applications of agentic AI.']
   },
@@ -18,6 +11,13 @@ const DETAILS = [
     label: 'Practice',
     items: [
       'eCommerce platforms, institutional portals, and business websites — alongside hands-on IT support for a multi-school education society.'
+    ]
+  },
+  {
+    label: 'Education',
+    items: [
+      'B.Tech, Electronics & Computer Engineering — PES College of Engineering, Aurangabad (DBATU). Expected 2026.',
+      'MBA, Artificial Intelligence & Machine Learning — Dr. D. Y. Patil Vidyapeeth, Pune. Pursuing, 2026 – present.'
     ]
   }
 ];

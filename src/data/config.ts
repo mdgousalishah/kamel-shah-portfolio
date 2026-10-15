@@ -20,8 +20,8 @@ export const SITE_CONFIG = {
   resume: "/Photos/MOHAMMED%20GOUS%20ALI%20SHAH%20RESUME.pdf",
   logo: "/Photos/My%20Logo.png",
   images: {
-    hero: "/Photos/hero-portrait-bw.png",
-    heroWebp: "/Photos/optimized/hero-portrait-bw.webp",
+    hero: "/Photos/hero-portrait.jpg",
+    heroWebp: "/Photos/optimized/hero-portrait.webp",
     about: "/Photos/about-portrait-bw.png",
     aboutWebp: "/Photos/optimized/about-portrait-bw.webp"
   },
@@ -37,6 +37,7 @@ export const SITE_CONFIG = {
   navLinks: [
     { label: "Home", href: "#home" },
     { label: "About", href: "#about" },
+    { label: "Skills", href: "#skills" },
     { label: "Experience", href: "#experience" },
     { label: "Work", href: "#projects" },
     { label: "Services", href: "#services" },

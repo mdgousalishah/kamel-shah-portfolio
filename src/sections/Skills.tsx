@@ -32,7 +32,7 @@ export default function Skills() {
     <section id="skills" aria-labelledby="skills-title" className="section">
       <div className="wrap">
         <header className="section-head">
-          <span className="section-index">03</span>
+          <span className="section-index">02</span>
           <span className="eyebrow">Skills</span>
         </header>
 

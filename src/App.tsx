@@ -102,8 +102,8 @@ export default function App() {
           <Navigation />
           <main id="main-content" tabIndex={-1} className="relative w-full outline-none">
             <HeroAbout />
-            <Experience />
             <Skills />
+            <Experience />
             <Projects />
             <Services />
             <Education />

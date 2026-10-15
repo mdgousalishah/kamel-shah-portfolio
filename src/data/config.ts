@@ -10,28 +10,51 @@ export const SITE_CONFIG = {
     "IT & Technical Support"
   ],
   tagline: "Full-Stack Developer · Agentic AI Developer · IT & Technical Support",
-  email: "kamelshah2003@email.com",
+  descriptor: "Software Developer · Full-Stack Web Development",
+  email: "kamelshah2003@gmail.com",
   phone: "+91 7588571899",
   whatsapp: "+917588571899",
+  whatsappMessage: "Hello Kamel, I visited your portfolio and would like to connect.",
   location: "Parbhani, Maharashtra, India",
-  description: "Kamel Shah (Mohammed Gous Ali Shah) is an Electronics & Computer Engineering professional focused on full-stack development, Agentic AI and Generative AI.",
-  resume: "/Photos/MOHAMMED GOUS ALI SHAH RESUME.pdf",
+  description: "Electronics & Computer Engineering professional focused on full-stack web development, practical technology solutions, and institutional IT operations.",
+  resume: "/Photos/MOHAMMED%20GOUS%20ALI%20SHAH%20RESUME.pdf",
+  logo: "/Photos/My%20Logo.png",
+  images: {
+    hero: "/Photos/hero-portrait-bw.png",
+    heroWebp: "/Photos/optimized/hero-portrait-bw.webp",
+    about: "/Photos/about-portrait-bw.png",
+    aboutWebp: "/Photos/optimized/about-portrait-bw.webp"
+  },
   socials: {
     github: "https://github.com/mdgousalishah",
-    linkedin: "https://www.linkedin.com/in/mohammed-gous-ali-shah-mohammed-mushtaque-ahmed-988657214",
+    linkedin: "https://www.linkedin.com/in/mohammed-gous-ali-shah-988657214/",
     x: "https://x.com/Kamelshah07",
-    website: "https://kamelshah.ai.studio/"
+    website: "https://kamelshah.ai.studio",
+    portfolio: "https://kamel-shah-portfolio.vercel.app/",
+    // Bluesky intentionally left empty until a real profile URL is supplied.
+    bluesky: ""
   },
   navLinks: [
     { label: "Home", href: "#home" },
     { label: "About", href: "#about" },
-    { label: "Profile", href: "/kamel-shah" },
     { label: "Experience", href: "#experience" },
-    { label: "Skills", href: "#skills" },
-    { label: "Projects", href: "#projects" },
+    { label: "Work", href: "#projects" },
     { label: "Services", href: "#services" },
     { label: "Education", href: "#education" },
-    { label: "Certifications", href: "#certifications" },
-    { label: "Contact", href: "#contact" },
+    { label: "Certificates", href: "#certifications" },
+    { label: "Contact", href: "#contact" }
   ]
 };
+
+/** WhatsApp deep link with a properly URL-encoded greeting. */
+export const whatsappHref = (message: string = SITE_CONFIG.whatsappMessage) =>
+  `https://wa.me/${SITE_CONFIG.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`;
+
+/** Social links that actually have a URL (keeps unspecified profiles hidden). */
+export const SOCIAL_LINKS = [
+  { key: 'github', label: 'GitHub', href: SITE_CONFIG.socials.github },
+  { key: 'linkedin', label: 'LinkedIn', href: SITE_CONFIG.socials.linkedin },
+  { key: 'x', label: 'X', href: SITE_CONFIG.socials.x },
+  { key: 'website', label: 'Website', href: SITE_CONFIG.socials.website },
+  { key: 'bluesky', label: 'Bluesky', href: SITE_CONFIG.socials.bluesky }
+].filter((s) => s.href.trim().length > 0);

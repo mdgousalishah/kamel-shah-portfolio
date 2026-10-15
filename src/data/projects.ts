@@ -9,114 +9,91 @@ export interface Project {
   github?: string;
   featured?: boolean;
   image: string;
+  /** Optimised copy served first; `image` remains the original fallback. */
+  imageWebp?: string;
 }
 
 export const PROJECTS: Project[] = [
   {
-    id: "campusone",
-    number: "01",
-    title: "CAMPUSONE",
-    category: "Education Technology & School ERP SaaS",
-    tech: ["React", "TypeScript", "Tailwind CSS", "Node.js", "Express", "QR Code Generation", "Multi-Tenant Architecture"],
-    description: [
-      "Architected a centralized school administration and ERP SaaS platform for Kamel Education Society to streamline operations across educational institutions.",
-      "Engineered an automated Institutional Badge ID Generator with dynamic QR code generation for student identification and credential verification.",
-      "Built a Touch Roster Attendance Register for classroom attendance management, streamlining daily student tracking for staff.",
-      "Implemented integrated accounting, bill & fees ledgers, and multi-tenant institutional record management for multi-school administration."
-    ],
-    github: "https://github.com/mdgousalishah",
-    featured: true,
-    image: "/Photos/CampusOne.png"
-  },
-  {
     id: "decent-apparels",
-    number: "02",
-    title: "DECENT APPARELS",
+    number: "01",
+    title: "Decent Apparels",
     category: "Full-Stack eCommerce Platform",
-    tech: ["React 19", "Vite 6", "Tailwind CSS", "TypeScript", "Node.js", "Express", "MongoDB", "Zustand", "Lucide React"],
+    tech: ["React", "TypeScript", "Tailwind CSS", "Node.js", "Express", "MongoDB", "Zustand"],
     description: [
-      "Developed a full-stack apparel eCommerce platform with a responsive, modern interface using React 19, Vite 6, Tailwind CSS, and TypeScript.",
-      "Architected modular TSX components and client-side state management with Zustand for seamless product browsing, shopping cart, and customer interactions.",
-      "Designed Node.js/Express REST APIs and structured MongoDB/Mongoose data models for catalog management, customer reviews, order pipelines, and admin dashboards.",
-      "Enhanced the shopping experience with smooth micro-interactions and modern visual styling powered by Lucide React and fluid transitions."
+      "Engineered a full-stack apparel eCommerce platform with responsive catalog browsing and shopping cart interactions.",
+      "Built client-side state management with Zustand and structured modular component hierarchy.",
+      "Implemented RESTful backend endpoints in Node.js and Express with MongoDB database models for product and order management."
     ],
     link: "https://decent-apparels.vercel.app/",
     github: "https://github.com/mdgousalishah",
     featured: true,
-    image: "/Photos/Decent.png"
+    image: "/Photos/Decent.png",
+    imageWebp: "/Photos/optimized/Decent.webp"
   },
   {
     id: "soap-soul",
-    number: "03",
-    title: "THE SOAP & SOUL",
+    number: "02",
+    title: "The Soap & Soul",
     category: "Handmade Skincare & Luxury eCommerce",
     tech: ["PHP", "Laravel", "JavaScript", "Bootstrap", "MySQL"],
     description: [
-      "Designed and developed a premium eCommerce website for a handmade skincare brand featuring responsive, user-focused layouts.",
-      "Implemented product browsing, interactive cart, checkout flow, payment coordination, and custom order options.",
-      "Structured server-side workflows in PHP and Laravel with MySQL database integration for product management."
+      "Designed and developed an eCommerce website for a handmade skincare brand featuring responsive, user-friendly layouts.",
+      "Implemented product catalog browsing, cart functionality, and customer order inquiries.",
+      "Structured server-side controllers in PHP and Laravel with MySQL database integration."
     ],
     link: "https://the-soap-soal.vercel.app/",
     github: "https://github.com/mdgousalishah",
-    image: "/Photos/Soap & Soul.png"
+    featured: true,
+    image: "/Photos/Soap-and-Soul.png",
+    imageWebp: "/Photos/optimized/Soap-and-Soul.webp"
   },
   {
     id: "masjid",
-    number: "04",
-    title: "MASJID E MEHTAB ALI SHAH / ASHOORKHANA NALE HYDER",
+    number: "03",
+    title: "Masjid Mehtab Ali Shah",
     category: "Community Trust & Institutional Portal",
-    tech: ["HTML5", "CSS3", "JavaScript", "Bootstrap", "Responsive Design"],
+    tech: ["HTML5", "CSS3", "JavaScript", "Bootstrap", "Responsive Layout"],
     description: [
-      "Developed a responsive institutional portal for Masjid e Mehtab Ali Shah / Ashoorkhana Nale Hyder community trust and waqf organization.",
-      "Created dynamic community features including a prayer time schedule dashboard, donation guidance, and photographic gallery.",
-      "Engineered clean, accessible UI optimized for readability and fast performance across mobile and desktop devices."
+      "Developed a responsive institutional portal for Masjid e Mehtab Ali Shah / Ashoorkhana Nale Hyder community organization.",
+      "Built dynamic features including prayer time schedule displays, community announcements, and photographic gallery.",
+      "Optimized for fast loading and clean readability across mobile and desktop devices."
     ],
     link: "https://anh-parbhani-git-fix-vercel-mohammed-gous-ali-shahs-projects.vercel.app/index.html",
     github: "https://github.com/mdgousalishah",
-    image: "/Photos/Masjid.png"
+    image: "/Photos/Masjid.png",
+    imageWebp: "/Photos/optimized/Masjid.webp"
   },
   {
     id: "shah-construction",
-    number: "05",
-    title: "SHAH CONSTRUCTION",
+    number: "04",
+    title: "Shah Construction",
     category: "Corporate EPC & Engineering Website",
     tech: ["HTML5", "CSS3", "JavaScript", "Bootstrap"],
     description: [
       "Designed and developed a corporate web presence for an engineering, procurement, and construction (EPC) firm.",
-      "Engineered company profile, project showcase portfolio, technical service capabilities, and client inquiry forms.",
-      "Structured clean, responsive layouts adhering to corporate branding and cross-device usability."
+      "Engineered company profile sections, service capabilities overview, project showcases, and client inquiry forms.",
+      "Ensured cross-browser compatibility and responsive performance on all screen sizes."
     ],
     link: "https://shah-construction-ru5d.vercel.app/index.html",
     github: "https://github.com/mdgousalishah",
-    image: "/Photos/Shah Construction.png"
+    image: "/Photos/Shah-Construction.png",
+    imageWebp: "/Photos/optimized/Shah-Construction.webp"
   },
   {
     id: "who-will-pay",
-    number: "06",
-    title: "WHO WILL PAY?",
+    number: "05",
+    title: "Who Will Pay?",
     category: "Interactive Decision & Utility Web App",
-    tech: ["HTML5", "CSS3", "JavaScript", "Tailwind CSS", "LocalStorage", "Roulette Algorithm"],
+    tech: ["HTML5", "CSS3", "JavaScript", "Tailwind CSS", "LocalStorage"],
     description: [
-      "Engineered an interactive decision-making and expense utility application for fair group expense allocation.",
-      "Built an animated roulette picker algorithm with dynamic sound effects and weighted random selection.",
-      "Implemented LocalStorage state persistence for bill history, past payers, and custom participant presets with instant recall."
+      "Engineered an interactive decision-making expense utility application for fair group expense allocation.",
+      "Built an animated random selection algorithm with audio cues and customizable participant inputs.",
+      "Implemented LocalStorage state persistence for bill history and participant lists."
     ],
     link: "https://who-will-pays.vercel.app/",
     github: "https://github.com/mdgousalishah/Who-will-Pays",
-    image: "/Photos/Who Will Pay.png"
-  },
-  {
-    id: "lumen-apis",
-    number: "07",
-    title: "LARAVEL & LUMEN REST API SERVICES",
-    category: "Modular Backend & API Development",
-    tech: ["PHP", "Laravel", "Lumen", "REST APIs", "SQLite", "Postman"],
-    description: [
-      "Developed modular RESTful backend services using PHP, Laravel, and the lightweight Lumen micro-framework.",
-      "Configured SQLite and relational databases with structured migrations, seeders, and model relationships.",
-      "Implemented structured REST API routing, controller logic, CRUD endpoints, request validation, and comprehensive Postman API testing."
-    ],
-    github: "https://github.com/mdgousalishah",
-    image: "/Photos/LumenAPIs.png"
+    image: "/Photos/Who-Will-Pay.png",
+    imageWebp: "/Photos/optimized/Who-Will-Pay.webp"
   }
 ];

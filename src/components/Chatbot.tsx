@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Send, Sparkles, User, RotateCcw } from 'lucide-react';
+import { X, Send, User, RotateCcw, MessageCircle } from 'lucide-react';
 import { getChatbotResponse } from '../data/chatbotKnowledge';
 
 interface Message {
@@ -23,7 +23,7 @@ export default function Chatbot() {
     {
       id: 'welcome',
       type: 'bot',
-      text: "Hi! I'm Kamel AI, the portfolio assistant for Mohammed Gous Ali Shah. Ask me about his experience, projects, skills, education, certifications, or services."
+      text: "Hi! I'm the portfolio assistant for Kamel Shah (Mohammed Gous Ali Shah). Feel free to ask about his experience, projects, skills, education, or contact details."
     }
   ]);
   const [inputValue, setInputValue] = useState('');
@@ -89,7 +89,7 @@ export default function Chatbot() {
         text: result.text!.trim(),
         mode: result.mode === 'ai' ? 'ai' : 'knowledge',
       }]);
-    } catch (error) {
+    } catch {
       if (controller.signal.aborted) return;
       setMessages(prev => [...prev, {
         id: `${Date.now()}-bot`,
@@ -108,7 +108,11 @@ export default function Chatbot() {
   const startNewChat = () => {
     requestControllerRef.current?.abort();
     requestControllerRef.current = null;
-    setMessages([{ id: 'welcome', type: 'bot', text: "Hi! I'm Kamel AI. Ask me about Kamel's projects, skills, experience, education, services, or contact details." }]);
+    setMessages([{
+      id: 'welcome',
+      type: 'bot',
+      text: "Hi! I'm the portfolio assistant for Kamel Shah. Ask me about his projects, skills, experience, education, or contact details."
+    }]);
     setInputValue('');
     setIsTyping(false);
     inputRef.current?.focus();
@@ -122,19 +126,31 @@ export default function Chatbot() {
   };
 
   const formatMessage = (text: string) => {
-    // Simple formatting for bold text (e.g., **Project**)
     return text.split('\n').map((line, i) => {
       const parts = line.split(/\*\*(.*?)\*\*/g);
       return (
         <span key={i} className="block mb-1 last:mb-0">
           {parts.map((part, j) => {
-            if (j % 2 === 1) return <strong key={j} className="font-semibold text-white">{part}</strong>;
+            if (j % 2 === 1) return <strong key={j} className="font-semibold text-[#242424]">{part}</strong>;
             const trimmed = part.trim();
             const leadingSpace = part.slice(0, part.indexOf(trimmed));
             const link = trimmed.match(/^(https?:\/\/\S+|[\w.+-]+@[\w.-]+\.[A-Za-z]{2,})([.,!?;:]*)$/);
             if (link) {
               const href = link[1].startsWith('http') ? link[1] : `mailto:${link[1]}`;
-              return <span key={j}>{leadingSpace}<a href={href} target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noopener noreferrer' : undefined} className="break-all text-indigo-300 underline decoration-indigo-300/40 underline-offset-2 hover:text-indigo-200">{link[1]}</a>{link[2]}</span>;
+              return (
+                <span key={j}>
+                  {leadingSpace}
+                  <a
+                    href={href}
+                    target={href.startsWith('http') ? '_blank' : undefined}
+                    rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    className="break-all text-[#3A3937] underline underline-offset-2 hover:text-[#242424]"
+                  >
+                    {link[1]}
+                  </a>
+                  {link[2]}
+                </span>
+              );
             }
             return part;
           })}
@@ -145,95 +161,86 @@ export default function Chatbot() {
 
   return (
     <>
-      {/* Chatbot Toggle Button — Clean 48px AI Assistant (Chat Bubble + Sparkle) */}
+      {/* Chatbot toggle — standard chat-bubble icon, restrained charcoal treatment */}
       <button
+        type="button"
         onClick={() => setIsOpen(true)}
-        className={`fixed bottom-6 right-6 w-12 h-12 rounded-full bg-[#12131A]/95 hover:bg-[#1A1B26] backdrop-blur-xl border border-white/15 hover:border-indigo-400/60 text-white shadow-2xl flex items-center justify-center transition-all duration-200 z-40 group hover:scale-105 active:scale-95 ${
-          isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'
+        className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 inline-flex h-12 w-12 items-center justify-center rounded-full bg-ink text-ivory shadow-[0_8px_24px_-10px_rgba(36,36,36,0.55)] transition-[opacity,transform,background-color] duration-200 hover:-translate-y-0.5 hover:bg-ink-soft ${
+          isOpen ? 'pointer-events-none opacity-0' : 'opacity-100'
         }`}
-        aria-label="Chat with Kamel AI Assistant"
-        title="Chat with Kamel AI Assistant"
+        aria-label="Open Kamel AI assistant"
+        aria-expanded={isOpen}
+        title="Ask Kamel's assistant"
       >
-        <svg
-          className="w-5 h-5 text-indigo-400 group-hover:text-indigo-300 transition-colors"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          {/* Crisp chat bubble */}
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-          {/* AI 4-point star inside the bubble */}
-          <path d="M12.5 7.5c0 1.2.8 1.8 1.8 1.8-1 0-1.8.6-1.8 1.8 0-1.2-.8-1.8-1.8-1.8 1 0 1.8-.6 1.8-1.8z" fill="currentColor" stroke="none" />
-        </svg>
+        <MessageCircle size={20} strokeWidth={1.75} aria-hidden="true" />
       </button>
 
       {/* Chatbot Window */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95, transformOrigin: 'bottom right' }}
+            initial={{ opacity: 0, y: 15, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            className="fixed bottom-4 right-4 md:bottom-6 md:right-6 w-[calc(100vw-32px)] md:w-[380px] h-[min(550px,calc(100dvh-80px))] max-h-[calc(100dvh-80px)] bg-[#121212] border border-white/10 rounded-2xl shadow-2xl flex flex-col z-50 overflow-hidden font-sans"
+            exit={{ opacity: 0, y: 15, scale: 0.96 }}
+            role="dialog"
+            aria-label="Kamel AI assistant"
+            transition={{ duration: 0.18, ease: "easeOut" }}
+            className="fixed bottom-4 right-4 md:bottom-6 md:right-6 w-[calc(100vw-32px)] md:w-[370px] h-[min(520px,calc(100dvh-80px))] bg-[#F8F6F0] border border-[#D8D3C9] rounded-lg shadow-2xl flex flex-col z-50 overflow-hidden font-sans"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-white/5 bg-[#0A0A0A]/50 backdrop-blur-md">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center border border-white/5">
-                  <Sparkles size={18} className="text-[#EDEDED]" />
+            <div className="flex items-center justify-between px-4 py-3 border-b border-[#D8D3C9] bg-[#ECE8DE]">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 bg-[#F8F6F0] rounded-full flex items-center justify-center border border-[#D8D3C9]">
+                  <MessageCircle size={15} className="text-[#242424]" />
                 </div>
                 <div>
-                  <h3 className="text-[#EDEDED] font-bold text-sm">Kamel AI</h3>
-                  <p className="text-[#A3A3A3] text-xs font-mono uppercase tracking-widest">Ask me about Kamel Shah</p>
+                  <h3 className="text-[#242424] font-serif text-base leading-tight">Kamel Assistant</h3>
+                  <p className="text-[#77746E] text-[11px] tracking-wide">Portfolio guide</p>
                 </div>
               </div>
-              <button
-                onClick={startNewChat}
-                className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors text-[#A3A3A3] hover:text-white"
-                aria-label="Start a new chat"
-                title="New chat"
-              >
-                <RotateCcw size={15} />
-              </button>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors text-[#A3A3A3] hover:text-white"
-                aria-label="Close Chat"
-              >
-                <X size={18} />
-              </button>
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={startNewChat}
+                  className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-[#D8D3C9]/50 text-[#77746E] hover:text-[#242424] transition-colors cursor-pointer"
+                  aria-label="Start a new chat"
+                  title="New chat"
+                >
+                  <RotateCcw size={14} />
+                </button>
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-[#D8D3C9]/50 text-[#77746E] hover:text-[#242424] transition-colors cursor-pointer"
+                  aria-label="Close Kamel AI assistant"
+                >
+                  <X size={16} />
+                </button>
+              </div>
             </div>
 
             {/* Messages Area */}
-            <div aria-live="polite" aria-relevant="additions text" className="flex-1 overflow-y-auto p-4 flex flex-col gap-4 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+            <div
+              aria-live="polite"
+              aria-relevant="additions text"
+              className="flex-1 overflow-y-auto p-4 flex flex-col gap-3.5 scrollbar-thin"
+            >
               {messages.map((msg) => (
                 <div 
                   key={msg.id} 
                   className={`flex w-full ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
-                  <div className={`flex gap-3 max-w-[85%] ${msg.type === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
-                    
-                    <div className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center bg-white/5 border border-white/10 mt-auto">
-                      {msg.type === 'bot' ? <Sparkles size={14} className="text-[#A3A3A3]" /> : <User size={14} className="text-[#A3A3A3]" />}
+                  <div className={`flex gap-2.5 max-w-[85%] ${msg.type === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
+                    <div className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center bg-[#ECE8DE] border border-[#D8D3C9] text-[#242424] text-xs mt-auto">
+                      {msg.type === 'bot' ? <MessageCircle size={12} /> : <User size={12} />}
                     </div>
 
                     <div
-                      className={`p-3 rounded-2xl text-sm leading-relaxed ${
+                      className={`p-3 rounded-xl text-xs sm:text-sm leading-relaxed ${
                         msg.type === 'user' 
-                          ? 'bg-white/10 text-[#EDEDED] rounded-br-sm' 
-                          : 'bg-[#1A1A1A] border border-white/5 text-[#A3A3A3] rounded-bl-sm'
+                          ? 'bg-[#242424] text-[#F8F6F0] rounded-br-xs' 
+                          : 'bg-[#ECE8DE] border border-[#D8D3C9] text-[#242424] rounded-bl-xs'
                       } break-words`}
                     >
                       {formatMessage(msg.text)}
-                      {msg.type === 'bot' && msg.mode && (
-                        <span className="mt-2 block text-[10px] font-mono uppercase tracking-wider text-neutral-500">
-                          {msg.mode === 'ai' ? 'Gemini AI' : 'Portfolio knowledge'}
-                        </span>
-                      )}
                     </div>
                   </div>
                 </div>
@@ -241,27 +248,27 @@ export default function Chatbot() {
               
               {isTyping && (
                 <div className="flex w-full justify-start">
-                  <div className="flex gap-3 max-w-[85%]">
-                    <div className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center bg-white/5 border border-white/10 mt-auto">
-                      <Sparkles size={14} className="text-[#A3A3A3]" />
+                  <div className="flex gap-2.5 max-w-[85%]">
+                    <div className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center bg-[#ECE8DE] border border-[#D8D3C9] text-[#242424] text-xs mt-auto">
+                      <MessageCircle size={12} />
                     </div>
-                    <div role="status" className="p-4 rounded-2xl rounded-bl-sm bg-[#1A1A1A] border border-white/5 flex items-center gap-1.5">
-                      <motion.div animate={{ opacity: [0.4, 1, 0.4] }} transition={{ duration: 1, repeat: Infinity, delay: 0 }} className="w-1.5 h-1.5 bg-white/40 rounded-full" />
-                      <motion.div animate={{ opacity: [0.4, 1, 0.4] }} transition={{ duration: 1, repeat: Infinity, delay: 0.2 }} className="w-1.5 h-1.5 bg-white/40 rounded-full" />
-                      <motion.div animate={{ opacity: [0.4, 1, 0.4] }} transition={{ duration: 1, repeat: Infinity, delay: 0.4 }} className="w-1.5 h-1.5 bg-white/40 rounded-full" />
+                    <div role="status" className="p-3 rounded-xl rounded-bl-xs bg-[#ECE8DE] border border-[#D8D3C9] flex items-center gap-1.5">
+                      <motion.div animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 0.9, repeat: Infinity, delay: 0 }} className="w-1.5 h-1.5 bg-[#242424] rounded-full" />
+                      <motion.div animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 0.9, repeat: Infinity, delay: 0.2 }} className="w-1.5 h-1.5 bg-[#242424] rounded-full" />
+                      <motion.div animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 0.9, repeat: Infinity, delay: 0.4 }} className="w-1.5 h-1.5 bg-[#242424] rounded-full" />
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* Suggestions (only show if it's just the initial welcome message) */}
+              {/* Suggestions (only when fresh chat) */}
               {messages.length === 1 && !isTyping && (
-                <div className="flex flex-col gap-2 mt-2">
+                <div className="flex flex-col gap-1.5 mt-2">
                   {INITIAL_SUGGESTIONS.map((suggestion, i) => (
                     <button
                       key={i}
                       onClick={() => handleSendMessage(suggestion)}
-                      className="text-left text-xs text-[#A3A3A3] hover:text-[#EDEDED] bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 p-2.5 rounded-xl transition-all"
+                      className="text-left text-xs text-[#242424] bg-[#ECE8DE]/70 hover:bg-[#ECE8DE] border border-[#D8D3C9] p-2 rounded-lg transition-colors cursor-pointer"
                     >
                       {suggestion}
                     </button>
@@ -277,7 +284,7 @@ export default function Chatbot() {
                 event.preventDefault();
                 handleSendMessage(inputValue);
               }}
-              className="p-4 border-t border-white/5 bg-[#0A0A0A]/50 backdrop-blur-md"
+              className="p-3 border-t border-[#D8D3C9] bg-[#ECE8DE]"
             >
               <div className="relative flex items-center">
                 <input
@@ -288,16 +295,16 @@ export default function Chatbot() {
                   onKeyDown={handleKeyDown}
                   disabled={isTyping}
                   aria-label="Ask Kamel AI a question"
-                  placeholder={isTyping ? 'Kamel AI is thinking…' : 'Ask a question…'}
-                  className="w-full bg-[#1A1A1A] text-[#EDEDED] text-sm placeholder:text-[#A3A3A3]/50 rounded-full pl-4 pr-12 py-3 border border-white/10 focus:outline-none focus:border-white/30 transition-colors"
+                  placeholder={isTyping ? 'Thinking…' : 'Ask a question…'}
+                  className="w-full bg-[#F8F6F0] text-[#242424] text-xs sm:text-sm placeholder:text-[#77746E]/70 rounded-full pl-3.5 pr-10 py-2.5 border border-[#D8D3C9] focus:outline-none focus:border-[#242424] transition-colors"
                 />
                 <button
                   type="submit"
                   disabled={!inputValue.trim() || isTyping}
-                  className="absolute right-2 w-8 h-8 flex items-center justify-center bg-white/10 rounded-full text-white hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="absolute right-1.5 w-7 h-7 flex items-center justify-center bg-[#242424] rounded-full text-[#F8F6F0] hover:bg-[#3A3937] disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
                   aria-label="Send Message"
                 >
-                  <Send size={14} className={inputValue.trim() ? "translate-x-[-1px]" : ""} />
+                  <Send size={12} />
                 </button>
               </div>
             </form>

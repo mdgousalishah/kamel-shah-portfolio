@@ -231,9 +231,7 @@ export default function IdentityPhilosophy({ reducedMotion = false }: IdentityPh
               <p className="text-sm md:text-base text-neutral-400 leading-relaxed">
                 I am an Electronics &amp; Computer Engineering student at PES College of Engineering, Aurangabad (Expected 2026), concurrently pursuing an Online MBA in Artificial Intelligence &amp; Machine Learning at Dr. D. Y. Patil Vidyapeeth, Pune (2026–2028). Additionally, I have completed my Bachelor of Arts (B.A.) from Yashwantrao Chavan Maharashtra Open University (Completed 2026).
               </p>
-              <p className="text-sm md:text-base text-neutral-400 leading-relaxed">
-                To expand my capabilities at the intersection of product design and artificial intelligence, I am enrolled in the Advanced Certificate in UI-UX Design with Agentic AI and GenAI from IIT Madras Pravartak Technologies Foundation (2026–2027), focusing on user-centered design, design thinking, Generative AI, and agentic workflows.
-              </p>
+
               <p className="text-sm md:text-base text-neutral-400 leading-relaxed">
                 Alongside software development, I have actively managed IT infrastructure across 5 schools for Kamel Education Society since June 2023—supporting computer workstations, network routing, and institutional platforms like CampusOne. I completed a software engineering simulation with Deloitte / Forage (September 2026) and a developer internship at Bilim Technologies (2025).
               </p>
@@ -303,7 +301,7 @@ export default function IdentityPhilosophy({ reducedMotion = false }: IdentityPh
               Academic &amp; AI Specialization
             </div>
             <p className="text-xs text-neutral-400 font-mono leading-relaxed">
-              PES College of Engineering, Dr. D. Y. Patil Vidyapeeth &amp; IIT Madras Pravartak Advanced Certificate.
+              PES College of Engineering, Dr. D. Y. Patil Vidyapeeth (MBA in AI &amp; ML).
             </p>
           </div>
         </div>

@@ -3,6 +3,10 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
 import { SITE_CONFIG } from '../data/config';
 
+const NAV_ITEMS = SITE_CONFIG.navLinks.filter(
+  (link) => link.href !== '#home' && link.href !== '#contact'
+);
+
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -11,30 +15,20 @@ export default function Navigation() {
   const drawerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 30);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 12);
+    handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
 
-    const sections = SITE_CONFIG.navLinks
-      .filter((link) => link.href.startsWith('#'))
-      .map((link) => link.href.replace('#', ''));
-    const observerOptions = {
-      root: null,
-      rootMargin: '-20% 0px -60% 0px',
-      threshold: 0
-    };
-
-    const observerCallback: IntersectionObserverCallback = (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
-    sections.forEach((id) => {
+    const ids = SITE_CONFIG.navLinks.map((link) => link.href.replace('#', ''));
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActiveSection(entry.target.id);
+        });
+      },
+      { rootMargin: '-35% 0px -60% 0px', threshold: 0 }
+    );
+    ids.forEach((id) => {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
     });
@@ -45,19 +39,21 @@ export default function Navigation() {
     };
   }, []);
 
+  // Mobile drawer: lock scroll, trap focus, close on Escape, restore focus.
   useEffect(() => {
     if (!isOpen) return;
     const previousOverflow = document.body.style.overflow;
-    const firstItem = drawerRef.current?.querySelector<HTMLElement>('a[href], button:not([disabled])');
-    firstItem?.focus();
+    drawerRef.current?.querySelector<HTMLElement>('a[href], button:not([disabled])')?.focus();
+
     const handleKeyboard = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setIsOpen(false);
-        menuButtonRef.current?.focus();
         return;
       }
       if (event.key !== 'Tab' || !drawerRef.current) return;
-      const focusable = Array.from(drawerRef.current.querySelectorAll<HTMLElement>('a[href], button:not([disabled])'));
+      const focusable = Array.from(
+        drawerRef.current.querySelectorAll<HTMLElement>('a[href], button:not([disabled])')
+      );
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
       if (!first || !last) return;
@@ -69,8 +65,10 @@ export default function Navigation() {
         first.focus();
       }
     };
+
     document.body.style.overflow = 'hidden';
     window.addEventListener('keydown', handleKeyboard);
+
     return () => {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener('keydown', handleKeyboard);
@@ -78,90 +76,87 @@ export default function Navigation() {
     };
   }, [isOpen]);
 
+  // Close the drawer if the viewport grows to desktop width.
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1024px)');
+    const onChange = () => mq.matches && setIsOpen(false);
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, []);
+
   const closeMenu = () => setIsOpen(false);
 
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 pointer-events-none ${
-          scrolled
-            ? 'py-2.5 bg-[#08080A]/85 backdrop-blur-xl border-b border-white/[0.06] shadow-xl'
-            : 'py-3 sm:py-4 bg-transparent'
+        className={`sticky top-0 z-50 border-b transition-[background-color,border-color] duration-300 ${
+          scrolled || isOpen
+            ? 'bg-ivory/92 backdrop-blur-md border-line'
+            : 'bg-ivory border-transparent'
         }`}
-        style={{
-          paddingTop: 'max(0.6rem, env(safe-area-inset-top, 0.6rem))',
-        }}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between pointer-events-auto">
-          {/* Logo & Identity */}
-          <a href="#home" className="flex items-center gap-2.5 group">
-            <div className="w-7 h-7 rounded-lg overflow-hidden border border-white/10 p-0.5 bg-white/5 flex items-center justify-center transition-transform group-hover:scale-105">
-              <img
-                src="/Photos/My Logo.png"
-                alt="Logo"
-                className="h-full w-auto object-contain filter invert opacity-90 group-hover:opacity-100 transition-opacity"
-              />
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-bold tracking-wider text-white uppercase font-mono">
-                {SITE_CONFIG.alias}
-              </span>
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            </div>
+        <div className="wrap flex h-[var(--nav-height)] items-center justify-between gap-6">
+          {/* Brand */}
+          <a href="#home" className="flex items-center gap-3 shrink-0" aria-label="Kamel Shah — back to top">
+            <img
+              src={SITE_CONFIG.logo}
+              alt=""
+              width={1021}
+              height={448}
+              className="h-6 w-auto"
+            />
+            <span className="text-[0.8125rem] font-semibold tracking-[0.2em] text-ink">
+              KAMEL SHAH
+            </span>
           </a>
 
-          {/* Desktop Nav - Minimal Floating Pill (>= 1200px Desktop) */}
-          <nav className="hidden xl:flex items-center gap-1 bg-black/40 backdrop-blur-md border border-white/[0.08] rounded-full px-3 py-1 shadow-sm">
-            {SITE_CONFIG.navLinks.map((link) => {
-              const sectionId = link.href.replace('#', '');
-              const isActive = activeSection === sectionId;
+          {/* Desktop navigation */}
+          <nav aria-label="Primary" className="hidden lg:flex items-center gap-7">
+            {NAV_ITEMS.map((link) => {
+              const isActive = activeSection === link.href.slice(1);
               return (
                 <a
                   key={link.label}
                   href={link.href}
-                  className={`relative px-2.5 py-1 text-[11px] font-mono uppercase tracking-wider transition-colors duration-200 rounded-full ${
-                    isActive ? 'text-white font-semibold' : 'text-neutral-400 hover:text-neutral-200'
+                  aria-current={isActive ? 'true' : undefined}
+                  className={`relative py-1 text-[0.8125rem] transition-colors duration-200 ${
+                    isActive ? 'text-ink' : 'text-muted hover:text-ink'
                   }`}
                 >
-                  {isActive && (
-                    <motion.div
-                      layoutId="activeNavIndicator"
-                      className="absolute inset-0 bg-white/10 border border-white/15 rounded-full"
-                      transition={{ type: 'spring', stiffness: 400, damping: 32 }}
-                    />
-                  )}
-                  <span className="relative z-10">{link.label}</span>
+                  {link.label}
+                  <span
+                    aria-hidden="true"
+                    className={`absolute -bottom-0.5 left-0 h-px w-full origin-left bg-ink transition-transform duration-300 ${
+                      isActive ? 'scale-x-100' : 'scale-x-0'
+                    }`}
+                  />
                 </a>
               );
             })}
           </nav>
 
-          {/* Right Action */}
-          <div className="hidden xl:flex items-center gap-3">
-            <a
-              href="#contact"
-              className="warm-action inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider px-4 py-2 rounded-full font-bold transition-all duration-200 hover:scale-105 active:scale-95"
-            >
-              <span>Let's Connect</span>
-              <ArrowUpRight size={13} />
+          <div className="flex items-center gap-2">
+            <a href="#contact" className="btn btn-primary btn-sm hidden sm:inline-flex">
+              Contact
+              <ArrowUpRight size={14} aria-hidden="true" />
             </a>
-          </div>
 
-          {/* Mobile & Tablet Toggle Button (Touch-Friendly 44px min target) */}
-          <button
-            ref={menuButtonRef}
-            className="xl:hidden relative z-50 text-white w-11 h-11 flex items-center justify-center rounded-xl bg-white/[0.06] hover:bg-white/10 border border-white/15 focus:outline-none transition-colors cursor-pointer"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
-            aria-expanded={isOpen}
-            aria-controls="mobile-navigation"
-          >
-            {isOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
+            <button
+              ref={menuButtonRef}
+              type="button"
+              onClick={() => setIsOpen((open) => !open)}
+              className="lg:hidden inline-flex h-11 w-11 items-center justify-center rounded-full border border-line text-ink transition-colors hover:border-ink"
+              aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={isOpen}
+              aria-controls="mobile-navigation"
+            >
+              {isOpen ? <X size={18} /> : <Menu size={18} />}
+            </button>
+          </div>
         </div>
       </header>
 
-      {/* Mobile Drawer */}
+      {/* Mobile drawer */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -169,70 +164,41 @@ export default function Navigation() {
             id="mobile-navigation"
             role="dialog"
             aria-modal="true"
-            aria-label="Mobile navigation"
-            initial={{ opacity: 0, y: -15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -15 }}
+            aria-label="Site navigation"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 bg-[#08080A]/98 backdrop-blur-2xl flex flex-col justify-between p-5 sm:p-6 xl:hidden overflow-y-auto"
-            style={{
-              paddingTop: 'max(5rem, calc(env(safe-area-inset-top, 0px) + 4rem))',
-              paddingBottom: 'max(1.5rem, calc(env(safe-area-inset-bottom, 0px) + 1rem))',
-              paddingLeft: 'max(1.25rem, env(safe-area-inset-left, 1.25rem))',
-              paddingRight: 'max(1.25rem, env(safe-area-inset-right, 1.25rem))',
-            }}
+            className="fixed inset-x-0 bottom-0 top-[var(--nav-height)] z-[45] overflow-y-auto bg-ivory lg:hidden"
           >
-            <div className="flex flex-col gap-1.5">
-              <div className="flex items-center gap-3 pb-4 border-b border-white/10 mb-3">
-                <div className="w-9 h-9 rounded-lg overflow-hidden border border-white/10 p-1 bg-white/5 flex items-center justify-center">
-                  <img src="/Photos/My Logo.png" alt="Logo" className="h-full w-auto object-contain filter invert" />
-                </div>
-                <div>
-                  <span className="text-sm font-bold tracking-wider text-white uppercase font-mono block">
-                    {SITE_CONFIG.primaryName}
-                  </span>
-                  <span className="text-[10px] text-neutral-400 font-mono">
-                    {SITE_CONFIG.fullName}
-                  </span>
-                </div>
-              </div>
+            <div
+              className="wrap flex min-h-full flex-col justify-between pt-6"
+              style={{ paddingBottom: 'max(2rem, calc(env(safe-area-inset-bottom, 0px) + 1.5rem))' }}
+            >
+              <nav aria-label="Mobile" className="flex flex-col">
+                {SITE_CONFIG.navLinks.map((link, i) => (
+                  <motion.a
+                    key={link.label}
+                    href={link.href}
+                    onClick={closeMenu}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.35, delay: 0.03 * i, ease: [0.16, 1, 0.3, 1] }}
+                    className="flex items-baseline justify-between border-b border-line py-3.5 font-serif text-[1.65rem] leading-tight text-ink"
+                  >
+                    <span>{link.label}</span>
+                    <span className="font-sans text-xs text-muted">0{i + 1}</span>
+                  </motion.a>
+                ))}
+              </nav>
 
-              {SITE_CONFIG.navLinks.map((link, idx) => (
-                <motion.a
-                  key={link.label}
-                  href={link.href}
-                  onClick={closeMenu}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: idx * 0.03 }}
-                  className="min-h-[44px] py-2.5 px-1 text-base font-semibold text-neutral-300 hover:text-white uppercase tracking-wider flex items-center justify-between border-b border-white/[0.04]"
-                >
-                  <span>{link.label}</span>
-                  <ArrowUpRight size={14} className="text-neutral-500" />
-                </motion.a>
-              ))}
-            </div>
-
-            <div className="pt-5 border-t border-white/10 space-y-2.5">
-              <a
-                href="#contact"
-                onClick={closeMenu}
-                className="warm-action w-full min-h-[44px] py-3 rounded-full font-bold text-xs uppercase tracking-wider text-center flex items-center justify-center gap-2"
-              >
-                <span>Let's Connect</span>
-                <ArrowUpRight size={14} />
-              </a>
-
-              <a
-                href={SITE_CONFIG.resume}
-                download
-                onClick={closeMenu}
-                className="warm-action w-full min-h-[44px] py-3 rounded-full font-bold text-xs uppercase tracking-wider text-center block transition-colors"
-              >
-                Download Resume
-              </a>
-              <div className="text-center text-[10px] font-mono text-neutral-500 pt-1">
-                &copy; {new Date().getFullYear()} {SITE_CONFIG.alias}
+              <div className="mt-10 grid gap-3">
+                <a href="#contact" onClick={closeMenu} className="btn btn-primary w-full">
+                  Contact Me
+                </a>
+                <a href={SITE_CONFIG.resume} download onClick={closeMenu} className="btn btn-quiet w-full">
+                  Download Resume
+                </a>
               </div>
             </div>
           </motion.div>

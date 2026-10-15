@@ -1,84 +1,101 @@
-import { motion } from 'motion/react';
-import { ArrowRight } from 'lucide-react';
+import { SITE_CONFIG } from '../data/config';
+import Reveal from '../components/Reveal';
+
+const DETAILS = [
+  {
+    label: 'Education',
+    items: [
+      'B.Tech, Electronics & Computer Engineering — PES College of Engineering, Aurangabad (DBATU). Expected 2026.',
+      'MBA, Artificial Intelligence & Machine Learning — Dr. D. Y. Patil Vidyapeeth, Pune. Pursuing, 2026 – present.'
+    ]
+  },
+  {
+    label: 'Interests',
+    items: ['Full-stack web applications, REST API design, interface design, and practical applications of agentic AI.']
+  },
+  {
+    label: 'Practice',
+    items: [
+      'eCommerce platforms, institutional portals, and business websites — alongside hands-on IT support for a multi-school education society.'
+    ]
+  }
+];
 
 export default function About() {
-  const highlightPoints = [
-    "Final-year B.Tech Electronics & Computer Engineering candidate (Expected 2026)",
-    "Pursuing MBA in Artificial Intelligence & Machine Learning (2026–Present)",
-    "Full-stack web projects using React, Node.js, Express, MongoDB, PHP, Laravel",
-    "Professional IT support experience across 5 schools"
-  ];
-
   return (
-    <section id="about" className="section-container px-6 bg-[#0A0A0A] relative overflow-hidden">
-      {/* Decorative gradient */}
-      <div className="absolute top-1/2 right-0 -translate-y-1/2 w-[600px] h-[600px] bg-white/[0.02] blur-[100px] rounded-full pointer-events-none" />
+    <section id="about" aria-labelledby="about-title" className="section">
+      <div className="wrap">
+        <header className="section-head">
+          <span className="section-index">01</span>
+          <span className="eyebrow">About</span>
+        </header>
 
-      <div className="max-w-7xl mx-auto w-full relative z-10">
-        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24">
-          
-          <div className="w-full lg:w-1/3">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">Who I Am.</h2>
-              <div className="h-[2px] w-24 bg-white/20 mb-8"></div>
-              <p className="text-[#A3A3A3] text-lg font-medium leading-relaxed max-w-sm">
-                Bridging the gap between software development, artificial intelligence, and practical IT infrastructure.
-              </p>
-            </motion.div>
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
+          <Reveal className="lg:col-span-5 lg:sticky lg:top-[calc(var(--nav-height)+2rem)] lg:self-start">
+            <figure className="mx-auto w-full max-w-[26rem] lg:max-w-none">
+              <div className="frame zoom-on-hover aspect-[1200/1490]">
+                <picture>
+                  <source srcSet={SITE_CONFIG.images.aboutWebp} type="image/webp" />
+                  <img
+                    src={SITE_CONFIG.images.about}
+                    alt="Black-and-white portrait of Mohammed Gous Ali Shah wearing a blazer"
+                    width={1200}
+                    height={1490}
+                    loading="lazy"
+                    decoding="async"
+                    className="object-cover object-[50%_20%]"
+                  />
+                </picture>
+              </div>
+              <figcaption className="mt-3 text-xs text-muted">Parbhani, Maharashtra</figcaption>
+            </figure>
+          </Reveal>
+
+          <div className="lg:col-span-7 min-w-0">
+            <Reveal>
+              <h2 id="about-title" className="h-section max-w-[18ch]">
+                Engineering for the web, grounded in everyday IT practice.
+              </h2>
+            </Reveal>
+
+            <Reveal delay={0.08}>
+              <div className="lead mt-8 max-w-[38rem] space-y-5">
+                <p>
+                  I am a final-year B.Tech candidate in Electronics &amp; Computer Engineering, concurrently
+                  pursuing an MBA in Artificial Intelligence and Machine Learning. My work brings modern
+                  full-stack web technologies together with the discipline of computer engineering.
+                </p>
+                <p>
+                  Across my projects I work with React, TypeScript, Node.js, Express, PHP, and Laravel —
+                  building responsive interfaces, clear MongoDB and MySQL data structures, and dependable
+                  REST APIs shaped around real operational needs.
+                </p>
+                <p>
+                  Since June 2023 I have also served as IT &amp; Technical Support Assistant for Kamel
+                  Education Society, looking after workstations, local networking, and administrative
+                  systems across its schools.
+                </p>
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.12}>
+              <dl className="mt-12 border-t border-line">
+                {DETAILS.map((row) => (
+                  <div
+                    key={row.label}
+                    className="grid grid-cols-1 gap-2 border-b border-line py-6 sm:grid-cols-[9rem_1fr] sm:gap-8"
+                  >
+                    <dt className="eyebrow pt-1">{row.label}</dt>
+                    <dd className="space-y-2 text-[0.9375rem] leading-relaxed text-ink-soft">
+                      {row.items.map((item) => (
+                        <p key={item}>{item}</p>
+                      ))}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </Reveal>
           </div>
-          
-          <div className="w-full lg:w-2/3 flex flex-col gap-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="prose prose-invert max-w-none"
-            >
-              <p className="text-xl md:text-2xl text-[#EDEDED] leading-relaxed font-medium mb-0">
-                I am a final-year B.Tech Electronics & Computer Engineering candidate (Expected 2026) pursuing an MBA in Artificial Intelligence & Machine Learning.
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="prose prose-invert max-w-none"
-            >
-              <p className="text-[#A3A3A3] text-lg leading-relaxed mb-6">
-                I have hands-on experience building full-stack web projects using React, Node.js, Express, MongoDB, PHP, and Laravel. I've developed eCommerce and institutional web platforms with responsive interfaces, REST APIs, database integration, and modern frontend technologies.
-              </p>
-              
-              <p className="text-[#A3A3A3] text-lg leading-relaxed mb-10">
-                My background combines practical software development projects with professional IT support experience and a strong foundation in AI/ML, enabling me to build robust, user-focused web experiences.
-              </p>
-            </motion.div>
-            
-            {/* Quick Highlights */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {highlightPoints.map((point, i) => (
-                <motion.div 
-                  key={i}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.5, delay: 0.3 + (i * 0.1), ease: [0.16, 1, 0.3, 1] }}
-                  className="flex items-start gap-4 p-5 rounded-xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] hover:border-white/10 transition-all duration-300"
-                >
-                  <ArrowRight size={18} className="text-white/40 shrink-0 mt-0.5" />
-                  <span className="text-[#EDEDED] text-sm font-medium leading-relaxed">{point}</span>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
         </div>
       </div>
     </section>

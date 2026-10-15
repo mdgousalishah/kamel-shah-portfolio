@@ -14,7 +14,6 @@ export default function CustomCursor() {
   const smoothY = useSpring(mouseY, springConfig);
 
   useEffect(() => {
-    // Detect touch-only screen
     if (window.matchMedia('(pointer: coarse)').matches) {
       setIsTouchDevice(true);
       return;
@@ -67,12 +66,12 @@ export default function CustomCursor() {
           translateY: '-50%'
         }}
         animate={{
-          scale: isHovered ? 1.8 : 1,
-          borderColor: isHovered ? 'rgba(34, 211, 238, 0.7)' : 'rgba(255, 255, 255, 0.3)',
-          backgroundColor: isHovered ? 'rgba(34, 211, 238, 0.08)' : 'rgba(255, 255, 255, 0)'
+          scale: isHovered ? 1.6 : 1,
+          borderColor: isHovered ? 'rgba(110, 116, 90, 0.7)' : 'rgba(25, 25, 25, 0.25)',
+          backgroundColor: isHovered ? 'rgba(110, 116, 90, 0.08)' : 'rgba(25, 25, 25, 0)'
         }}
         transition={{ duration: 0.15, ease: 'easeOut' }}
-        className="w-9 h-9 rounded-full border border-white/30 backdrop-blur-[1px]"
+        className="w-8 h-8 rounded-full border border-[#191919]/25 pointer-events-none"
       />
 
       {/* Center Precise Dot */}
@@ -87,7 +86,7 @@ export default function CustomCursor() {
           scale: isHovered ? 0 : 1
         }}
         transition={{ duration: 0.1 }}
-        className="w-1.5 h-1.5 bg-white rounded-full"
+        className="w-1.5 h-1.5 bg-[#191919] rounded-full pointer-events-none"
       />
     </div>
   );

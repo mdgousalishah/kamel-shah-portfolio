@@ -9,7 +9,7 @@ export const CHATBOT_KNOWLEDGE = {
     positioning: "Electronics & Computer Engineer • Full-Stack Developer • Agentic AI Developer",
     specialties: ["Full-Stack Web Development", "React 19", "TypeScript", "Node.js", "Express.js", "PHP & Laravel", "MongoDB", "PostgreSQL", "Generative AI", "Agentic AI"],
     location: "Parbhani, Maharashtra, India",
-    summary: "Kamel Shah, also known professionally as Mohammed Gous Ali Shah, is an Electronics & Computer Engineering student at PES College of Engineering, Aurangabad (Expected 2026) concurrently pursuing an Online MBA in Artificial Intelligence & Machine Learning at Dr. D. Y. Patil Vidyapeeth, Pune (2026–2028). He completed his B.A. from YCMOU (2026) and is enrolled in the Advanced Certificate in UI-UX Design with Agentic AI and GenAI from IIT Madras Pravartak. He completed a software engineering job simulation with Deloitte / Forage (September 2026), builds full-stack applications, secure REST APIs, and has hands-on IT operations experience across 5 schools for Kamel Education Society."
+    summary: "Kamel Shah, also known professionally as Mohammed Gous Ali Shah, is an Electronics & Computer Engineering student at PES College of Engineering, Aurangabad (Expected 2026) concurrently pursuing an Online MBA in Artificial Intelligence & Machine Learning at Dr. D. Y. Patil Vidyapeeth, Pune (2026–2028). He completed his B.A. from YCMOU (2026). He completed a software engineering job simulation with Deloitte / Forage (September 2026), builds full-stack applications, secure REST APIs, and has hands-on IT operations experience across 5 schools for Kamel Education Society."
   },
   experience: [
     {
@@ -55,12 +55,7 @@ export const CHATBOT_KNOWLEDGE = {
       field: "Humanities & Social Sciences",
       duration: "Completed 2026"
     },
-    {
-      degree: "Advanced Certificate in UI-UX Design with Agentic AI and GenAI",
-      institution: "IIT Madras Pravartak Technologies Foundation",
-      field: "UI/UX Design • User-Centered Design • Generative AI • Agentic AI",
-      duration: "2026 – 2027 (In Progress)"
-    }
+
   ],
   projects: [
     {
@@ -132,11 +127,7 @@ export const CHATBOT_KNOWLEDGE = {
       year: "September 26, 2026",
       details: "Completed practical tasks in Coding and Development."
     },
-    {
-      name: "Advanced Certificate in UI-UX Design with Agentic AI and GenAI",
-      issuer: "IIT Madras Pravartak Technologies Foundation",
-      year: "2026–2027 (In Progress)"
-    },
+
     {
       name: "The AI Masterclass",
       issuer: "Dhruv Rathee Academy",

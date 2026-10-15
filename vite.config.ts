@@ -1,12 +1,14 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { chatApiRouter } from './src/server/chatApi';
+import { contactApiRouter } from './src/server/contactApi';
 import { loadEnv } from 'vite';
 import path from 'path';
 import {defineConfig} from 'vite';
 
 const attachChatApi = (server: { middlewares: { use: (path: string, handler: typeof chatApiRouter) => void } }) => {
   server.middlewares.use('/api', chatApiRouter);
+  server.middlewares.use('/api/contact', contactApiRouter);
 };
 
 export default defineConfig(({ mode }) => {

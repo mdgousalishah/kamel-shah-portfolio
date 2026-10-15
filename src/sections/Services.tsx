@@ -1,118 +1,66 @@
-import { motion } from 'motion/react';
-import { Globe, Layout, Search, ArrowUpRight } from 'lucide-react';
+import { Globe, LayoutTemplate, Wrench, Search } from 'lucide-react';
+import Reveal from '../components/Reveal';
 
 const services = [
   {
-    number: "01",
-    title: "Full-Stack Web Development",
+    title: 'Web Development',
     icon: Globe,
-    description: "Architecting end-to-end web applications with modular components, secure RESTful APIs, and scalable database schemas.",
-    deliverables: [
-      "Modern Web & SaaS Systems (React / Vite)",
-      "Node.js & Express REST APIs",
-      "Database Modeling (MongoDB, MySQL, PostgreSQL)",
-      "Authentication & Secure CRUD Operations"
-    ]
+    desc: 'Full-stack web applications with modular architecture, RESTful API endpoints, and structured database models using Node.js, Express, PHP, Laravel, MySQL, and MongoDB.',
+    details: ['Full-stack architecture', 'REST API development', 'Database schema design', 'Authentication & CRUD']
   },
   {
-    number: "02",
-    title: "Frontend Engineering & UI/UX",
-    icon: Layout,
-    description: "Building responsive, pixel-accurate web interfaces with smooth micro-interactions, clean typography, and fast load times.",
-    deliverables: [
-      "Tailwind CSS & Modern CSS Architecture",
-      "TypeScript Component Architecture",
-      "Mobile-First Responsive Layouts",
-      "UI/UX Design & AI-Assisted Workflows"
-    ]
+    title: 'Frontend Development',
+    icon: LayoutTemplate,
+    desc: 'Responsive, accessible interfaces built with React, TypeScript, and modern CSS — prioritising readability, consistency, and fast load times on every screen.',
+    details: ['React & TypeScript', 'Mobile-first layouts', 'Reusable components', 'Interface performance']
   },
   {
-    number: "03",
-    title: "Digital Marketing & Technical SEO",
+    title: 'Website Maintenance & Support',
+    icon: Wrench,
+    desc: 'Troubleshooting, updates, and ongoing maintenance for educational platforms, institutional portals, and business websites.',
+    details: ['Platform troubleshooting', 'Routine maintenance', 'Institutional IT setup', 'Content & asset updates']
+  },
+  {
+    title: 'Digital Marketing & Technical SEO',
     icon: Search,
-    description: "Practical web visibility optimization, on-page SEO best practices, structured metadata, and fast mobile performance.",
-    deliverables: [
-      "On-Page Technical SEO",
-      "Semantic HTML & Metadata",
-      "Core Web Vitals & Speed Optimization",
-      "Squarespace & CMS Deployment"
-    ]
+    desc: 'Search visibility through semantic markup, on-page SEO practice, meta configuration, and performance tuning.',
+    details: ['On-page SEO', 'Semantic markup', 'Performance tuning', 'CMS & Squarespace support']
   }
 ];
 
 export default function Services() {
   return (
-    <section id="services" className="relative w-full py-20 md:py-28 px-6 lg:px-12 bg-[#0B0C10] border-t border-white/[0.06] scroll-mt-[50px] z-10">
-      <div className="max-w-7xl mx-auto w-full">
-        {/* Editorial Section Label */}
-        <div className="flex items-center justify-between pb-8 border-b border-white/[0.08] mb-12 md:mb-16">
-          <div className="flex items-center gap-3">
-            <span className="text-xs font-mono text-indigo-400 uppercase tracking-widest font-bold">
-              05 / CORE SERVICES & OFFERINGS
-            </span>
-            <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
-          </div>
-          <span className="text-xs font-mono text-neutral-500 uppercase tracking-widest hidden sm:inline">
-            PRACTICAL SPECIALIZATIONS
-          </span>
-        </div>
+    <section id="services" aria-labelledby="services-title" className="section">
+      <div className="wrap">
+        <header className="section-head">
+          <span className="section-index">05</span>
+          <span className="eyebrow">Services</span>
+        </header>
 
-        {/* Monumental Headline */}
-        <h2 className="text-[clamp(2.25rem,4.5vw,4.25rem)] font-bold text-white leading-[1.08] tracking-tight max-w-4xl mb-6">
-          Practical offerings tailored to business outcomes.
-        </h2>
-        <p className="text-neutral-400 text-base md:text-lg max-w-2xl leading-relaxed mb-16">
-          Clean, maintainable web engineering focused on speed, usability, and modern digital visibility without inflated claims.
-        </p>
+        <Reveal>
+          <h2 id="services-title" className="h-section max-w-[18ch]">
+            How I can help with your next project.
+          </h2>
+        </Reveal>
 
-        {/* Editorial Services Grid (Large Numbers, Fine Hairlines, Zero Clunky Cards) */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 divide-y lg:divide-y-0 lg:divide-x divide-white/[0.08] border-y border-white/[0.08]">
-          {services.map((service, index) => {
-            const Icon = service.icon;
+        <div className="mt-12 grid grid-cols-1 border-t border-ink md:grid-cols-2 lg:mt-16">
+          {services.map((svc, i) => {
+            const Icon = svc.icon;
             return (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.45, delay: index * 0.08 }}
-                className="py-10 lg:py-12 px-0 lg:px-8 first:lg:pl-0 last:lg:pr-0 flex flex-col justify-between group"
+              <Reveal
+                key={svc.title}
+                delay={(i % 2) * 0.06}
+                className={`border-b border-line py-9 md:py-12 ${
+                  i % 2 === 0 ? 'md:border-r md:pr-10' : 'md:pl-10'
+                }`}
               >
-                <div>
-                  {/* Large Editorial Number & Icon */}
-                  <div className="flex items-center justify-between mb-8">
-                    <span className="text-4xl lg:text-5xl font-mono font-bold text-neutral-600 group-hover:text-indigo-400 transition-colors">
-                      {service.number}
-                    </span>
-                    <div className="w-9 h-9 rounded-lg bg-white/[0.03] border border-white/[0.06] flex items-center justify-center text-neutral-400 group-hover:text-white transition-colors">
-                      <Icon size={18} />
-                    </div>
-                  </div>
-
-                  <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-indigo-200 transition-colors">
-                    {service.title}
-                  </h3>
-
-                  <p className="text-sm text-neutral-400 leading-relaxed mb-8">
-                    {service.description}
-                  </p>
+                <div className="flex items-start justify-between gap-6">
+                  <h3 className="font-serif text-[1.6rem] leading-tight text-ink">{svc.title}</h3>
+                  <Icon size={22} strokeWidth={1.25} className="mt-1 shrink-0 text-muted" aria-hidden="true" />
                 </div>
-
-                {/* Deliverables List */}
-                <div className="pt-6 border-t border-white/[0.06]">
-                  <span className="text-[11px] font-mono text-neutral-500 uppercase tracking-wider block mb-3 font-semibold">
-                    Deliverables
-                  </span>
-                  <ul className="space-y-2">
-                    {service.deliverables.map((item, i) => (
-                      <li key={i} className="text-xs text-neutral-300 flex items-center gap-2 font-mono">
-                        <span className="w-1 h-1 rounded-full bg-indigo-400" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </motion.div>
+                <p className="mt-4 max-w-[32rem] text-[0.9375rem] leading-relaxed text-ink-soft">{svc.desc}</p>
+                <p className="mt-5 text-sm text-muted">{svc.details.join('  ·  ')}</p>
+              </Reveal>
             );
           })}
         </div>

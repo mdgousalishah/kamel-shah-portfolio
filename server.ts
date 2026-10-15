@@ -3,6 +3,7 @@ import express from 'express';
 import path from 'node:path';
 import { existsSync } from 'node:fs';
 import { chatApiRouter } from './src/server/chatApi';
+import { contactApiRouter } from './src/server/contactApi';
 
 const app = express();
 const port = Number(process.env.PORT) || 3000;
@@ -15,6 +16,7 @@ if (!existsSync(path.join(distDirectory, 'index.html'))) {
 
 app.disable('x-powered-by');
 app.use('/api', chatApiRouter);
+app.use('/api/contact', contactApiRouter);
 app.get('/kamel-shah', (_req, res) => res.sendFile(path.join(distDirectory, 'kamel-shah', 'index.html')));
 app.use(express.static(distDirectory, {
   setHeaders(res, filePath) {

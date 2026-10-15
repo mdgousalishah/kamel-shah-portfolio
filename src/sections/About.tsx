@@ -1,5 +1,6 @@
 import { SITE_CONFIG } from '../data/config';
 import Reveal from '../components/Reveal';
+import Depth from '../components/Depth';
 
 const DETAILS = [
   {
@@ -33,6 +34,7 @@ export default function About() {
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
           <Reveal className="lg:col-span-5 lg:sticky lg:top-[calc(var(--nav-height)+2rem)] lg:self-start">
             <figure className="mx-auto w-full max-w-[26rem] lg:max-w-none">
+              <Depth strength={6} tilt>
               <div className="frame zoom-on-hover aspect-[1200/1490]">
                 <picture>
                   <source srcSet={SITE_CONFIG.images.aboutWebp} type="image/webp" />
@@ -47,6 +49,7 @@ export default function About() {
                   />
                 </picture>
               </div>
+              </Depth>
               <figcaption className="mt-3 text-xs text-muted">Parbhani, Maharashtra</figcaption>
             </figure>
           </Reveal>

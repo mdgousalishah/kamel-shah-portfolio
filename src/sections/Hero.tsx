@@ -1,5 +1,6 @@
 import { ArrowDown, ArrowUpRight, Download } from 'lucide-react';
 import { SITE_CONFIG } from '../data/config';
+import Depth from '../components/Depth';
 
 const FACTS = [
   { label: 'Focus', value: 'Full-stack web development' },
@@ -55,6 +56,7 @@ export default function Hero() {
 
           {/* Portrait column */}
           <figure className="lg:col-span-5 mx-auto w-full max-w-[26rem] sm:max-w-[28rem] lg:max-w-none">
+            <Depth strength={6} tilt>
             <div className="frame unveil aspect-[1200/1490]">
               <picture>
                 <source srcSet={SITE_CONFIG.images.heroWebp} type="image/webp" />
@@ -69,6 +71,7 @@ export default function Hero() {
                 />
               </picture>
             </div>
+            </Depth>
             <figcaption className="rise d-5 mt-3 flex items-center justify-between text-xs text-muted">
               <span>Mohammed Gous Ali Shah</span>
               <span className="font-serif italic">Kamel Shah</span>

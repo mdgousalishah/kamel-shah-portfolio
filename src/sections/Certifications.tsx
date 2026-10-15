@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { X, ArrowUpRight, Maximize2 } from 'lucide-react';
 import { CERTIFICATIONS, type Certification } from '../data/certifications';
 import Reveal from '../components/Reveal';
+import Depth from '../components/Depth';
 
 /** Lightweight thumbnail copy; the original file is still used in the lightbox. */
 const thumbFor = (image: string) => {
@@ -99,6 +100,7 @@ export default function Certifications() {
                 aria-label={`View certificate: ${cert.title}, ${cert.issuer}`}
                 className="group block w-full text-left"
               >
+                <Depth strength={5} tilt tiltStrength={4}>
                 <div className="frame zoom-on-hover relative aspect-[4/3] bg-paper p-3">
                   <CertThumb cert={cert} />
                   <span
@@ -108,6 +110,7 @@ export default function Certifications() {
                     <Maximize2 size={14} />
                   </span>
                 </div>
+                </Depth>
                 <div className="mt-4 flex items-baseline justify-between gap-4">
                   <span className="eyebrow truncate">{cert.category || 'Certificate'}</span>
                   {cert.date && <span className="shrink-0 text-xs text-muted">{cert.date}</span>}

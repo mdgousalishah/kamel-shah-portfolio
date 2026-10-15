@@ -3,6 +3,7 @@ import { ArrowUpRight } from 'lucide-react';
 import { PROJECTS, type Project } from '../data/projects';
 import { SITE_CONFIG } from '../data/config';
 import Reveal from '../components/Reveal';
+import Depth from '../components/Depth';
 
 /** A GitHub link that is just the profile root is labelled honestly, not as a repository. */
 const sourceLabel = (url: string) =>
@@ -12,6 +13,7 @@ function ProjectImage({ project, priority = false }: { project: Project; priorit
   const [failed, setFailed] = useState(false);
 
   return (
+    <Depth strength={10} tilt>
     <div className="frame zoom-on-hover aspect-[16/10]">
       {failed ? (
         <div className="flex h-full w-full flex-col items-center justify-center gap-2 p-6 text-center">
@@ -34,6 +36,7 @@ function ProjectImage({ project, priority = false }: { project: Project; priorit
         </picture>
       )}
     </div>
+    </Depth>
   );
 }
 

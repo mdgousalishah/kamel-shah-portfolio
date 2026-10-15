@@ -11,7 +11,7 @@ interface RevealProps {
 }
 
 /**
- * Short fade-and-rise entrance, triggered once when the element enters the viewport.
+ * Short fade-and-rise entrance with a slight 3D flip-up, triggered once when the element enters the viewport.
  * Content is never hidden for users who prefer reduced motion.
  */
 export default function Reveal({ children, className, delay = 0, y = 16, as = 'div' }: RevealProps) {
@@ -24,8 +24,9 @@ export default function Reveal({ children, className, delay = 0, y = 16, as = 'd
   return (
     <MotionTag
       className={className}
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y, rotateX: 12 }}
+      whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+      style={{ transformPerspective: 1000, originY: 0 }}
       viewport={{ once: true, margin: '0px 0px -8% 0px' }}
       transition={{ duration: 0.75, delay, ease: [0.16, 1, 0.3, 1] }}
     >

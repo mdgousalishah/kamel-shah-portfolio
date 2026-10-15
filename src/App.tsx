@@ -14,6 +14,7 @@ import Contact from './sections/Contact';
 import Footer from './components/Footer';
 import Chatbot from './components/Chatbot';
 import KamelShahProfile from './pages/KamelShahProfile';
+import Showcase from './pages/Showcase';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -25,6 +26,7 @@ export default function App() {
   });
 
   const isProfileRoute = currentPath.toLowerCase().includes('kamel-shah');
+  const isShowcaseRoute = currentPath.toLowerCase().startsWith('/showcase');
 
   useEffect(() => {
     const handlePopState = () => {
@@ -78,17 +80,20 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen w-full bg-ivory font-sans text-ink">
-      <a className="skip-link" href="#main-content">Skip to main content</a>
+      {!isShowcaseRoute && <a className="skip-link" href="#main-content">Skip to main content</a>}
 
       {/* Thin reading-progress hairline */}
-      <ScrollProgress />
+      {!isShowcaseRoute && <ScrollProgress />}
 
       {/* Brief branded intro (logo) */}
       <AnimatePresence mode="wait">
-        {loading && <Preloader key="preloader" onComplete={finishLoading} />}
+        {loading && !isShowcaseRoute && <Preloader key="preloader" onComplete={finishLoading} />}
       </AnimatePresence>
 
-      {isProfileRoute ? (
+      {isShowcaseRoute ? (
+        /* Experimental museum + parallax landing page */
+        <Showcase />
+      ) : isProfileRoute ? (
         /* Dedicated Kamel Shah identity profile page */
         <KamelShahProfile onNavigateHome={navigateToHome} />
       ) : (
@@ -110,7 +115,7 @@ export default function App() {
       )}
 
       {/* Portfolio assistant */}
-      <Chatbot />
+      {!isShowcaseRoute && <Chatbot />}
     </div>
   );
 }

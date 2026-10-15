@@ -1,4 +1,5 @@
 import Reveal from '../components/Reveal';
+import { Headline } from '../components/Motion';
 
 interface EducationItem {
   degree: string;
@@ -46,13 +47,11 @@ export default function Education() {
         </header>
 
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-16">
-          <Reveal className="lg:col-span-4">
-            <h2 id="education-title" className="h-section">Academic background.</h2>
-          </Reveal>
+          <Headline id="education-title" className="h-section" wrapperClassName="lg:col-span-4">Academic background.</Headline>
 
           <ol className="lg:col-span-8 border-t border-ink">
             {educationData.map((edu, i) => (
-              <Reveal
+              <Reveal from="right"
                 as="li"
                 key={edu.degree}
                 delay={i * 0.05}

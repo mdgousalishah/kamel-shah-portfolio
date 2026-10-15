@@ -1,6 +1,7 @@
 import { ArrowDown, ArrowUpRight, Download } from 'lucide-react';
 import { SITE_CONFIG } from '../data/config';
 import Depth from '../components/Depth';
+import { ScrollFade } from '../components/Motion';
 
 const FACTS = [
   { label: 'Focus', value: 'Full-stack web development' },
@@ -14,7 +15,7 @@ export default function Hero() {
       <div className="wrap pt-10 pb-16 sm:pt-14 md:pt-16 lg:pb-24">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-16">
           {/* Text column */}
-          <div className="lg:col-span-7 min-w-0">
+          <ScrollFade className="lg:col-span-7 min-w-0">
             <p className="eyebrow rise">Kamel Shah · Portfolio</p>
 
             <h1
@@ -52,7 +53,7 @@ export default function Hero() {
                 <ArrowUpRight size={14} aria-hidden="true" />
               </a>
             </div>
-          </div>
+          </ScrollFade>
 
           {/* Portrait column */}
           <figure className="lg:col-span-5 mx-auto w-full max-w-[26rem] sm:max-w-[28rem] lg:max-w-none">

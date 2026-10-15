@@ -339,13 +339,15 @@ button:hover > .zoom-on-hover img {
 /* ── Hero entrance (CSS only, runs once on load) ────────────── */
 
 @keyframes rise {
-  from { opacity: 0; transform: translateY(18px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translate3d(-34px, 10px, 0); filter: blur(6px); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); filter: blur(0); }
 }
 
 @keyframes unveil {
-  from { opacity: 0; clip-path: inset(8% 0 0 0); transform: scale(1.02); }
-  to   { opacity: 1; clip-path: inset(0 0 0 0); transform: scale(1); }
+  /* Morph: a soft circle grows into the full portrait frame. */
+  from { opacity: 0; clip-path: circle(14% at 50% 42%); transform: scale(0.94); }
+  40%  { opacity: 1; }
+  to   { opacity: 1; clip-path: circle(100% at 50% 50%); transform: scale(1); }
 }
 
 .rise {
@@ -355,7 +357,7 @@ button:hover > .zoom-on-hover img {
 
 .unveil {
   opacity: 0;
-  animation: unveil 1.2s var(--ease-out) 0.15s forwards;
+  animation: unveil 1.5s var(--ease-out) 0.15s forwards;
 }
 
 .d-1 { animation-delay: 0.08s; }
@@ -423,5 +425,6 @@ button:hover > .zoom-on-hover img {
     animation: none;
     clip-path: none;
     transform: none;
+    filter: none;
   }
 }

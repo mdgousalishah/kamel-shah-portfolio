@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { SITE_CONFIG, SOCIAL_LINKS, whatsappHref } from '../data/config';
 import { ArrowUpRight, CheckCircle, X, Loader2, AlertCircle } from 'lucide-react';
 import Reveal from '../components/Reveal';
+import { Headline } from '../components/Motion';
 
 // ── Success Toast ─────────────────────────────────────────────────────────────
 
@@ -177,15 +178,10 @@ export default function Contact() {
             <span className="eyebrow">Contact</span>
           </header>
 
-          <Reveal>
-            <h2
-              id="contact-title"
-              className="display max-w-[14ch] text-[clamp(2.6rem,7vw,5.75rem)] text-ink"
-            >
+          <Headline id="contact-title" className="display max-w-[14ch] text-[clamp(2.6rem,7vw,5.75rem)] text-ink">
               Let&rsquo;s build something useful together.
-            </h2>
-          </Reveal>
-          <Reveal delay={0.06}>
+            </Headline>
+          <Reveal from="left" delay={0.06}>
             <p className="lead mt-6 max-w-[36rem]">
               Open to full-stack development roles, technical collaborations, and web projects for
               businesses and institutions.
@@ -194,7 +190,7 @@ export default function Contact() {
 
           <div className="mt-14 grid grid-cols-1 gap-14 lg:mt-20 lg:grid-cols-12 lg:gap-16">
             {/* Direct channels */}
-            <Reveal className="lg:col-span-5">
+            <Reveal from="left" className="lg:col-span-5">
               <dl className="border-t border-ink">
                 {channels.map((c) => (
                   <div key={c.label} className="border-b border-line py-5">
@@ -234,7 +230,7 @@ export default function Contact() {
             </Reveal>
 
             {/* Form */}
-            <Reveal className="lg:col-span-7" delay={0.08}>
+            <Reveal from="right" blur={false} className="lg:col-span-7" delay={0.08}>
               <form
                 onSubmit={handleSubmit}
                 noValidate

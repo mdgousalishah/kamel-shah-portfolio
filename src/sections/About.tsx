@@ -1,5 +1,6 @@
 import { SITE_CONFIG } from '../data/config';
 import Reveal from '../components/Reveal';
+import { Headline, PhotoReveal } from '../components/Motion';
 import Depth from '../components/Depth';
 
 const DETAILS = [
@@ -32,36 +33,39 @@ export default function About() {
         </header>
 
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
-          <Reveal className="lg:col-span-5 lg:sticky lg:top-[calc(var(--nav-height)+2rem)] lg:self-start">
+          <div className="lg:col-span-5 lg:sticky lg:top-[calc(var(--nav-height)+2rem)] lg:self-start">
             <figure className="mx-auto w-full max-w-[26rem] lg:max-w-none">
+              <PhotoReveal from="left" radius={12}>
               <Depth strength={6} tilt>
-              <div className="frame zoom-on-hover aspect-[1200/1490]">
+              <div className="frame zoom-on-hover aspect-square rounded-xl border-0 bg-[#1b1622] shadow-[0_24px_60px_-28px_rgba(36,36,36,0.55)]">
                 <picture>
                   <source srcSet={SITE_CONFIG.images.aboutWebp} type="image/webp" />
                   <img
                     src={SITE_CONFIG.images.about}
-                    alt="Black-and-white portrait of Mohammed Gous Ali Shah wearing a blazer"
-                    width={1200}
-                    height={1490}
+                    alt="Illustrated portrait of Mohammed Gous Ali Shah at his desk, surrounded by his tech stack, projects, and studies"
+                    width={1000}
+                    height={1000}
                     loading="lazy"
                     decoding="async"
-                    className="object-cover object-[50%_20%]"
+                    className="object-cover"
                   />
                 </picture>
               </div>
               </Depth>
-              <figcaption className="mt-3 text-xs text-muted">Parbhani, Maharashtra</figcaption>
+              </PhotoReveal>
+              <figcaption className="mt-3 flex items-center justify-between text-xs text-muted">
+                <span>Illustrated portrait</span>
+                <span>Parbhani, Maharashtra</span>
+              </figcaption>
             </figure>
-          </Reveal>
+          </div>
 
           <div className="lg:col-span-7 min-w-0">
-            <Reveal>
-              <h2 id="about-title" className="h-section max-w-[18ch]">
+            <Headline id="about-title" className="h-section max-w-[18ch]">
                 Engineering for the web, grounded in everyday IT practice.
-              </h2>
-            </Reveal>
+              </Headline>
 
-            <Reveal delay={0.08}>
+            <Reveal from="right" delay={0.08}>
               <div className="lead mt-8 max-w-[38rem] space-y-5">
                 <p>
                   I am a final-year B.Tech candidate in Electronics &amp; Computer Engineering, concurrently
@@ -81,7 +85,7 @@ export default function About() {
               </div>
             </Reveal>
 
-            <Reveal delay={0.12}>
+            <Reveal from="right" delay={0.12}>
               <dl className="mt-12 border-t border-line">
                 {DETAILS.map((row) => (
                   <div

@@ -3,6 +3,7 @@ import { ArrowUpRight } from 'lucide-react';
 import { PROJECTS, type Project } from '../data/projects';
 import { SITE_CONFIG } from '../data/config';
 import Reveal from '../components/Reveal';
+import { Headline, PhotoReveal } from '../components/Motion';
 import Depth from '../components/Depth';
 
 /** A GitHub link that is just the profile root is labelled honestly, not as a repository. */
@@ -125,12 +126,10 @@ export default function Projects() {
         </header>
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-end">
-          <Reveal className="lg:col-span-7">
-            <h2 id="projects-title" className="h-section">
+          <Headline id="projects-title" className="h-section" wrapperClassName="lg:col-span-7">
               Selected work across eCommerce, institutions, and utilities.
-            </h2>
-          </Reveal>
-          <Reveal className="lg:col-span-5" delay={0.06}>
+            </Headline>
+          <Reveal from="right" className="lg:col-span-5" delay={0.06}>
             <p className="body-muted max-w-[30rem] lg:ml-auto">
               Five real projects — each shown with its own live screenshot, the stack it was built with,
               and a link where one is publicly available.
@@ -141,9 +140,9 @@ export default function Projects() {
         {/* Flagship project */}
         {flagship && (
           <article aria-labelledby={`project-${flagship.id}`} className="mt-14 lg:mt-20">
-            <Reveal>
+            <PhotoReveal from="bottom">
               <ProjectImage project={flagship} />
-            </Reveal>
+            </PhotoReveal>
             <Reveal delay={0.06} className="mt-8 grid grid-cols-1 lg:grid-cols-12 lg:gap-16">
               <div className="lg:col-span-8">
                 <ProjectMeta project={flagship} large />
@@ -162,10 +161,10 @@ export default function Projects() {
                 aria-labelledby={`project-${project.id}`}
                 className="grid grid-cols-1 items-center gap-8 border-t border-line pt-12 lg:grid-cols-12 lg:gap-14 lg:pt-16"
               >
-                <Reveal className={`lg:col-span-7 ${flip ? 'lg:order-2' : ''}`}>
+                <PhotoReveal from={flip ? 'right' : 'left'} className={`lg:col-span-7 ${flip ? 'lg:order-2' : ''}`}>
                   <ProjectImage project={project} />
-                </Reveal>
-                <Reveal
+                </PhotoReveal>
+                <Reveal from={flip ? 'left' : 'right'}
                   delay={0.06}
                   className={`lg:col-span-5 ${flip ? 'lg:order-1' : ''}`}
                 >

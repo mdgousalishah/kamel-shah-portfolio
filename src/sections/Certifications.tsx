@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { X, ArrowUpRight, Maximize2 } from 'lucide-react';
 import { CERTIFICATIONS, type Certification } from '../data/certifications';
 import Reveal from '../components/Reveal';
+import { Headline } from '../components/Motion';
 import Depth from '../components/Depth';
 
 /** Lightweight thumbnail copy; the original file is still used in the lightbox. */
@@ -80,10 +81,8 @@ export default function Certifications() {
         </header>
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-end">
-          <Reveal className="lg:col-span-7">
-            <h2 id="certifications-title" className="h-section">Certifications &amp; training.</h2>
-          </Reveal>
-          <Reveal className="lg:col-span-5" delay={0.06}>
+          <Headline id="certifications-title" className="h-section" wrapperClassName="lg:col-span-7">Certifications &amp; training.</Headline>
+          <Reveal from="right" className="lg:col-span-5" delay={0.06}>
             <p className="body-muted max-w-[30rem] lg:ml-auto">
               Coursework, job simulations, and programmes across cloud, software development, AI, and SEO.
               Select any certificate to view it in full.
@@ -93,7 +92,7 @@ export default function Certifications() {
 
         <ul className="mt-12 grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
           {certificates.map((cert, i) => (
-            <Reveal as="li" key={cert.id} delay={(i % 3) * 0.05}>
+            <Reveal as="li" from="zoom" blur={false} key={cert.id} delay={(i % 3) * 0.08}>
               <button
                 type="button"
                 onClick={(e) => open(cert, e.currentTarget)}

@@ -22,8 +22,8 @@ export const SITE_CONFIG = {
   images: {
     hero: "/Photos/hero-portrait.jpg",
     heroWebp: "/Photos/optimized/hero-portrait.webp",
-    about: "/Photos/about-portrait-bw.png",
-    aboutWebp: "/Photos/optimized/about-portrait-bw.webp"
+    about: "/Photos/about-illustration.jpg",
+    aboutWebp: "/Photos/optimized/about-illustration.webp"
   },
   socials: {
     github: "https://github.com/mdgousalishah",

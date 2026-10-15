@@ -1,4 +1,5 @@
 import Reveal from '../components/Reveal';
+import { Headline } from '../components/Motion';
 
 interface ExperienceItem {
   role: string;
@@ -48,15 +49,13 @@ export default function Experience() {
         </header>
 
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-16">
-          <Reveal className="lg:col-span-4">
-            <h2 id="experience-title" className="h-section">
+          <Headline id="experience-title" className="h-section" wrapperClassName="lg:col-span-4">
               Hands‑on roles in development and IT support.
-            </h2>
-          </Reveal>
+            </Headline>
 
           <ol className="lg:col-span-8 border-t border-ink">
             {experiences.map((exp, i) => (
-              <Reveal
+              <Reveal from="right"
                 as="li"
                 key={exp.company}
                 delay={i * 0.06}

@@ -1,5 +1,6 @@
 import { Globe, LayoutTemplate, Wrench, Search } from 'lucide-react';
 import Reveal from '../components/Reveal';
+import { Headline } from '../components/Motion';
 
 const services = [
   {
@@ -37,17 +38,15 @@ export default function Services() {
           <span className="eyebrow">Services</span>
         </header>
 
-        <Reveal>
-          <h2 id="services-title" className="h-section max-w-[18ch]">
+        <Headline id="services-title" className="h-section max-w-[18ch]">
             How I can help with your next project.
-          </h2>
-        </Reveal>
+          </Headline>
 
         <div className="mt-12 grid grid-cols-1 border-t border-ink md:grid-cols-2 lg:mt-16">
           {services.map((svc, i) => {
             const Icon = svc.icon;
             return (
-              <Reveal
+              <Reveal from={i % 2 === 0 ? 'left' : 'right'}
                 key={svc.title}
                 delay={(i % 2) * 0.06}
                 className={`border-b border-line py-9 md:py-12 ${

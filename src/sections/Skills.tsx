@@ -1,4 +1,5 @@
 import Reveal from '../components/Reveal';
+import { Headline } from '../components/Motion';
 
 const skillCategories = [
   {
@@ -36,11 +37,9 @@ export default function Skills() {
           <span className="eyebrow">Skills</span>
         </header>
 
-        <Reveal>
-          <h2 id="skills-title" className="h-section max-w-[20ch]">
+        <Headline id="skills-title" className="h-section max-w-[20ch]">
             The tools I work with, grouped by discipline.
-          </h2>
-        </Reveal>
+          </Headline>
 
         <div className="mt-12 grid grid-cols-1 gap-x-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
           {skillCategories.map((group, i) => (

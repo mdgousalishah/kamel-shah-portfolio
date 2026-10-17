@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import { AnimatePresence } from 'motion/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import ScrollProgress from './components/ScrollProgress';
 import Navigation from './components/Navigation';
 import Preloader from './components/Preloader';
@@ -117,6 +118,9 @@ export default function App() {
 
       {/* Portfolio assistant */}
       {!isShowcaseRoute && <Suspense fallback={null}><Chatbot /></Suspense>}
+
+      {/* Vercel Speed Insights */}
+      <SpeedInsights />
     </div>
   );
 }

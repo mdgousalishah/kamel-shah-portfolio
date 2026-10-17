@@ -18,10 +18,11 @@ export const SITE_CONFIG = {
   location: "Parbhani, Maharashtra, India",
   description: "Electronics & Computer Engineering professional focused on full-stack web development, practical technology solutions, and institutional IT operations.",
   resume: "/Photos/MOHAMMED%20GOUS%20ALI%20SHAH%20RESUME.pdf",
-  logo: "/Photos/My%20Logo.png",
+  logo: "/Photos/optimized/logo.webp",
   images: {
     hero: "/Photos/hero-portrait.jpg",
     heroWebp: "/Photos/optimized/hero-portrait.webp",
+    heroWebpSmall: "/Photos/optimized/hero-portrait-600.webp",
     about: "/Photos/about-illustration.jpg",
     aboutWebp: "/Photos/optimized/about-illustration.webp"
   },

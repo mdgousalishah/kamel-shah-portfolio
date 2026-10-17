@@ -74,7 +74,7 @@ export default function KamelShahProfile({ onNavigateHome }: ProfileProps) {
           <a
             href="/"
             onClick={handleBack}
-            className="inline-flex items-center gap-2 text-xs font-sans uppercase tracking-wider text-[#77746E] hover:text-[#242424] transition-colors group cursor-pointer"
+            className="inline-flex items-center gap-2 text-xs font-sans uppercase tracking-wider text-[#6B6862] hover:text-[#242424] transition-colors group cursor-pointer"
           >
             <ArrowLeft size={15} className="group-hover:-translate-x-1 transition-transform" />
             <span>Return to Portfolio</span>
@@ -120,14 +120,14 @@ export default function KamelShahProfile({ onNavigateHome }: ProfileProps) {
                   <span className="w-1.5 h-1.5 rounded-full bg-[#3A3937]" />
                   Available for opportunities
                 </span>
-                <span className="text-[#77746E]">Parbhani, Maharashtra, India</span>
+                <span className="text-[#6B6862]">Parbhani, Maharashtra, India</span>
               </div>
 
               <div>
                 <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif text-[#242424] tracking-tight">
                   Kamel Shah
                 </h1>
-                <div className="text-sm font-sans text-[#77746E] mt-1">
+                <div className="text-sm font-sans text-[#6B6862] mt-1">
                   Full Legal Name: <span className="text-[#242424] font-semibold">Mohammed Gous Ali Shah</span>
                 </div>
               </div>
@@ -136,7 +136,7 @@ export default function KamelShahProfile({ onNavigateHome }: ProfileProps) {
                 Full-Stack Developer · Agentic AI Developer · IT & Technical Support
               </div>
 
-              <p className="text-sm sm:text-base text-[#77746E] leading-relaxed">
+              <p className="text-sm sm:text-base text-[#6B6862] leading-relaxed">
                 Electronics & Computer Engineering professional focused on full-stack web development, practical technology solutions, and institutional IT operations.
               </p>
 
@@ -173,17 +173,17 @@ export default function KamelShahProfile({ onNavigateHome }: ProfileProps) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <article className="editorial-card p-6 rounded-2xl border border-[#D8D3C9] bg-[#F3F0E8]">
-              <div className="flex items-center justify-between text-xs font-sans text-[#77746E] mb-2">
+              <div className="flex items-center justify-between text-xs font-sans text-[#6B6862] mb-2">
                 <span className="text-[#3A3937] font-bold uppercase">PRESENT</span>
                 <span>June 2023 — Present</span>
               </div>
               <h3 className="text-xl font-serif text-[#242424] mb-0.5">
                 IT & Technical Support Assistant
               </h3>
-              <div className="text-xs font-sans text-[#77746E] mb-4">
+              <div className="text-xs font-sans text-[#6B6862] mb-4">
                 Kamel Education Society • Parbhani, Maharashtra
               </div>
-              <ul className="space-y-2 text-xs sm:text-sm text-[#77746E] leading-relaxed">
+              <ul className="space-y-2 text-xs sm:text-sm text-[#6B6862] leading-relaxed">
                 <li className="flex items-start gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#3A3937] mt-2 shrink-0" />
                   <span>Administered institutional IT infrastructure across 5 schools, maintaining workstation computers, switches, and peripherals.</span>
@@ -200,17 +200,17 @@ export default function KamelShahProfile({ onNavigateHome }: ProfileProps) {
             </article>
 
             <article className="editorial-card p-6 rounded-2xl border border-[#D8D3C9] bg-[#F3F0E8]">
-              <div className="flex items-center justify-between text-xs font-sans text-[#77746E] mb-2">
+              <div className="flex items-center justify-between text-xs font-sans text-[#6B6862] mb-2">
                 <span className="text-[#3A3937] font-bold uppercase">COMPLETED</span>
                 <span>Sept 2025 — Nov 2025</span>
               </div>
               <h3 className="text-xl font-serif text-[#242424] mb-0.5">
                 Developer Intern
               </h3>
-              <div className="text-xs font-sans text-[#77746E] mb-4">
+              <div className="text-xs font-sans text-[#6B6862] mb-4">
                 Bilim Technologies • Remote
               </div>
-              <ul className="space-y-2 text-xs sm:text-sm text-[#77746E] leading-relaxed">
+              <ul className="space-y-2 text-xs sm:text-sm text-[#6B6862] leading-relaxed">
                 <li className="flex items-start gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#3A3937] mt-2 shrink-0" />
                   <span>Engineered responsive, accessible frontend components using HTML5, CSS3, JavaScript, and Bootstrap.</span>
@@ -245,10 +245,10 @@ export default function KamelShahProfile({ onNavigateHome }: ProfileProps) {
               <h3 className="text-lg font-serif text-[#242424] mb-0.5">
                 Bachelor of Technology (B.Tech)
               </h3>
-              <p className="text-xs font-sans font-medium text-[#77746E] mb-2">
+              <p className="text-xs font-sans font-medium text-[#6B6862] mb-2">
                 PES College of Engineering, Aurangabad / DBATU
               </p>
-              <p className="text-xs text-[#77746E]">
+              <p className="text-xs text-[#6B6862]">
                 Electronics & Computer Engineering. Focus on computing architectures, embedded systems, software engineering, and digital circuits.
               </p>
             </article>
@@ -260,10 +260,10 @@ export default function KamelShahProfile({ onNavigateHome }: ProfileProps) {
               <h3 className="text-lg font-serif text-[#242424] mb-0.5">
                 Online MBA in AI & Machine Learning
               </h3>
-              <p className="text-xs font-sans font-medium text-[#77746E] mb-2">
+              <p className="text-xs font-sans font-medium text-[#6B6862] mb-2">
                 Dr. D. Y. Patil Vidyapeeth, Pune
               </p>
-              <p className="text-xs text-[#77746E]">
+              <p className="text-xs text-[#6B6862]">
                 Postgraduate study focusing on machine learning foundations, predictive analytics, enterprise AI systems, and technology strategy.
               </p>
             </article>
@@ -275,10 +275,10 @@ export default function KamelShahProfile({ onNavigateHome }: ProfileProps) {
               <h3 className="text-lg font-serif text-[#242424] mb-0.5">
                 Bachelor of Arts (B.A.)
               </h3>
-              <p className="text-xs font-sans font-medium text-[#77746E] mb-2">
+              <p className="text-xs font-sans font-medium text-[#6B6862] mb-2">
                 Yashwantrao Chavan Maharashtra Open University (YCMOU)
               </p>
-              <p className="text-xs text-[#77746E]">
+              <p className="text-xs text-[#6B6862]">
                 Humanities & Social Sciences. Provides foundational training in organizational communication, analytical writing, and sociology.
               </p>
             </article>
@@ -295,7 +295,7 @@ export default function KamelShahProfile({ onNavigateHome }: ProfileProps) {
                 03 / VERIFIED CERTIFICATIONS
               </h2>
             </div>
-            <span className="text-xs font-sans text-[#77746E]">
+            <span className="text-xs font-sans text-[#6B6862]">
               {authenticCertificates.length} CREDENTIALS
             </span>
           </div>
@@ -314,12 +314,12 @@ export default function KamelShahProfile({ onNavigateHome }: ProfileProps) {
                   <h3 className="text-base font-serif font-semibold text-[#242424] mb-1 group-hover:text-[#3A3937] transition-colors leading-snug">
                     {cert.title}
                   </h3>
-                  <p className="text-xs font-sans text-[#77746E] mb-3">
+                  <p className="text-xs font-sans text-[#6B6862] mb-3">
                     {cert.issuer} {cert.date ? `• ${cert.date}` : ''}
                   </p>
                 </div>
 
-                <div className="pt-3 border-t border-[#D8D3C9] flex items-center justify-between text-xs font-sans text-[#77746E]">
+                <div className="pt-3 border-t border-[#D8D3C9] flex items-center justify-between text-xs font-sans text-[#6B6862]">
                   <span>View Document</span>
                   <ExternalLink size={12} className="text-[#242424]" />
                 </div>
@@ -337,7 +337,7 @@ export default function KamelShahProfile({ onNavigateHome }: ProfileProps) {
                 04 / SELECTED WORK
               </h2>
             </div>
-            <span className="text-xs font-sans text-[#77746E]">
+            <span className="text-xs font-sans text-[#6B6862]">
               {PROJECTS.length} SYSTEMS
             </span>
           </div>
@@ -346,7 +346,7 @@ export default function KamelShahProfile({ onNavigateHome }: ProfileProps) {
             {PROJECTS.map((proj) => (
               <article key={proj.id} className="editorial-card p-6 rounded-2xl border border-[#D8D3C9] bg-[#F3F0E8] flex flex-col justify-between">
                 <div>
-                  <div className="flex items-center justify-between text-xs font-sans text-[#77746E] mb-2">
+                  <div className="flex items-center justify-between text-xs font-sans text-[#6B6862] mb-2">
                     <span className="font-bold text-[#242424]">#{proj.number}</span>
                     <span className="text-[#3A3937] uppercase">{proj.category}</span>
                   </div>
@@ -355,7 +355,7 @@ export default function KamelShahProfile({ onNavigateHome }: ProfileProps) {
                     {proj.title}
                   </h3>
 
-                  <div className="text-xs sm:text-sm text-[#77746E] leading-relaxed mb-4">
+                  <div className="text-xs sm:text-sm text-[#6B6862] leading-relaxed mb-4">
                     {Array.isArray(proj.description) ? proj.description[0] : proj.description}
                   </div>
 
@@ -377,7 +377,7 @@ export default function KamelShahProfile({ onNavigateHome }: ProfileProps) {
                       href={proj.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-[#77746E] hover:text-[#242424] inline-flex items-center gap-1"
+                      className="text-[#6B6862] hover:text-[#242424] inline-flex items-center gap-1"
                     >
                       <Github size={12} />
                       <span>Repository</span>
@@ -411,7 +411,7 @@ export default function KamelShahProfile({ onNavigateHome }: ProfileProps) {
             <span>Return to Portfolio</span>
           </a>
 
-          <div className="text-xs font-sans text-[#77746E]">
+          <div className="text-xs font-sans text-[#6B6862]">
             &copy; {new Date().getFullYear()} Kamel Shah. All rights reserved.
           </div>
         </div>
@@ -440,7 +440,7 @@ export default function KamelShahProfile({ onNavigateHome }: ProfileProps) {
                   <h4 className="text-base font-serif font-semibold text-[#242424]">
                     {activeCert.title}
                   </h4>
-                  <p className="text-xs font-sans text-[#77746E]">
+                  <p className="text-xs font-sans text-[#6B6862]">
                     {activeCert.issuer}
                   </p>
                 </div>

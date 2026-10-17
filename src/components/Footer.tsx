@@ -10,7 +10,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 gap-12 md:grid-cols-12">
           <div className="md:col-span-6">
             <a href="#home" className="inline-flex items-center gap-3" aria-label="Kamel Shah — back to top">
-              <img src={SITE_CONFIG.logo} alt="" width={1021} height={448} className="h-8 w-auto" />
+              <img src={SITE_CONFIG.logo} alt="" width={320} height={127} className="h-8 w-auto" />
               <span className="text-sm font-semibold tracking-[0.2em] text-[#F3F0E8]">KAMEL SHAH</span>
             </a>
             <p className="mt-6 max-w-[26rem] font-serif text-xl leading-snug text-[#F3F0E8]">

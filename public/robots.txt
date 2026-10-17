@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://kamelshah.ai.studio/sitemap.xml
+Sitemap: https://kamel-shah-portfolio.vercel.app/sitemap.xml

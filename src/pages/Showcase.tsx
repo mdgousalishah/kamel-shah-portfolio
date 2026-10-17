@@ -198,7 +198,7 @@ export default function Showcase() {
       {/* Top bar */}
       <header className="sc-top">
         <a href="/" className="sc-brand" aria-label="Kamel Shah — main portfolio">
-          <img src={SITE_CONFIG.logo} alt="" width={1021} height={448} />
+          <img src={SITE_CONFIG.logo} alt="" width={320} height={127} />
           <span>KAMEL SHAH</span>
         </a>
         <nav aria-label="Showcase" className="sc-top-nav">

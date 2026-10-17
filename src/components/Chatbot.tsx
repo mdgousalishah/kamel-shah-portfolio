@@ -195,13 +195,13 @@ export default function Chatbot() {
                 </div>
                 <div>
                   <h3 className="text-[#242424] font-serif text-base leading-tight">Kamel Assistant</h3>
-                  <p className="text-[#77746E] text-[11px] tracking-wide">Portfolio guide</p>
+                  <p className="text-[#6B6862] text-[11px] tracking-wide">Portfolio guide</p>
                 </div>
               </div>
               <div className="flex items-center gap-1">
                 <button
                   onClick={startNewChat}
-                  className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-[#D8D3C9]/50 text-[#77746E] hover:text-[#242424] transition-colors cursor-pointer"
+                  className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-[#D8D3C9]/50 text-[#6B6862] hover:text-[#242424] transition-colors cursor-pointer"
                   aria-label="Start a new chat"
                   title="New chat"
                 >
@@ -209,7 +209,7 @@ export default function Chatbot() {
                 </button>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-[#D8D3C9]/50 text-[#77746E] hover:text-[#242424] transition-colors cursor-pointer"
+                  className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-[#D8D3C9]/50 text-[#6B6862] hover:text-[#242424] transition-colors cursor-pointer"
                   aria-label="Close Kamel AI assistant"
                 >
                   <X size={16} />
@@ -296,7 +296,7 @@ export default function Chatbot() {
                   disabled={isTyping}
                   aria-label="Ask Kamel AI a question"
                   placeholder={isTyping ? 'Thinking…' : 'Ask a question…'}
-                  className="w-full bg-[#F8F6F0] text-[#242424] text-xs sm:text-sm placeholder:text-[#77746E]/70 rounded-full pl-3.5 pr-10 py-2.5 border border-[#D8D3C9] focus:outline-none focus:border-[#242424] transition-colors"
+                  className="w-full bg-[#F8F6F0] text-[#242424] text-xs sm:text-sm placeholder:text-[#6B6862]/70 rounded-full pl-3.5 pr-10 py-2.5 border border-[#D8D3C9] focus:outline-none focus:border-[#242424] transition-colors"
                 />
                 <button
                   type="submit"

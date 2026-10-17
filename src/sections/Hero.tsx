@@ -60,7 +60,11 @@ export default function Hero() {
             <Depth strength={6} tilt>
             <div className="frame unveil aspect-[4/5]">
               <picture>
-                <source srcSet={SITE_CONFIG.images.heroWebp} type="image/webp" />
+                <source
+                  srcSet={`${SITE_CONFIG.images.heroWebpSmall} 600w, ${SITE_CONFIG.images.heroWebp} 1000w`}
+                  sizes="(min-width: 1024px) 36vw, (min-width: 640px) 28rem, 92vw"
+                  type="image/webp"
+                />
                 <img
                   src={SITE_CONFIG.images.hero}
                   alt="Portrait of Mohammed Gous Ali Shah in a navy blazer and white shirt, photographed outdoors"

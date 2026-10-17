@@ -101,8 +101,8 @@ export default function Navigation() {
             <img
               src={SITE_CONFIG.logo}
               alt=""
-              width={1021}
-              height={448}
+              width={320}
+              height={127}
               className="h-6 w-auto"
             />
             <span className="text-[0.8125rem] font-semibold tracking-[0.2em] text-ink">

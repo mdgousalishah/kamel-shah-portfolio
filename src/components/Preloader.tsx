@@ -26,7 +26,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         className="flex flex-col items-center gap-5"
       >
-        <img src={SITE_CONFIG.logo} alt="" width={1021} height={448} className="h-12 w-auto md:h-14" />
+        <img src={SITE_CONFIG.logo} alt="" width={320} height={127} className="h-12 w-auto md:h-14" />
         <span className="text-xs font-semibold tracking-[0.3em] text-muted">KAMEL SHAH</span>
       </motion.div>
     </motion.div>

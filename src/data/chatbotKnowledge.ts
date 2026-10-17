@@ -173,7 +173,7 @@ export const CHATBOT_KNOWLEDGE = {
     github: "https://github.com/mdgousalishah",
     linkedin: "https://www.linkedin.com/in/mohammed-gous-ali-shah-mohammed-mushtaque-ahmed-988657214",
     x: "https://x.com/Kamelshah07",
-    website: "https://kamelshah.ai.studio/",
+    website: "https://kamel-shah-portfolio.vercel.app/",
     whatsapp: "https://wa.me/917588571899"
   }
 };

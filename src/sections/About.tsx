@@ -18,7 +18,8 @@ const DETAILS = [
     label: 'Education',
     items: [
       'B.Tech, Electronics & Computer Engineering — PES College of Engineering, Aurangabad (DBATU). Expected 2026.',
-      'MBA, Artificial Intelligence & Machine Learning — Dr. D. Y. Patil Vidyapeeth, Pune. Pursuing, 2026 – present.'
+      'MBA, Artificial Intelligence & Machine Learning — Dr. D. Y. Patil Vidyapeeth, Pune. Pursuing, 2026 – present.',
+      'Advanced PG Certificate, AI Engineering on Cloud and AIOps — IIT Roorkee. Pursuing, 2026 – present.'
     ]
   }
 ];

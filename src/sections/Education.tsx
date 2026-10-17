@@ -28,6 +28,14 @@ const educationData: EducationItem[] = [
     desc: 'Postgraduate curriculum on machine learning foundations, enterprise AI applications, predictive analytics, and technology management.'
   },
   {
+    degree: 'Advanced PG Certificate in AI Engineering on Cloud and AIOps',
+    institution: 'Indian Institute of Technology Roorkee (IIT Roorkee)',
+    field: 'Artificial Intelligence, Cloud Computing & AIOps',
+    period: '2026 — Present',
+    status: 'Currently pursuing',
+    desc: 'Postgraduate certificate programme on building and running AI systems on cloud platforms, with a focus on AIOps: applying AI to monitor, automate, and operate IT infrastructure.'
+  },
+  {
     degree: 'Bachelor of Arts (B.A.)',
     institution: 'Yashwantrao Chavan Maharashtra Open University (YCMOU)',
     field: 'Humanities & Social Sciences',

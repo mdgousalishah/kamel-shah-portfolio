@@ -9,7 +9,7 @@ export const CHATBOT_KNOWLEDGE = {
     positioning: "Electronics & Computer Engineer • Full-Stack Developer • Agentic AI Developer",
     specialties: ["Full-Stack Web Development", "React 19", "TypeScript", "Node.js", "Express.js", "PHP & Laravel", "MongoDB", "PostgreSQL", "Generative AI", "Agentic AI"],
     location: "Parbhani, Maharashtra, India",
-    summary: "Kamel Shah, also known professionally as Mohammed Gous Ali Shah, is an Electronics & Computer Engineering student at PES College of Engineering, Aurangabad (Expected 2026) concurrently pursuing an Online MBA in Artificial Intelligence & Machine Learning at Dr. D. Y. Patil Vidyapeeth, Pune (2026–2028). He completed his B.A. from YCMOU (2026). He completed a software engineering job simulation with Deloitte / Forage (September 2026), builds full-stack applications, secure REST APIs, and has hands-on IT operations experience across 5 schools for Kamel Education Society."
+    summary: "Kamel Shah, also known professionally as Mohammed Gous Ali Shah, is an Electronics & Computer Engineering student at PES College of Engineering, Aurangabad (Expected 2026) concurrently pursuing an Online MBA in Artificial Intelligence & Machine Learning at Dr. D. Y. Patil Vidyapeeth, Pune (2026–2028), and an Advanced PG Certificate in AI Engineering on Cloud and AIOps at Indian Institute of Technology Roorkee (IIT Roorkee). He completed his B.A. from YCMOU (2026). He completed a software engineering job simulation with Deloitte / Forage (September 2026), builds full-stack applications, secure REST APIs, and has hands-on IT operations experience across 5 schools for Kamel Education Society."
   },
   experience: [
     {
@@ -48,6 +48,12 @@ export const CHATBOT_KNOWLEDGE = {
       institution: "Dr. D. Y. Patil Vidyapeeth, Pune",
       field: "Artificial Intelligence & Machine Learning",
       duration: "2026 – 2028 (In Progress)"
+    },
+    {
+      degree: "Advanced PG Certificate in AI Engineering on Cloud and AIOps",
+      institution: "Indian Institute of Technology Roorkee (IIT Roorkee)",
+      field: "AI Engineering on Cloud and AIOps",
+      duration: "2026 – Present (In Progress)"
     },
     {
       degree: "Bachelor of Arts (B.A.)",

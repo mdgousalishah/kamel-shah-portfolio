@@ -270,6 +270,21 @@ export default function KamelShahProfile({ onNavigateHome }: ProfileProps) {
 
             <article className="editorial-card p-6 rounded-2xl border border-[#D8D3C9] bg-[#F3F0E8]">
               <span className="text-xs font-sans text-[#3A3937] font-bold block mb-1">
+                Currently Pursuing
+              </span>
+              <h3 className="text-lg font-serif text-[#242424] mb-0.5">
+                Advanced PG Certificate in AI Engineering on Cloud and AIOps
+              </h3>
+              <p className="text-xs font-sans font-medium text-[#6B6862] mb-2">
+                Indian Institute of Technology Roorkee (IIT Roorkee)
+              </p>
+              <p className="text-xs text-[#6B6862]">
+                Postgraduate certificate programme on building and running AI systems on cloud platforms, with a focus on AIOps: applying AI to monitor, automate, and operate IT infrastructure.
+              </p>
+            </article>
+
+            <article className="editorial-card p-6 rounded-2xl border border-[#D8D3C9] bg-[#F3F0E8]">
+              <span className="text-xs font-sans text-[#3A3937] font-bold block mb-1">
                 Completed 2026
               </span>
               <h3 className="text-lg font-serif text-[#242424] mb-0.5">

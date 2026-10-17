@@ -23,6 +23,9 @@ export const DEFAULT_RECIPIENT = 'kamelshah2003@gmail.com';
 const MIN_MESSAGE_LENGTH = 10;
 const MAX_CONTACT_PER_HOUR = 5;
 
+/** Upper bounds keep oversized or scripted payloads out of the inbox. */
+export const CONTACT_LIMITS = { name: 80, email: 254, phone: 30, message: 5000 } as const;
+
 export interface ContactResult {
   status: number;
   body: { ok: true } | { error: string };
@@ -34,18 +37,34 @@ interface ContactPayload {
   email: string;
   phone?: string;
   message: string;
+  /** Honeypot: hidden from people, so only bots fill it in. */
+  website?: string;
 }
+
+const within = (value: string, min: number, max: number) => {
+  const length = value.trim().length;
+  return length >= min && length <= max;
+};
 
 function isValidPayload(body: unknown): body is ContactPayload {
   if (!body || typeof body !== 'object') return false;
   const b = body as Record<string, unknown>;
   return (
-    typeof b.firstName === 'string' && b.firstName.trim().length > 0 &&
-    typeof b.lastName === 'string' && b.lastName.trim().length > 0 &&
-    typeof b.email === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(b.email.trim()) &&
-    typeof b.message === 'string' && b.message.trim().length >= MIN_MESSAGE_LENGTH &&
-    (b.phone === undefined || typeof b.phone === 'string')
+    typeof b.firstName === 'string' && within(b.firstName, 1, CONTACT_LIMITS.name) &&
+    typeof b.lastName === 'string' && within(b.lastName, 1, CONTACT_LIMITS.name) &&
+    typeof b.email === 'string' && within(b.email, 3, CONTACT_LIMITS.email) &&
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(b.email.trim()) &&
+    typeof b.message === 'string' && within(b.message, MIN_MESSAGE_LENGTH, CONTACT_LIMITS.message) &&
+    (b.phone === undefined || (typeof b.phone === 'string' && b.phone.trim().length <= CONTACT_LIMITS.phone)) &&
+    (b.website === undefined || typeof b.website === 'string')
   );
+}
+
+/** True when the hidden honeypot field was filled in, which people never do. */
+function isHoneypotFilled(body: unknown): boolean {
+  if (!body || typeof body !== 'object') return false;
+  const website = (body as Record<string, unknown>).website;
+  return typeof website === 'string' && website.trim().length > 0;
 }
 
 const escapeHtml = (value: string) =>
@@ -95,6 +114,12 @@ function isContactRateLimited(clientId: string): boolean {
 export async function handleContactSubmission(body: unknown, clientId: string): Promise<ContactResult> {
   if (isContactRateLimited(clientId)) {
     return { status: 429, body: { error: 'Too many submissions. Please wait before trying again.' } };
+  }
+
+  // Bots get the normal success reply so they don't learn to skip the field; nothing is emailed.
+  if (isHoneypotFilled(body)) {
+    console.warn('[ContactAPI] Honeypot field filled; submission discarded.');
+    return { status: 200, body: { ok: true } };
   }
 
   if (!isValidPayload(body)) {

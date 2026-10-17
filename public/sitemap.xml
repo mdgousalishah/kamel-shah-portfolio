@@ -3,11 +3,15 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://kamel-shah-portfolio.vercel.app/</loc>
-    <lastmod>2026-10-17</lastmod>
+    <lastmod>2026-10-18</lastmod>
     <image:image><image:loc>https://kamel-shah-portfolio.vercel.app/Photos/hero-portrait.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://kamel-shah-portfolio.vercel.app/kamel-shah</loc>
-    <lastmod>2026-10-17</lastmod>
+    <lastmod>2026-10-18</lastmod>
+  </url>
+  <url>
+    <loc>https://kamel-shah-portfolio.vercel.app/privacy</loc>
+    <lastmod>2026-10-18</lastmod>
   </url>
 </urlset>

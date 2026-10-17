@@ -71,7 +71,11 @@ export default function Footer() {
         </div>
 
         <div className="mt-16 flex flex-col-reverse gap-4 border-t border-white/10 pt-6 text-xs text-[#A8A39A] sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-[#A8A39A]">&copy; {year} Kamel Shah. All rights reserved.</p>
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            <p className="text-[#A8A39A]">&copy; {year} Kamel Shah. All rights reserved.</p>
+            <a href="/kamel-shah" className="transition-colors hover:text-white">Full profile</a>
+            <a href="/privacy" className="transition-colors hover:text-white">Privacy policy</a>
+          </div>
           <a href="#home" className="inline-flex items-center gap-1.5 transition-colors hover:text-white">
             Back to top
             <ArrowUp size={13} aria-hidden="true" />

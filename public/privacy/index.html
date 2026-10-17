@@ -1,0 +1,131 @@
+<!doctype html>
+<!--
+  TEMPLATE — review before relying on it. This is not legal advice.
+  Written from what the site's code collected on 18 Oct 2026:
+    • Contact form (/api/contact): name, email, optional phone, message → emailed via SMTP.
+    • In-memory rate limit keyed on IP address (max 1 hour, resets when the server restarts).
+    • Chat assistant (/api/chat): on the live Vercel site no AI service is connected, so answers
+      come from text built into the page. If you add GEMINI_API_KEY / an api/chat function,
+      update the "Chat assistant" section to say messages are sent to Google Gemini.
+    • Vercel Web Analytics (added 18 Oct 2026): cookieless, anonymous page-view statistics.
+      Source: https://vercel.com/docs/analytics/privacy-policy
+    • Vercel hosting logs, Google Fonts. No cookies, no ads.
+  If you add Google Analytics or anything else that collects data, update this page first.
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#F3F0E8" />
+    <title>Privacy Policy | Kamel Shah</title>
+    <meta name="description" content="How Kamel Shah's portfolio handles the information you share through its contact form and chat assistant, and the anonymous visit statistics it keeps. No cookies, no ads." />
+    <link rel="canonical" href="https://kamel-shah-portfolio.vercel.app/privacy" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Kamel Shah" />
+    <meta property="og:url" content="https://kamel-shah-portfolio.vercel.app/privacy" />
+    <meta property="og:title" content="Privacy Policy | Kamel Shah" />
+    <meta property="og:description" content="How Kamel Shah's portfolio handles the information you share through its contact form and chat assistant." />
+    <meta property="og:image" content="https://kamel-shah-portfolio.vercel.app/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Privacy Policy | Kamel Shah" />
+    <meta name="twitter:description" content="How Kamel Shah's portfolio handles the information you share through its contact form and chat assistant." />
+    <meta name="twitter:image" content="https://kamel-shah-portfolio.vercel.app/og-image.jpg" />
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --ivory: #F3F0E8; --ink: #242424; --ink-soft: #3A3937; --muted: #6B6862; --line: #D8D3C9;
+        --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        --serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; }
+      body { background: var(--ivory); color: var(--ink); font-family: var(--sans); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+      a { color: inherit; text-underline-offset: 3px; text-decoration-color: var(--line); }
+      a:hover { text-decoration-color: var(--ink); }
+      a:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+      .wrap { width: 100%; max-width: 46rem; margin: 0 auto; padding: 0 1.25rem; }
+      header { border-bottom: 1px solid var(--line); }
+      header .bar { max-width: 72rem; margin: 0 auto; padding: 0 1.25rem; display: flex; align-items: center; justify-content: space-between; height: 4.25rem; }
+      header .brand { display: inline-flex; align-items: center; gap: .75rem; text-decoration: none; }
+      header img { height: 2rem; width: auto; }
+      header .brand span { font-size: .8rem; font-weight: 600; letter-spacing: .2em; }
+      header .home { font-size: .9rem; }
+      main { padding: 3.5rem 0 4.5rem; }
+      .eyebrow { font-size: .72rem; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin: 0; }
+      h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(2.4rem, 6vw, 3.75rem); line-height: 1.08; letter-spacing: -.02em; margin: .9rem 0 0; }
+      .updated { color: var(--muted); font-size: .9rem; margin: .75rem 0 0; }
+      .lead { font-size: 1.1rem; color: var(--ink-soft); margin: 2rem 0 0; }
+      h2 { font-family: var(--serif); font-weight: 500; font-size: 1.55rem; line-height: 1.25; margin: 2.75rem 0 0; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+      p, li { color: var(--ink-soft); }
+      p { margin: .9rem 0 0; }
+      ul { margin: .9rem 0 0; padding-left: 1.2rem; }
+      li + li { margin-top: .4rem; }
+      strong { color: var(--ink); font-weight: 600; }
+      footer { border-top: 1px solid var(--line); padding: 1.25rem 0; font-size: .8rem; color: var(--muted); }
+    </style>
+    <!-- Vercel Web Analytics: cookieless page-view counts (enable it in Vercel → Analytics). -->
+    <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+    <script defer src="/_vercel/insights/script.js"></script>
+  </head>
+  <body>
+    <header>
+      <div class="bar">
+        <a class="brand" href="/" aria-label="Kamel Shah, back to the homepage">
+          <img src="/Photos/optimized/logo.webp" alt="" width="320" height="127" />
+          <span>KAMEL SHAH</span>
+        </a>
+        <a class="home" href="/">Back to portfolio</a>
+      </div>
+    </header>
+
+    <main>
+      <div class="wrap">
+        <p class="eyebrow">Privacy</p>
+        <h1>Privacy Policy</h1>
+        <p class="updated">Last updated: 18 October 2026</p>
+
+        <p class="lead">This is the personal portfolio of Mohammed Gous Ali Shah (Kamel Shah). It collects what you choose to send through the contact form or the chat assistant, plus anonymous statistics about visits. It uses no cookies and no advertising trackers.</p>
+
+        <h2>Contact form</h2>
+        <p>When you send a message, the form collects:</p>
+        <ul>
+          <li>your first and last name</li>
+          <li>your email address</li>
+          <li>your phone number, if you choose to add it</li>
+          <li>your message</li>
+        </ul>
+        <p>These details are sent as an email to my inbox (<a href="mailto:kamelshah2003@gmail.com">kamelshah2003@gmail.com</a>), with your email set as the reply-to address. I use them only to read and reply to your message. They are not added to a mailing list, sold or shared with anyone else, and they stay in my inbox until I delete them.</p>
+        <p>To block spam, the server briefly keeps your IP address in memory to limit how many messages can be sent in an hour. It is not written to a database and is discarded within an hour.</p>
+
+        <h2>Chat assistant</h2>
+        <p>The assistant answers questions about my work using information that is already published on this site. Your questions are sent to this site&rsquo;s server to get an answer and are not saved. The conversation is cleared when you close or reload the page.</p>
+
+        <h2>Visit statistics</h2>
+        <p>This site uses <a href="https://vercel.com/docs/analytics/privacy-policy" rel="noopener noreferrer">Vercel Web Analytics</a> to count visits. It does not use cookies and does not identify you. For each page view it records the page address, the site that referred you, your approximate location (country, region and city), and your device type, operating system and browser. Visits are grouped using a temporary code generated from your request, which is discarded after 24 hours. I only see totals, such as how many people viewed the projects section.</p>
+
+        <h2>Hosting and fonts</h2>
+        <ul>
+          <li><strong>Vercel</strong> hosts this site. Like any web host, it processes technical details such as your IP address and browser type to deliver pages and protect against abuse. See <a href="https://vercel.com/legal/privacy-policy" rel="noopener noreferrer">Vercel&rsquo;s privacy policy</a>.</li>
+          <li><strong>Google Fonts</strong> supplies the typefaces, so your browser requests them from Google&rsquo;s servers. See <a href="https://policies.google.com/privacy" rel="noopener noreferrer">Google&rsquo;s privacy policy</a>.</li>
+          <li>Links to <strong>WhatsApp, LinkedIn, GitHub and X</strong> take you to those services, which have their own privacy policies.</li>
+        </ul>
+
+        <h2>Your choices</h2>
+        <p>You can ask me what information you have sent, or ask me to delete it, by emailing <a href="mailto:kamelshah2003@gmail.com">kamelshah2003@gmail.com</a>. I will reply within a reasonable time.</p>
+
+        <h2>Changes</h2>
+        <p>If this site starts collecting anything new, this page will be updated first and the date above will change.</p>
+      </div>
+    </main>
+
+    <footer>
+      <div class="wrap">&copy; Kamel Shah &middot; <a href="/">Portfolio</a> &middot; <a href="mailto:kamelshah2003@gmail.com">kamelshah2003@gmail.com</a></div>
+    </footer>
+  </body>
+</html>

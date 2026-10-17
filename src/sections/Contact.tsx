@@ -71,7 +71,11 @@ function SuccessToast({ onClose }: SuccessToastProps) {
 
 type FormState = 'idle' | 'loading' | 'success' | 'error';
 
-const EMPTY_FORM = { firstName: '', lastName: '', email: '', phone: '', message: '' };
+// `website` is a honeypot: hidden from people, so only bots fill it in.
+const EMPTY_FORM = { firstName: '', lastName: '', email: '', phone: '', message: '', website: '' };
+
+// Keep in sync with CONTACT_LIMITS in src/server/contactCore.ts (not imported, so no server code reaches the browser).
+const LIMITS = { name: 80, email: 254, phone: 30, message: 5000 };
 
 export default function Contact() {
   const [formData, setFormData] = useState(EMPTY_FORM);
@@ -123,6 +127,7 @@ export default function Contact() {
           email:     formData.email.trim(),
           phone:     formData.phone.trim() || undefined,
           message:   formData.message.trim(),
+          website:   formData.website,
         }),
       });
 
@@ -238,7 +243,10 @@ export default function Contact() {
                 className="rounded-md border border-line bg-paper p-6 sm:p-10"
               >
                 <h3 id="contact-form-title" className="font-serif text-2xl text-ink">Send a message</h3>
-                <p className="mt-1 text-sm text-muted">It goes straight to my inbox, with reply-to set to your email.</p>
+                <p className="mt-1 text-sm text-muted">
+                  It goes straight to my inbox, with reply-to set to your email.{' '}
+                  <a href="/privacy" className="underline decoration-line underline-offset-2 hover:decoration-ink">How your details are used</a>.
+                </p>
 
                 <AnimatePresence>
                   {formState === 'error' && errorMsg && (
@@ -264,19 +272,24 @@ export default function Contact() {
                 <div className="mt-8 grid grid-cols-1 gap-x-8 gap-y-7 sm:grid-cols-2">
                   <div>
                     <label htmlFor="contact-first-name" className="field-label">First name *</label>
-                    <input type="text" id="contact-first-name" required autoComplete="given-name" className="field" {...field('firstName')} />
+                    <input type="text" id="contact-first-name" required maxLength={LIMITS.name} autoComplete="given-name" className="field" {...field('firstName')} />
                   </div>
                   <div>
                     <label htmlFor="contact-last-name" className="field-label">Last name *</label>
-                    <input type="text" id="contact-last-name" required autoComplete="family-name" className="field" {...field('lastName')} />
+                    <input type="text" id="contact-last-name" required maxLength={LIMITS.name} autoComplete="family-name" className="field" {...field('lastName')} />
                   </div>
                   <div>
                     <label htmlFor="contact-email" className="field-label">Email address *</label>
-                    <input type="email" id="contact-email" required autoComplete="email" placeholder="you@example.com" className="field" {...field('email')} />
+                    <input type="email" id="contact-email" required maxLength={LIMITS.email} autoComplete="email" placeholder="you@example.com" className="field" {...field('email')} />
                   </div>
                   <div>
                     <label htmlFor="contact-phone" className="field-label">Phone (optional)</label>
-                    <input type="tel" id="contact-phone" autoComplete="tel" placeholder="+91" className="field" {...field('phone')} />
+                    <input type="tel" id="contact-phone" maxLength={LIMITS.phone} autoComplete="tel" placeholder="+91" className="field" {...field('phone')} />
+                  </div>
+                  {/* Honeypot: off-screen and skipped by keyboard and screen readers. */}
+                  <div aria-hidden="true" style={{ position: 'absolute', left: '-10000px', width: 1, height: 1, overflow: 'hidden' }}>
+                    <label htmlFor="contact-website">Website</label>
+                    <input type="text" id="contact-website" tabIndex={-1} autoComplete="off" {...field('website')} />
                   </div>
                   <div className="sm:col-span-2">
                     <label htmlFor="contact-message" className="field-label">Message *</label>
@@ -284,6 +297,7 @@ export default function Contact() {
                       rows={5}
                       id="contact-message"
                       required
+                      maxLength={LIMITS.message}
                       placeholder="A few lines about your project, question, or opportunity."
                       className="field resize-none"
                       {...field('message')}

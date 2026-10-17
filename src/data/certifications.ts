@@ -15,6 +15,20 @@ export interface Certification {
 
 export const CERTIFICATIONS: Certification[] = [
   {
+    id: "cert-sdn-work-productivity",
+    title: "Work Productivity Tools",
+    issuer: "Skills Development Network (SDN) · Wadhwani Foundation",
+    type: "Microcertificate of Completion",
+    date: "October 18, 2026",
+    datetime: "2026-10-18",
+    category: "Workplace Productivity",
+    recipient: "Mohammad Gous Ali Shah",
+    verificationAvailable: true,
+    certificateFile: "/certificates/SDN Work Productivity Tools Certificate.pdf",
+    image: "/Photos/sdn-work-productivity-tools.jpg",
+    skills: ["Productivity Tools", "Digital Workplace Skills", "Office Software", "Workflow Efficiency"]
+  },
+  {
     id: "cert-azure-essentials",
     title: "Microsoft Azure Essentials",
     issuer: "Microsoft and LinkedIn Learning",

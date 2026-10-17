@@ -117,6 +117,12 @@ export const CHATBOT_KNOWLEDGE = {
   },
   certifications: [
     {
+      name: "Work Productivity Tools (Microcertificate)",
+      issuer: "Skills Development Network (SDN), supported by Wadhwani Foundation",
+      year: "October 18, 2026",
+      details: "5 hours of in-class and online training in workplace productivity tools, completed through PepSupplyChainStars."
+    },
+    {
       name: "Microsoft Azure Essentials",
       issuer: "Microsoft and LinkedIn Learning",
       year: "October 5, 2026",

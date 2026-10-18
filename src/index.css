@@ -405,6 +405,51 @@ button:hover > .zoom-on-hover img {
 }
 }
 
+/* ── Contact robot ("Pixel") ────────────────────────────────── */
+
+.robot-bubble {
+  position: relative;
+  max-width: 16rem;
+  padding: 0.45rem 0.8rem;
+  border: 1.5px solid var(--ink);
+  border-radius: 0.6rem;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 500;
+  line-height: 1.35;
+  text-align: center;
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+/* Tail pointing down at the robot */
+.robot-bubble::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  width: 10px;
+  height: 10px;
+  background: var(--paper);
+  border-right: 1.5px solid var(--ink);
+  border-bottom: 1.5px solid var(--ink);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+@keyframes robot-bob   { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+@keyframes robot-blink { 0%, 92%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
+@keyframes robot-dot   { 0%, 100% { opacity: 0.25; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-2px); } }
+@keyframes robot-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+@keyframes robot-hop   { 0%, 100% { transform: translateY(0); } 35% { transform: translateY(-7px); } }
+
+/* Head bobs; hands stay on the card edge because they share the SVG and the bob is tiny. */
+.robot-body { animation: robot-bob 3.2s ease-in-out infinite; }
+.robot[data-mood='happy'] .robot-body { animation: robot-hop 0.6s ease-out 2; }
+.robot-eyes { transform-box: fill-box; transform-origin: center; animation: robot-blink 4.5s ease-in-out infinite; }
+.robot-dot { animation: robot-dot 0.9s ease-in-out infinite; }
+.robot-antenna { animation: robot-pulse 2.4s ease-in-out infinite; }
+.robot[data-mood='thinking'] .robot-antenna { animation-duration: 0.5s; }
+
 /* ── Accessibility: reduced motion ──────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {

@@ -4,6 +4,7 @@ import { SITE_CONFIG, SOCIAL_LINKS, whatsappHref } from '../data/config';
 import { ArrowUpRight, CheckCircle, X, Loader2, AlertCircle } from 'lucide-react';
 import Reveal from '../components/Reveal';
 import { Headline } from '../components/Motion';
+import ContactRobot, { type RobotField } from '../components/ContactRobot';
 
 // ── Success Toast ─────────────────────────────────────────────────────────────
 
@@ -82,6 +83,25 @@ export default function Contact() {
   const [formState, setFormState] = useState<FormState>('idle');
   const [errorMsg, setErrorMsg] = useState('');
   const [showToast, setShowToast] = useState(false);
+  // Drives the robot above the form.
+  const [focused, setFocused] = useState<RobotField>(null);
+  const [submitHover, setSubmitHover] = useState(false);
+  const [sentName, setSentName] = useState('');
+  const [sentEmail, setSentEmail] = useState('');
+  const successHeadingRef = useRef<HTMLHeadingElement>(null);
+
+  // Move focus to the confirmation so keyboard and screen-reader users land on it.
+  useEffect(() => {
+    if (formState === 'success') successHeadingRef.current?.focus();
+  }, [formState]);
+
+  const startOver = () => {
+    setSubmitHover(false);
+    setShowToast(false);
+    setFormState('idle');
+    setSentName('');
+    setSentEmail('');
+  };
 
   const isLoading = formState === 'loading';
 
@@ -135,6 +155,9 @@ export default function Contact() {
       const data = await response.json().catch(() => ({})) as { ok?: boolean; error?: string };
 
       if (response.ok && data.ok) {
+        setSentName(formData.firstName.trim());
+        setSentEmail(formData.email.trim());
+        setSubmitHover(false); // the button is replaced by the confirmation, so mouseleave never fires
         setFormState('success');
         setFormData(EMPTY_FORM);
         setShowToast(true);
@@ -172,7 +195,7 @@ export default function Contact() {
       {/* Success toast (fixed at top) */}
       <AnimatePresence>
         {showToast && (
-          <SuccessToast onClose={() => { setShowToast(false); setFormState('idle'); }} />
+          <SuccessToast onClose={() => setShowToast(false)} />
         )}
       </AnimatePresence>
 
@@ -236,8 +259,23 @@ export default function Contact() {
 
             {/* Form */}
             <Reveal from="right" blur={false} className="lg:col-span-7" delay={0.08}>
+              <div className="relative z-10 -mb-[9px]">
+                <ContactRobot
+                  focused={focused}
+                  values={formData}
+                  formState={formState}
+                  submitHover={submitHover}
+                  sentName={sentName}
+                  minMessage={10}
+                />
+              </div>
               <form
                 onSubmit={handleSubmit}
+                onFocus={(e) => {
+                  const name = (e.target as HTMLElement).getAttribute('name') ?? '';
+                  setFocused(['firstName', 'lastName', 'email', 'phone', 'message'].includes(name) ? name as RobotField : null);
+                }}
+                onBlur={() => setFocused(null)}
                 noValidate
                 aria-labelledby="contact-form-title"
                 className="rounded-md border border-line bg-paper p-6 sm:p-10"
@@ -269,66 +307,123 @@ export default function Contact() {
                   )}
                 </AnimatePresence>
 
-                <div className="mt-8 grid grid-cols-1 gap-x-8 gap-y-7 sm:grid-cols-2">
-                  <div>
-                    <label htmlFor="contact-first-name" className="field-label">First name *</label>
-                    <input type="text" id="contact-first-name" required maxLength={LIMITS.name} autoComplete="given-name" className="field" {...field('firstName')} />
-                  </div>
-                  <div>
-                    <label htmlFor="contact-last-name" className="field-label">Last name *</label>
-                    <input type="text" id="contact-last-name" required maxLength={LIMITS.name} autoComplete="family-name" className="field" {...field('lastName')} />
-                  </div>
-                  <div>
-                    <label htmlFor="contact-email" className="field-label">Email address *</label>
-                    <input type="email" id="contact-email" required maxLength={LIMITS.email} autoComplete="email" placeholder="you@example.com" className="field" {...field('email')} />
-                  </div>
-                  <div>
-                    <label htmlFor="contact-phone" className="field-label">Phone (optional)</label>
-                    <input type="tel" id="contact-phone" maxLength={LIMITS.phone} autoComplete="tel" placeholder="+91" className="field" {...field('phone')} />
-                  </div>
-                  {/* Honeypot: off-screen and skipped by keyboard and screen readers. */}
-                  <div aria-hidden="true" style={{ position: 'absolute', left: '-10000px', width: 1, height: 1, overflow: 'hidden' }}>
-                    <label htmlFor="contact-website">Website</label>
-                    <input type="text" id="contact-website" tabIndex={-1} autoComplete="off" {...field('website')} />
-                  </div>
-                  <div className="sm:col-span-2">
-                    <label htmlFor="contact-message" className="field-label">Message *</label>
-                    <textarea
-                      rows={5}
-                      id="contact-message"
-                      required
-                      maxLength={LIMITS.message}
-                      placeholder="A few lines about your project, question, or opportunity."
-                      className="field resize-none"
-                      {...field('message')}
-                    />
-                  </div>
-                </div>
-
-                <div className="mt-9 flex flex-col-reverse items-stretch gap-4 sm:flex-row sm:items-center sm:justify-between">
-                  <a href={whatsappHref()} target="_blank" rel="noopener noreferrer" className="link-quiet inline-flex items-center justify-center gap-1 text-sm">
-                    Prefer WhatsApp?
-                    <ArrowUpRight size={13} aria-hidden="true" />
-                  </a>
-                  <button
-                    type="submit"
-                    id="contact-submit-btn"
-                    disabled={isLoading}
-                    className="btn btn-primary disabled:cursor-not-allowed disabled:opacity-60"
+                {formState === 'success' ? (
+                  <motion.div
+                    role="status"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                    className="mt-8 border-t border-line pt-8"
                   >
-                    {isLoading ? (
-                      <>
-                        <Loader2 size={15} className="animate-spin" aria-hidden="true" />
-                        Sending…
-                      </>
-                    ) : (
-                      <>
-                        Send message
+                    <div className="flex items-start gap-3">
+                      <span className="mt-1 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-ink text-ivory">
+                        <CheckCircle size={18} aria-hidden="true" />
+                      </span>
+                      <div className="min-w-0">
+                        <h4
+                          ref={successHeadingRef}
+                          tabIndex={-1}
+                          className="font-serif text-[1.6rem] leading-tight text-ink outline-none"
+                        >
+                          Your message has been emailed{sentName ? `, ${sentName}` : ''}.
+                        </h4>
+                        <p className="mt-2 text-[0.95rem] leading-relaxed text-ink-soft">
+                          It&rsquo;s in my inbox now. I&rsquo;ll get back to you by email very soon.
+                        </p>
+                        {sentEmail && (
+                          <p className="mt-2 text-sm text-muted">
+                            Reply will go to{' '}
+                            <strong className="font-medium text-ink [overflow-wrap:anywhere]">{sentEmail}</strong>
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    <p className="eyebrow mt-8">What happens next</p>
+                    <ol className="mt-4 space-y-3 text-sm leading-relaxed text-ink-soft">
+                      <li className="flex gap-3"><span className="section-index text-sm">01</span><span>I read every message personally and reply from my own email.</span></li>
+                      <li className="flex gap-3"><span className="section-index text-sm">02</span><span>Keep an eye on your inbox, and check spam or promotions if you don&rsquo;t see my reply.</span></li>
+                      <li className="flex gap-3"><span className="section-index text-sm">03</span><span>Need a faster answer? WhatsApp me and mention your message.</span></li>
+                    </ol>
+
+                    <div className="mt-9 flex flex-col-reverse items-stretch gap-4 sm:flex-row sm:items-center sm:justify-between">
+                      <button type="button" onClick={startOver} className="link-quiet inline-flex items-center justify-center gap-1 text-sm">
+                        Send another message
+                      </button>
+                      <a href={whatsappHref()} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+                        Message on WhatsApp
                         <ArrowUpRight size={15} aria-hidden="true" />
-                      </>
-                    )}
-                  </button>
-                </div>
+                      </a>
+                    </div>
+                  </motion.div>
+                ) : (
+                  <>
+                  <div className="mt-8 grid grid-cols-1 gap-x-8 gap-y-7 sm:grid-cols-2">
+                    <div>
+                      <label htmlFor="contact-first-name" className="field-label">First name *</label>
+                      <input type="text" id="contact-first-name" required maxLength={LIMITS.name} autoComplete="given-name" className="field" {...field('firstName')} />
+                    </div>
+                    <div>
+                      <label htmlFor="contact-last-name" className="field-label">Last name *</label>
+                      <input type="text" id="contact-last-name" required maxLength={LIMITS.name} autoComplete="family-name" className="field" {...field('lastName')} />
+                    </div>
+                    <div>
+                      <label htmlFor="contact-email" className="field-label">Email address *</label>
+                      <input type="email" id="contact-email" required maxLength={LIMITS.email} autoComplete="email" placeholder="you@example.com" className="field" {...field('email')} />
+                    </div>
+                    <div>
+                      <label htmlFor="contact-phone" className="field-label">Phone (optional)</label>
+                      <input type="tel" id="contact-phone" maxLength={LIMITS.phone} autoComplete="tel" placeholder="+91" className="field" {...field('phone')} />
+                    </div>
+                    {/* Honeypot: off-screen and skipped by keyboard and screen readers. */}
+                    <div aria-hidden="true" style={{ position: 'absolute', left: '-10000px', width: 1, height: 1, overflow: 'hidden' }}>
+                      <label htmlFor="contact-website">Website</label>
+                      <input type="text" id="contact-website" tabIndex={-1} autoComplete="off" {...field('website')} />
+                    </div>
+                    <div className="sm:col-span-2">
+                      <label htmlFor="contact-message" className="field-label">Message *</label>
+                      <textarea
+                        rows={5}
+                        id="contact-message"
+                        required
+                        maxLength={LIMITS.message}
+                        placeholder="A few lines about your project, question, or opportunity."
+                        className="field resize-none"
+                        {...field('message')}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="mt-9 flex flex-col-reverse items-stretch gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <a href={whatsappHref()} target="_blank" rel="noopener noreferrer" className="link-quiet inline-flex items-center justify-center gap-1 text-sm">
+                      Prefer WhatsApp?
+                      <ArrowUpRight size={13} aria-hidden="true" />
+                    </a>
+                    <button
+                      type="submit"
+                      id="contact-submit-btn"
+                      disabled={isLoading}
+                      onMouseEnter={() => setSubmitHover(true)}
+                      onMouseLeave={() => setSubmitHover(false)}
+                      onFocus={() => setSubmitHover(true)}
+                      onBlur={() => setSubmitHover(false)}
+                      className="btn btn-primary disabled:cursor-not-allowed disabled:opacity-60"
+                    >
+                      {isLoading ? (
+                        <>
+                          <Loader2 size={15} className="animate-spin" aria-hidden="true" />
+                          Sending…
+                        </>
+                      ) : (
+                        <>
+                          Send message
+                          <ArrowUpRight size={15} aria-hidden="true" />
+                        </>
+                      )}
+                    </button>
+                  </div>
+                  </>
+                )}
               </form>
             </Reveal>
           </div>

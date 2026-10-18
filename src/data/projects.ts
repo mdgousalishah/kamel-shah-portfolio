@@ -15,8 +15,24 @@ export interface Project {
 
 export const PROJECTS: Project[] = [
   {
-    id: "decent-apparels",
+    id: "campusone",
     number: "01",
+    title: "CampusOne",
+    category: "School ERP & Administration Platform",
+    tech: ["React", "TypeScript", "Tailwind CSS", "Node.js", "Express", "QR Code Generation", "Multi-Tenant Architecture"],
+    description: [
+      "Built a school administration and ERP platform for Kamel Education Society to manage students, attendance, and fees in one place.",
+      "Developed a Student ID Badge Generator that produces printable ID cards with QR codes in batches.",
+      "Created a Touch Roster attendance register, a fees ledger, and multi-tenant management so each school runs on the same platform."
+    ],
+    github: "https://github.com/mdgousalishah",
+    featured: true,
+    image: "/Photos/CampusOne.png",
+    imageWebp: "/Photos/optimized/CampusOne.webp"
+  },
+  {
+    id: "decent-apparels",
+    number: "02",
     title: "Decent Apparels",
     category: "Full-Stack eCommerce Platform",
     tech: ["React", "TypeScript", "Tailwind CSS", "Node.js", "Express", "MongoDB", "Zustand"],
@@ -33,7 +49,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "soap-soul",
-    number: "02",
+    number: "03",
     title: "The Soap & Soul",
     category: "Handmade Skincare & Luxury eCommerce",
     tech: ["PHP", "Laravel", "JavaScript", "Bootstrap", "MySQL"],
@@ -50,7 +66,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "masjid",
-    number: "03",
+    number: "04",
     title: "Masjid Mehtab Ali Shah",
     category: "Community Trust & Institutional Portal",
     tech: ["HTML5", "CSS3", "JavaScript", "Bootstrap", "Responsive Layout"],
@@ -66,7 +82,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "shah-construction",
-    number: "04",
+    number: "05",
     title: "Shah Construction",
     category: "Corporate EPC & Engineering Website",
     tech: ["HTML5", "CSS3", "JavaScript", "Bootstrap"],
@@ -82,7 +98,7 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "who-will-pay",
-    number: "05",
+    number: "06",
     title: "Who Will Pay?",
     category: "Interactive Decision & Utility Web App",
     tech: ["HTML5", "CSS3", "JavaScript", "Tailwind CSS", "LocalStorage"],

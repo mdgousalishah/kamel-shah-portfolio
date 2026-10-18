@@ -131,8 +131,8 @@ export default function Projects() {
             </Headline>
           <Reveal from="right" className="lg:col-span-5" delay={0.06}>
             <p className="body-muted max-w-[30rem] lg:ml-auto">
-              Five real projects — each shown with its own live screenshot, the stack it was built with,
-              and a link where one is publicly available.
+              Six real projects — each shown with a screenshot or interface preview, the stack it was built
+              with, and a link where one is publicly available.
             </p>
           </Reveal>
         </div>

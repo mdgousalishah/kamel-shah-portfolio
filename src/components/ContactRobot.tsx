@@ -146,7 +146,7 @@ export default function ContactRobot(props: ContactRobotProps) {
   return (
     <div aria-hidden="true" className="robot pointer-events-none select-none" data-mood={mood}>
       {/* Speech bubble */}
-      <div className="mb-2 flex h-[3.25rem] items-end justify-center">
+      <div className="mb-1.5 flex h-[2.6rem] items-end justify-center">
         <AnimatePresence mode="wait" initial={false}>
           <motion.p
             key={line}
@@ -165,8 +165,8 @@ export default function ContactRobot(props: ContactRobotProps) {
       <svg
         ref={headRef}
         viewBox="0 0 140 112"
-        width="140"
-        height="112"
+        width="105"
+        height="84"
         className="robot-body mx-auto block"
       >
         {/* Antenna */}

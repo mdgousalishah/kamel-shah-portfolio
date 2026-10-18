@@ -380,8 +380,8 @@ button:hover > .zoom-on-hover img {
 
 .field {
   width: 100%;
-  min-height: 48px;
-  padding: 0.75rem 0;
+  min-height: 44px;
+  padding: 0.6rem 0;
   background: transparent;
   border: 0;
   border-bottom: 1px solid var(--line);
@@ -409,15 +409,15 @@ button:hover > .zoom-on-hover img {
 
 .robot-bubble {
   position: relative;
-  max-width: 16rem;
-  padding: 0.45rem 0.8rem;
+  max-width: 17rem;
+  padding: 0.35rem 0.75rem;
   border: 1.5px solid var(--ink);
   border-radius: 0.6rem;
   background: var(--paper);
   color: var(--ink);
-  font-size: 0.78rem;
+  font-size: 0.74rem;
   font-weight: 500;
-  line-height: 1.35;
+  line-height: 1.3;
   text-align: center;
   box-shadow: 2px 2px 0 var(--ink);
 }

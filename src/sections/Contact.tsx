@@ -259,7 +259,7 @@ export default function Contact() {
 
             {/* Form */}
             <Reveal from="right" blur={false} className="lg:col-span-7" delay={0.08}>
-              <div className="relative z-10 -mb-[9px]">
+              <div className="relative z-10 -mb-[7px]">
                 <ContactRobot
                   focused={focused}
                   values={formData}
@@ -278,11 +278,11 @@ export default function Contact() {
                 onBlur={() => setFocused(null)}
                 noValidate
                 aria-labelledby="contact-form-title"
-                className="rounded-md border border-line bg-paper p-6 sm:p-10"
+                className="rounded-md border border-line bg-paper p-5 sm:p-7"
               >
-                <h3 id="contact-form-title" className="font-serif text-2xl text-ink">Send a message</h3>
+                <h3 id="contact-form-title" className="font-serif text-xl text-ink sm:text-2xl">Send a message</h3>
                 <p className="mt-1 text-sm text-muted">
-                  It goes straight to my inbox, with reply-to set to your email.{' '}
+                  It goes straight to my inbox.{' '}
                   <a href="/privacy" className="underline decoration-line underline-offset-2 hover:decoration-ink">How your details are used</a>.
                 </p>
 
@@ -313,7 +313,7 @@ export default function Contact() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                    className="mt-8 border-t border-line pt-8"
+                    className="mt-5 border-t border-line pt-6"
                   >
                     <div className="flex items-start gap-3">
                       <span className="mt-1 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-ink text-ivory">
@@ -339,14 +339,14 @@ export default function Contact() {
                       </div>
                     </div>
 
-                    <p className="eyebrow mt-8">What happens next</p>
-                    <ol className="mt-4 space-y-3 text-sm leading-relaxed text-ink-soft">
+                    <p className="eyebrow mt-6">What happens next</p>
+                    <ol className="mt-3 space-y-2.5 text-sm leading-relaxed text-ink-soft">
                       <li className="flex gap-3"><span className="section-index text-sm">01</span><span>I read every message personally and reply from my own email.</span></li>
                       <li className="flex gap-3"><span className="section-index text-sm">02</span><span>Keep an eye on your inbox, and check spam or promotions if you don&rsquo;t see my reply.</span></li>
                       <li className="flex gap-3"><span className="section-index text-sm">03</span><span>Need a faster answer? WhatsApp me and mention your message.</span></li>
                     </ol>
 
-                    <div className="mt-9 flex flex-col-reverse items-stretch gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="mt-6 flex flex-col-reverse items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
                       <button type="button" onClick={startOver} className="link-quiet inline-flex items-center justify-center gap-1 text-sm">
                         Send another message
                       </button>
@@ -358,7 +358,7 @@ export default function Contact() {
                   </motion.div>
                 ) : (
                   <>
-                  <div className="mt-8 grid grid-cols-1 gap-x-8 gap-y-7 sm:grid-cols-2">
+                  <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-4 sm:gap-x-8">
                     <div>
                       <label htmlFor="contact-first-name" className="field-label">First name *</label>
                       <input type="text" id="contact-first-name" required maxLength={LIMITS.name} autoComplete="given-name" className="field" {...field('firstName')} />
@@ -367,11 +367,11 @@ export default function Contact() {
                       <label htmlFor="contact-last-name" className="field-label">Last name *</label>
                       <input type="text" id="contact-last-name" required maxLength={LIMITS.name} autoComplete="family-name" className="field" {...field('lastName')} />
                     </div>
-                    <div>
+                    <div className="col-span-2 sm:col-span-1">
                       <label htmlFor="contact-email" className="field-label">Email address *</label>
                       <input type="email" id="contact-email" required maxLength={LIMITS.email} autoComplete="email" placeholder="you@example.com" className="field" {...field('email')} />
                     </div>
-                    <div>
+                    <div className="col-span-2 sm:col-span-1">
                       <label htmlFor="contact-phone" className="field-label">Phone (optional)</label>
                       <input type="tel" id="contact-phone" maxLength={LIMITS.phone} autoComplete="tel" placeholder="+91" className="field" {...field('phone')} />
                     </div>
@@ -380,10 +380,10 @@ export default function Contact() {
                       <label htmlFor="contact-website">Website</label>
                       <input type="text" id="contact-website" tabIndex={-1} autoComplete="off" {...field('website')} />
                     </div>
-                    <div className="sm:col-span-2">
+                    <div className="col-span-2">
                       <label htmlFor="contact-message" className="field-label">Message *</label>
                       <textarea
-                        rows={5}
+                        rows={3}
                         id="contact-message"
                         required
                         maxLength={LIMITS.message}
@@ -394,7 +394,7 @@ export default function Contact() {
                     </div>
                   </div>
 
-                  <div className="mt-9 flex flex-col-reverse items-stretch gap-4 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="mt-6 flex flex-col-reverse items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <a href={whatsappHref()} target="_blank" rel="noopener noreferrer" className="link-quiet inline-flex items-center justify-center gap-1 text-sm">
                       Prefer WhatsApp?
                       <ArrowUpRight size={13} aria-hidden="true" />

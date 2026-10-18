@@ -18,12 +18,17 @@ export const PROJECTS: Project[] = [
     id: "campusone",
     number: "01",
     title: "CampusOne",
-    category: "School ERP & Administration Platform",
-    tech: ["React", "TypeScript", "Tailwind CSS", "Node.js", "Express", "QR Code Generation", "Multi-Tenant Architecture"],
+    category: "Multi-Tenant School ERP SaaS · In development",
+    tech: [
+      "React 19", "TypeScript", "Vite", "Tailwind CSS v4", "React Router v7",
+      "React Hook Form", "Zod", "Supabase", "PostgreSQL", "Row-Level Security",
+      "Supabase Auth", "Edge Functions (Deno)", "jsPDF", "QR Code", "Vitest"
+    ],
     description: [
-      "Built a school administration and ERP platform for Kamel Education Society to manage students, attendance, and fees in one place.",
-      "Developed a Student ID Badge Generator that produces printable ID cards with QR codes in batches.",
-      "Created a Touch Roster attendance register, a fees ledger, and multi-tenant management so each school runs on the same platform."
+      "Building a multi-tenant school ERP SaaS for Kamel Education Society, with separate portals for super admins, school staff, and parents.",
+      "Enforced tenant isolation and role-based access for five roles using PostgreSQL Row-Level Security, covered by automated SQL security tests.",
+      "Built student, guardian, staff, and academic-year management with CSV import/export, plus an audited school-approval workflow.",
+      "Generates student ID cards with server-issued QR codes, a public verification page, and printable A4 PDF sheets."
     ],
     github: "https://github.com/mdgousalishah",
     featured: true,

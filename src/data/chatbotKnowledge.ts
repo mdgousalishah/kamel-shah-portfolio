@@ -66,8 +66,8 @@ export const CHATBOT_KNOWLEDGE = {
   projects: [
     {
       name: "CampusOne",
-      description: "School administration and ERP SaaS platform for Kamel Education Society featuring Institutional Badge ID Generator with QR codes, Touch Roster Attendance Register, fees ledger, and multi-tenant management.",
-      technologies: ["React", "TypeScript", "Tailwind CSS", "Node.js", "Express", "QR Code Generation", "Multi-Tenant Architecture"]
+      description: "Multi-tenant school ERP SaaS for Kamel Education Society (in development). Built so far: role-based portals for super admins, school staff and parents; tenant isolation with PostgreSQL Row-Level Security; student, guardian, staff and academic-year management with CSV import/export; and student ID cards with QR verification and printable PDFs. Attendance and fees are planned next.",
+      technologies: ["React 19", "TypeScript", "Vite", "Tailwind CSS v4", "React Router v7", "React Hook Form", "Zod", "Supabase", "PostgreSQL", "Row-Level Security", "Edge Functions (Deno)", "jsPDF", "Vitest"]
     },
     {
       name: "Decent Apparels",

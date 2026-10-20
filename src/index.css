@@ -504,3 +504,47 @@ button:hover > .zoom-on-hover img {
 .work-switcher ol {
   pointer-events: auto;
 }
+
+/* ── Services: pinned horizontal scroll (desktop) ──────────── */
+
+.services-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  padding-top: var(--nav-height);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.services-track {
+  display: flex;
+  gap: 1.25rem;
+  width: max-content;
+  /* First card lines up with the page content; the row runs off the right edge. */
+  padding-inline: max(var(--gutter), calc((100vw - 1200px) / 2 + var(--gutter)));
+  will-change: transform;
+}
+
+.service-card {
+  display: flex;
+  flex-direction: column;
+  width: clamp(320px, 34vw, 440px);
+  min-height: min(420px, calc(100vh - var(--nav-height) - 6rem));
+  padding: 2rem;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--paper);
+  box-shadow: 0 24px 60px -40px rgba(36, 36, 36, 0.35);
+}
+
+.service-card--cta {
+  background: var(--ink);
+  border-color: var(--ink);
+  transition: background-color 0.3s ease;
+}
+
+.service-card--cta:hover {
+  background: var(--ink-soft);
+}

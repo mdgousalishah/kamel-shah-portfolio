@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { ArrowUpRight, Check } from 'lucide-react';
 import {
   motion,
@@ -21,25 +21,56 @@ const sourceLabel = (url: string) =>
 const MAX_TAGS = 6;
 /** Each stacked card sits this many px lower than the one before, so earlier cards peek out on top. */
 const STACK_STEP = 14;
+/** Fixed nav bar height (matches --nav-height in index.css). */
+const NAV_HEIGHT = 68;
+/** Space the pinned project switcher takes above the cards (desktop only). */
+const SWITCHER_SPACE = 76;
+/** Breathing room kept under a card that is pinned by its bottom edge. */
+const BOTTOM_GAP = 16;
 
-/**
- * Stacked, pinned cards only on screens large enough to show a whole card at once.
- * Phones, tablets and short laptop windows get a normal vertical list instead.
- */
-const STACK_QUERY = '(min-width: 1200px) and (min-height: 760px)';
+const SWITCHER_QUERY = '(min-width: 1024px)';
 
-function useStackLayout() {
-  const [stacked, setStacked] = useState(
-    () => typeof window !== 'undefined' && window.matchMedia(STACK_QUERY).matches,
+function useMediaQuery(query: string) {
+  const [matches, setMatches] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia(query).matches,
   );
   useEffect(() => {
-    const mq = window.matchMedia(STACK_QUERY);
-    const update = () => setStacked(mq.matches);
+    const mq = window.matchMedia(query);
+    const update = () => setMatches(mq.matches);
     update();
     mq.addEventListener('change', update);
     return () => mq.removeEventListener('change', update);
-  }, []);
-  return stacked;
+  }, [query]);
+  return matches;
+}
+
+/**
+ * Where a card pins. A card that fits on screen pins just under the nav/switcher
+ * (a little lower than the card before it, so earlier cards peek out).
+ * A card taller than the screen pins by its bottom edge instead, so it is
+ * always read in full before the next card slides over it.
+ */
+function useStickyTop(ref: React.RefObject<HTMLElement | null>, preferredTop: number) {
+  const [top, setTop] = useState(preferredTop);
+
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const update = () => {
+      const fits = preferredTop + el.offsetHeight <= window.innerHeight - BOTTOM_GAP;
+      setTop(fits ? preferredTop : window.innerHeight - el.offsetHeight - BOTTOM_GAP);
+    };
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    window.addEventListener('resize', update);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', update);
+    };
+  }, [ref, preferredTop]);
+
+  return top;
 }
 
 function ProjectImage({ project }: { project: Project }) {
@@ -67,6 +98,23 @@ function ProjectImage({ project }: { project: Project }) {
           />
         </picture>
       )}
+    </div>
+  );
+}
+
+function ProjectModules({ project }: { project: Project }) {
+  if (!project.modules?.length) return null;
+  return (
+    <div className="mt-5">
+      <span className="eyebrow">Key modules</span>
+      <ul className="mt-3 grid grid-cols-1 gap-x-5 gap-y-3 sm:grid-cols-2">
+        {project.modules.map((m) => (
+          <li key={m.title} className="border-t border-line pt-2.5">
+            <span className="block text-[0.8rem] font-semibold text-ink">{m.title}</span>
+            <span className="mt-0.5 block text-[0.78rem] leading-snug text-muted">{m.text}</span>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
@@ -164,45 +212,40 @@ function ProjectCard({
   index,
   total,
   progress,
-  stacked,
+  headerSpace,
 }: {
   project: Project;
   index: number;
   total: number;
   progress: MotionValue<number>;
-  stacked: boolean;
+  headerSpace: number;
 }) {
+  const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
+  const top = useStickyTop(ref, headerSpace + index * STACK_STEP);
+
   // Earlier cards shrink and dim slightly as later cards slide over them.
   const targetScale = 1 - (total - 1 - index) * 0.035;
   const scale = useTransform(progress, [index / total, 1], [1, targetScale]);
   const shade = useTransform(progress, [index / total, 1], [0, index === total - 1 ? 0 : 0.07]);
-  const animate = stacked && !reduce;
 
   return (
     <motion.article
+      ref={ref}
       aria-labelledby={`project-${project.id}`}
-      className={`work-card relative overflow-hidden rounded-[28px] border border-line bg-paper ${
-        stacked ? 'work-card--stacked' : ''
-      }`}
-      style={
-        stacked
-          ? {
-              top: `calc(var(--stack-top) + ${index * STACK_STEP}px)`,
-              ...(animate ? { scale, originY: 0 } : {}),
-            }
-          : undefined
-      }
+      className="work-card relative overflow-hidden rounded-[22px] border border-line bg-paper sm:rounded-[28px]"
+      style={{ top, ...(reduce ? {} : { scale, originY: 0 }) }}
     >
-      <div className="grid h-full w-full grid-cols-1 gap-8 p-6 sm:p-8 lg:grid-cols-12 lg:items-center lg:gap-10 lg:px-10 lg:py-8">
+      <div className="grid w-full grid-cols-1 gap-7 p-5 sm:p-8 lg:grid-cols-12 lg:items-center lg:gap-10 lg:px-10 lg:py-8">
         <div className="lg:col-span-6">
           <ProjectBody project={project} />
         </div>
         <div className="order-first lg:order-none lg:col-span-6">
           <ProjectImage project={project} />
+          <ProjectModules project={project} />
         </div>
       </div>
-      {animate && (
+      {!reduce && (
         <motion.div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 bg-ink"
@@ -216,28 +259,27 @@ function ProjectCard({
 export default function Projects() {
   const stackRef = useRef<HTMLDivElement>(null);
   const markerRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const stacked = useStackLayout();
+  const showSwitcher = useMediaQuery(SWITCHER_QUERY);
   const [active, setActive] = useState(0);
   const total = PROJECTS.length;
+  const headerSpace = NAV_HEIGHT + (showSwitcher ? SWITCHER_SPACE : 16);
 
   const { scrollYProgress } = useScroll({ target: stackRef, offset: ['start start', 'end end'] });
 
-  // The active project is the last card whose natural position has reached its pinned spot.
+  // The active project is the last one whose (un-pinned) position has reached the middle of the screen.
   useMotionValueEvent(scrollYProgress, 'change', () => {
-    if (!stacked) return;
-    const stackTop = parseFloat(getComputedStyle(stackRef.current!).getPropertyValue('--stack-top-px')) || 140;
+    const line = window.innerHeight * 0.5;
     let current = 0;
     markerRefs.current.forEach((m, i) => {
-      if (m && m.getBoundingClientRect().top <= stackTop + i * STACK_STEP + 4) current = i;
+      if (m && m.getBoundingClientRect().top <= line) current = i;
     });
     setActive(current);
   });
 
   const jumpTo = (i: number) => {
     const marker = markerRefs.current[i];
-    if (!marker || !stackRef.current) return;
-    const stackTop = parseFloat(getComputedStyle(stackRef.current).getPropertyValue('--stack-top-px')) || 140;
-    const y = marker.getBoundingClientRect().top + window.scrollY - stackTop - i * STACK_STEP;
+    if (!marker) return;
+    const y = marker.getBoundingClientRect().top + window.scrollY - headerSpace - i * STACK_STEP;
     window.scrollTo({ top: y, behavior: 'smooth' });
   };
 
@@ -263,7 +305,7 @@ export default function Projects() {
 
         <div ref={stackRef} className="work-stack relative mt-12 lg:mt-16">
           {/* Pinned project switcher — mirrors the stack below and jumps to a card. */}
-          {stacked && (
+          {showSwitcher && (
             <nav aria-label="Jump to a project" className="work-switcher">
               <ol className="flex items-center gap-1 rounded-full border border-line bg-paper/90 p-1 shadow-[0_8px_30px_-18px_rgba(36,36,36,0.35)] backdrop-blur">
                 {PROJECTS.map((p, i) => (
@@ -284,25 +326,23 @@ export default function Projects() {
             </nav>
           )}
 
-          <div className={stacked ? '' : 'space-y-6 sm:space-y-8'}>
-            {PROJECTS.map((project, i) => (
-              <Fragment key={project.id}>
-                <div
-                  aria-hidden="true"
-                  ref={(el) => {
-                    markerRefs.current[i] = el;
-                  }}
-                />
-                {stacked ? (
-                  <ProjectCard project={project} index={i} total={total} progress={scrollYProgress} stacked />
-                ) : (
-                  <Reveal from="up" blur={false}>
-                    <ProjectCard project={project} index={i} total={total} progress={scrollYProgress} stacked={false} />
-                  </Reveal>
-                )}
-              </Fragment>
-            ))}
-          </div>
+          {PROJECTS.map((project, i) => (
+            <Fragment key={project.id}>
+              <div
+                aria-hidden="true"
+                ref={(el) => {
+                  markerRefs.current[i] = el;
+                }}
+              />
+              <ProjectCard
+                project={project}
+                index={i}
+                total={total}
+                progress={scrollYProgress}
+                headerSpace={headerSpace}
+              />
+            </Fragment>
+          ))}
         </div>
       </div>
     </section>

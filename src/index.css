@@ -476,27 +476,18 @@ button:hover > .zoom-on-hover img {
 
 /* ── Selected Work: pinned, stacking project cards ─────────── */
 
-.work-stack {
-  /* Cards pin just below the nav + project switcher. Keep both values in sync. */
-  --stack-top: calc(var(--nav-height) + 76px);
-  --stack-top-px: 144;
-}
-
 .work-card {
-  box-shadow: 0 1px 0 rgba(36, 36, 36, 0.02), 0 24px 60px -40px rgba(36, 36, 36, 0.35);
+  box-shadow: 0 -14px 40px -28px rgba(36, 36, 36, 0.4), 0 24px 60px -40px rgba(36, 36, 36, 0.35);
 }
 
-.work-card--stacked {
+/* Every card pins; its `top` is set in Projects.tsx so tall cards pin by their bottom edge. */
+.work-stack .work-card {
   position: sticky;
-  min-height: min(560px, calc(100vh - var(--stack-top) - 6rem));
-  display: flex;
-  align-items: center;
-  margin-bottom: 26vh;
-  box-shadow: 0 -14px 40px -28px rgba(36, 36, 36, 0.4), 0 24px 60px -40px rgba(36, 36, 36, 0.35);
+  margin-bottom: 22vh;
   will-change: transform;
 }
 
-.work-card--stacked:last-of-type {
+.work-stack .work-card:last-of-type {
   margin-bottom: 0;
 }
 

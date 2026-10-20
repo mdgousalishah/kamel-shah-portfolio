@@ -5,6 +5,8 @@ export interface Project {
   category: string;
   /** One-line italic summary shown under the title. */
   tagline?: string;
+  /** Short feature summary shown as a compact grid (used for larger products). */
+  modules?: { title: string; text: string }[];
   tech: string[];
   description: string | string[];
   link?: string;
@@ -32,6 +34,14 @@ export const PROJECTS: Project[] = [
       "Enforced tenant isolation and role-based access for five roles using PostgreSQL Row-Level Security, covered by automated SQL security tests.",
       "Built student, guardian, staff, and academic-year management with CSV import/export, plus an audited school-approval workflow.",
       "Generates student ID cards with server-issued QR codes, a public verification page, and printable A4 PDF sheets."
+    ],
+    modules: [
+      { title: "Academics", text: "Classes, subjects, timetables, homework, exams and report cards." },
+      { title: "Attendance", text: "Daily class-wise marking, audited corrections, CSV/PDF reports." },
+      { title: "Fees", text: "Instalments, concessions, school-scoped receipts, defaulter lists." },
+      { title: "ID Cards", text: "Live-preview templates, QR verification, bulk A4 PDFs." },
+      { title: "Parent Portal", text: "One login for every linked child, plus leave requests." },
+      { title: "Communication", text: "Notices via WhatsApp, email and SMS with real delivery status." }
     ],
     github: "https://github.com/mdgousalishah",
     featured: true,

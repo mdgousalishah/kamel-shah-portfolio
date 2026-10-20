@@ -473,3 +473,43 @@ button:hover > .zoom-on-hover img {
     filter: none;
   }
 }
+
+/* ── Selected Work: pinned, stacking project cards ─────────── */
+
+.work-stack {
+  /* Cards pin just below the nav + project switcher. Keep both values in sync. */
+  --stack-top: calc(var(--nav-height) + 76px);
+  --stack-top-px: 144;
+}
+
+.work-card {
+  box-shadow: 0 1px 0 rgba(36, 36, 36, 0.02), 0 24px 60px -40px rgba(36, 36, 36, 0.35);
+}
+
+.work-card--stacked {
+  position: sticky;
+  min-height: min(560px, calc(100vh - var(--stack-top) - 6rem));
+  display: flex;
+  align-items: center;
+  margin-bottom: 26vh;
+  box-shadow: 0 -14px 40px -28px rgba(36, 36, 36, 0.4), 0 24px 60px -40px rgba(36, 36, 36, 0.35);
+  will-change: transform;
+}
+
+.work-card--stacked:last-of-type {
+  margin-bottom: 0;
+}
+
+.work-switcher {
+  position: sticky;
+  top: calc(var(--nav-height) + 14px);
+  z-index: 20;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.75rem;
+  pointer-events: none;
+}
+
+.work-switcher ol {
+  pointer-events: auto;
+}

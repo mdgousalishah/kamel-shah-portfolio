@@ -3,6 +3,8 @@ export interface Project {
   number: string;
   title: string;
   category: string;
+  /** One-line italic summary shown under the title. */
+  tagline?: string;
   tech: string[];
   description: string | string[];
   link?: string;
@@ -19,6 +21,7 @@ export const PROJECTS: Project[] = [
     number: "01",
     title: "CampusOne",
     category: "Multi-Tenant School ERP SaaS · In development",
+    tagline: "One school ERP with three portals and strict tenant isolation.",
     tech: [
       "React 19", "TypeScript", "Vite", "Tailwind CSS v4", "React Router v7",
       "React Hook Form", "Zod", "Supabase", "PostgreSQL", "Row-Level Security",
@@ -40,6 +43,7 @@ export const PROJECTS: Project[] = [
     number: "02",
     title: "Decent Apparels",
     category: "Full-Stack eCommerce Platform",
+    tagline: "A full-stack storefront for a readymade garment retailer.",
     tech: ["React", "TypeScript", "Tailwind CSS", "Node.js", "Express", "MongoDB", "Zustand"],
     description: [
       "Engineered a full-stack apparel eCommerce platform with responsive catalog browsing and shopping cart interactions.",
@@ -57,6 +61,7 @@ export const PROJECTS: Project[] = [
     number: "03",
     title: "The Soap & Soul",
     category: "Handmade Skincare & Luxury eCommerce",
+    tagline: "An online storefront for a handmade skincare brand.",
     tech: ["PHP", "Laravel", "JavaScript", "Bootstrap", "MySQL"],
     description: [
       "Designed and developed an eCommerce website for a handmade skincare brand featuring responsive, user-friendly layouts.",
@@ -74,6 +79,7 @@ export const PROJECTS: Project[] = [
     number: "04",
     title: "Masjid Mehtab Ali Shah",
     category: "Community Trust & Institutional Portal",
+    tagline: "A clear, fast home online for a community institution.",
     tech: ["HTML5", "CSS3", "JavaScript", "Bootstrap", "Responsive Layout"],
     description: [
       "Developed a responsive institutional portal for Masjid e Mehtab Ali Shah / Ashoorkhana Nale Hyder community organization.",
@@ -90,6 +96,7 @@ export const PROJECTS: Project[] = [
     number: "05",
     title: "Shah Construction",
     category: "Corporate EPC & Engineering Website",
+    tagline: "A corporate web presence for an EPC firm.",
     tech: ["HTML5", "CSS3", "JavaScript", "Bootstrap"],
     description: [
       "Designed and developed a corporate web presence for an engineering, procurement, and construction (EPC) firm.",
@@ -106,6 +113,7 @@ export const PROJECTS: Project[] = [
     number: "06",
     title: "Who Will Pay?",
     category: "Interactive Decision & Utility Web App",
+    tagline: "Settling the group bill fairly — with a little drama.",
     tech: ["HTML5", "CSS3", "JavaScript", "Tailwind CSS", "LocalStorage"],
     description: [
       "Engineered an interactive decision-making expense utility application for fair group expense allocation.",

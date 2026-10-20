@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import { motion, AnimatePresence, LayoutGroup, useInView, useReducedMotion } from 'motion/react';
 import { X, ArrowUpRight, Maximize2 } from 'lucide-react';
 import { CERTIFICATIONS, type Certification } from '../data/certifications';
 import Reveal from '../components/Reveal';
@@ -11,6 +11,19 @@ const thumbFor = (image: string) => {
   const name = image.split('/').pop()?.replace(/\.[^.]+$/, '');
   return name ? `/Photos/optimized/certificates/${name}.webp` : image;
 };
+
+/** Filter groups for the certificate grid (keyed by certificate id, so the data file stays unchanged). */
+const GROUPS = [
+  { key: 'ai-cloud', label: 'AI & Cloud', ids: ['cert-azure-essentials', 'cert-agentic-ai', 'cert-ai-masterclass'] },
+  { key: 'dev', label: 'Development', ids: ['cert-deloitte-tech', 'cert-wordpress', 'cert-nielit'] },
+  { key: 'data', label: 'Data & Business', ids: ['cert-seo', 'cert-business-analysis', 'cert-data-analysis', 'cert-sdn-work-productivity'] },
+  { key: 'leadership', label: 'Leadership', ids: ['cert-vbyld-2027', 'cert-nasha-mukt'] },
+] as const;
+
+type FilterKey = 'all' | (typeof GROUPS)[number]['key'];
+
+/** Deck-deal entrance only where the grid has several columns. */
+const DEAL_QUERY = '(min-width: 640px)';
 
 function CertThumb({ cert }: { cert: Certification }) {
   const [src, setSrc] = useState(() => thumbFor(cert.image!));
@@ -33,6 +46,36 @@ export default function Certifications() {
   const dialogRef = useRef<HTMLDivElement>(null);
 
   const certificates = CERTIFICATIONS.filter((c) => Boolean(c.image));
+  const issuerCount = new Set(certificates.map((c) => c.issuer.split(/[·/]/)[0].trim())).size;
+  const [filter, setFilter] = useState<FilterKey>('all');
+  const visible =
+    filter === 'all' ? certificates : certificates.filter((c) => GROUPS.find((g) => g.key === filter)?.ids.includes(c.id as never));
+
+  // Deck deal: cards start stacked in the middle of the grid and fan out into place, once.
+  const reduce = useReducedMotion();
+  const gridRef = useRef<HTMLUListElement>(null);
+  const inView = useInView(gridRef, { once: true, margin: '0px 0px -40% 0px' });
+  const [deckOffsets, setDeckOffsets] = useState<{ x: number; y: number }[] | null>(null);
+  const [canDeal, setCanDeal] = useState(false);
+
+  useLayoutEffect(() => {
+    const grid = gridRef.current;
+    if (!grid || reduce || !window.matchMedia(DEAL_QUERY).matches) return;
+    const g = grid.getBoundingClientRect();
+    const cx = g.left + g.width / 2;
+    const items = Array.from(grid.children) as HTMLElement[];
+    // Deck sits where the first row will be, so it is on screen just before it is dealt.
+    const cy = g.top + (items[0]?.getBoundingClientRect().height ?? 300) / 2;
+    setDeckOffsets(
+      items.map((el) => {
+        const r = el.getBoundingClientRect();
+        return { x: cx - (r.left + r.width / 2), y: cy - (r.top + r.height / 2) };
+      }),
+    );
+    setCanDeal(true);
+    // Measured once on first render, before the deck is dealt.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const open = (cert: Certification, el: HTMLElement) => {
     triggerRef.current = el;
@@ -90,38 +133,90 @@ export default function Certifications() {
           </Reveal>
         </div>
 
-        <ul className="mt-12 grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
-          {certificates.map((cert, i) => (
-            <Reveal as="li" from="zoom" blur={false} key={cert.id} delay={(i % 3) * 0.08}>
-              <button
-                type="button"
-                onClick={(e) => open(cert, e.currentTarget)}
-                aria-label={`View certificate: ${cert.title}, ${cert.issuer}`}
-                className="group block w-full text-left"
-              >
-                <Depth strength={5} tilt tiltStrength={4}>
-                <div className="frame zoom-on-hover relative aspect-[4/3] bg-paper p-3">
-                  <CertThumb cert={cert} />
-                  <span
-                    aria-hidden="true"
-                    className="absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-ivory/90 text-ink opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
+        {/* Filters + quick stats */}
+        <div className="mt-12 flex flex-col gap-5 lg:mt-16 lg:flex-row lg:items-center lg:justify-between">
+          <div role="group" aria-label="Filter certificates" className="-mx-1 flex flex-wrap gap-2 px-1">
+            {[{ key: 'all' as FilterKey, label: 'All', count: certificates.length }, ...GROUPS.map((g) => ({ key: g.key as FilterKey, label: g.label, count: g.ids.length }))].map((f) => {
+              const on = filter === f.key;
+              return (
+                <button
+                  key={f.key}
+                  type="button"
+                  onClick={() => setFilter(f.key)}
+                  aria-pressed={on}
+                  className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-[0.8rem] font-medium transition-colors duration-300 ${
+                    on ? 'border-ink bg-ink text-ivory' : 'border-line text-muted hover:border-ink hover:text-ink'
+                  }`}
+                >
+                  {f.label}
+                  <span className={`text-[0.7rem] ${on ? 'text-ivory/70' : 'text-muted'}`}>{f.count}</span>
+                </button>
+              );
+            })}
+          </div>
+          <p className="text-sm text-muted">
+            <span className="font-serif text-lg italic text-ink">{certificates.length}</span> certificates from{' '}
+            <span className="font-serif text-lg italic text-ink">{issuerCount}</span> issuers
+          </p>
+        </div>
+
+        <LayoutGroup>
+          <motion.ul
+            ref={gridRef}
+            layout
+            className="mt-10 grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3"
+          >
+            <AnimatePresence mode="popLayout" initial={false}>
+              {visible.map((cert, i) => {
+                const idx = certificates.indexOf(cert);
+                const off = deckOffsets?.[idx];
+                const stacked = canDeal && !inView && off;
+                return (
+                  <motion.li
+                    key={cert.id}
+                    layout={!reduce}
+                    initial={canDeal && off ? { x: off.x, y: off.y, rotate: (idx - certificates.length / 2) * 2.2, scale: 0.86, opacity: 0 } : false}
+                    animate={
+                      stacked
+                        ? { x: off.x, y: off.y, rotate: (idx - certificates.length / 2) * 2.2, scale: 0.86, opacity: idx < 5 ? 1 : 0 }
+                        : { x: 0, y: 0, rotate: 0, scale: 1, opacity: 1 }
+                    }
+                    exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
+                    transition={{ type: 'spring', stiffness: 120, damping: 20, mass: 0.9, delay: canDeal && inView ? Math.min(idx, 11) * 0.05 : 0 }}
+                    style={{ zIndex: certificates.length - idx }}
                   >
-                    <Maximize2 size={14} />
-                  </span>
-                </div>
-                </Depth>
-                <div className="mt-4 flex items-baseline justify-between gap-4">
-                  <span className="eyebrow truncate">{cert.category || 'Certificate'}</span>
-                  {cert.date && <span className="shrink-0 text-xs text-muted">{cert.date}</span>}
-                </div>
-                <h3 className="mt-2 font-serif text-[1.2rem] leading-snug text-ink transition-colors group-hover:text-ink-soft">
-                  {cert.title}
-                </h3>
-                <p className="mt-1 text-sm text-muted">{cert.issuer}</p>
-              </button>
-            </Reveal>
-          ))}
-        </ul>
+                    <button
+                      type="button"
+                      onClick={(e) => open(cert, e.currentTarget)}
+                      aria-label={`View certificate: ${cert.title}, ${cert.issuer}`}
+                      className="group block w-full text-left"
+                    >
+                      <Depth strength={5} tilt tiltStrength={4}>
+                      <div className="frame zoom-on-hover relative aspect-[4/3] bg-paper p-3 shadow-[0_20px_50px_-36px_rgba(0,0,0,0.45)]">
+                        <CertThumb cert={cert} />
+                        <span
+                          aria-hidden="true"
+                          className="absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-ivory/90 text-ink opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
+                        >
+                          <Maximize2 size={14} />
+                        </span>
+                      </div>
+                      </Depth>
+                      <div className="mt-4 flex items-baseline justify-between gap-4">
+                        <span className="eyebrow truncate">{cert.category || 'Certificate'}</span>
+                        {cert.date && <span className="shrink-0 text-xs text-muted">{cert.date}</span>}
+                      </div>
+                      <h3 className="mt-2 font-serif text-[1.2rem] leading-snug text-ink transition-colors group-hover:text-ink-soft">
+                        {cert.title}
+                      </h3>
+                      <p className="mt-1 text-sm text-muted">{cert.issuer}</p>
+                    </button>
+                  </motion.li>
+                );
+              })}
+            </AnimatePresence>
+          </motion.ul>
+        </LayoutGroup>
       </div>
 
       {/* Lightbox */}

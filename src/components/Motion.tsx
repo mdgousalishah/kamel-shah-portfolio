@@ -91,10 +91,10 @@ export function Headline({
       <motion.h2
         id={id}
         className={className}
-        initial={{ opacity: 0, scale: 0.86, color: '#B9B3A7', filter: 'blur(8px)' }}
-        whileInView={{ opacity: 1, scale: 1, color: '#242424', filter: 'blur(0px)' }}
+        initial={{ opacity: 0, scale: 0.86, filter: 'blur(8px)' }}
+        whileInView={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
         viewport={{ once: true, margin: '0px 0px -10% 0px' }}
-        transition={{ duration: 1.1, ease: EASE, color: { duration: 1.6, ease: 'easeOut' } }}
+        transition={{ duration: 1.1, ease: EASE, opacity: { duration: 1.4, ease: 'easeOut' } }}
         style={{ originX: 0 }}
       >
         {children}

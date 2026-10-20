@@ -131,7 +131,7 @@ export default function Chatbot() {
       return (
         <span key={i} className="block mb-1 last:mb-0">
           {parts.map((part, j) => {
-            if (j % 2 === 1) return <strong key={j} className="font-semibold text-[#242424]">{part}</strong>;
+            if (j % 2 === 1) return <strong key={j} className="font-semibold text-ink">{part}</strong>;
             const trimmed = part.trim();
             const leadingSpace = part.slice(0, part.indexOf(trimmed));
             const link = trimmed.match(/^(https?:\/\/\S+|[\w.+-]+@[\w.-]+\.[A-Za-z]{2,})([.,!?;:]*)$/);
@@ -144,7 +144,7 @@ export default function Chatbot() {
                     href={href}
                     target={href.startsWith('http') ? '_blank' : undefined}
                     rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                    className="break-all text-[#3A3937] underline underline-offset-2 hover:text-[#242424]"
+                    className="break-all text-ink-soft underline underline-offset-2 hover:text-ink"
                   >
                     {link[1]}
                   </a>
@@ -185,23 +185,23 @@ export default function Chatbot() {
             role="dialog"
             aria-label="Kamel AI assistant"
             transition={{ duration: 0.18, ease: "easeOut" }}
-            className="fixed bottom-4 right-4 md:bottom-6 md:right-6 w-[calc(100vw-32px)] md:w-[370px] h-[min(520px,calc(100dvh-80px))] bg-[#F8F6F0] border border-[#D8D3C9] rounded-lg shadow-2xl flex flex-col z-50 overflow-hidden font-sans"
+            className="fixed bottom-4 right-4 md:bottom-6 md:right-6 w-[calc(100vw-32px)] md:w-[370px] h-[min(520px,calc(100dvh-80px))] bg-paper border border-line rounded-lg shadow-2xl flex flex-col z-50 overflow-hidden font-sans"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3 border-b border-[#D8D3C9] bg-[#ECE8DE]">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-line bg-sand">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 bg-[#F8F6F0] rounded-full flex items-center justify-center border border-[#D8D3C9]">
-                  <MessageCircle size={15} className="text-[#242424]" />
+                <div className="w-8 h-8 bg-paper rounded-full flex items-center justify-center border border-line">
+                  <MessageCircle size={15} className="text-ink" />
                 </div>
                 <div>
-                  <h3 className="text-[#242424] font-serif text-base leading-tight">Kamel Assistant</h3>
-                  <p className="text-[#6B6862] text-[11px] tracking-wide">Portfolio guide</p>
+                  <h3 className="text-ink font-serif text-base leading-tight">Kamel Assistant</h3>
+                  <p className="text-muted text-[11px] tracking-wide">Portfolio guide</p>
                 </div>
               </div>
               <div className="flex items-center gap-1">
                 <button
                   onClick={startNewChat}
-                  className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-[#D8D3C9]/50 text-[#6B6862] hover:text-[#242424] transition-colors cursor-pointer"
+                  className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-line/50 text-muted hover:text-ink transition-colors cursor-pointer"
                   aria-label="Start a new chat"
                   title="New chat"
                 >
@@ -209,7 +209,7 @@ export default function Chatbot() {
                 </button>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-[#D8D3C9]/50 text-[#6B6862] hover:text-[#242424] transition-colors cursor-pointer"
+                  className="w-7 h-7 flex items-center justify-center rounded-full hover:bg-line/50 text-muted hover:text-ink transition-colors cursor-pointer"
                   aria-label="Close Kamel AI assistant"
                 >
                   <X size={16} />
@@ -229,15 +229,15 @@ export default function Chatbot() {
                   className={`flex w-full ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   <div className={`flex gap-2.5 max-w-[85%] ${msg.type === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
-                    <div className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center bg-[#ECE8DE] border border-[#D8D3C9] text-[#242424] text-xs mt-auto">
+                    <div className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center bg-sand border border-line text-ink text-xs mt-auto">
                       {msg.type === 'bot' ? <MessageCircle size={12} /> : <User size={12} />}
                     </div>
 
                     <div
                       className={`p-3 rounded-xl text-xs sm:text-sm leading-relaxed ${
                         msg.type === 'user' 
-                          ? 'bg-[#242424] text-[#F8F6F0] rounded-br-xs' 
-                          : 'bg-[#ECE8DE] border border-[#D8D3C9] text-[#242424] rounded-bl-xs'
+                          ? 'bg-ink text-paper rounded-br-xs' 
+                          : 'bg-sand border border-line text-ink rounded-bl-xs'
                       } break-words`}
                     >
                       {formatMessage(msg.text)}
@@ -249,13 +249,13 @@ export default function Chatbot() {
               {isTyping && (
                 <div className="flex w-full justify-start">
                   <div className="flex gap-2.5 max-w-[85%]">
-                    <div className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center bg-[#ECE8DE] border border-[#D8D3C9] text-[#242424] text-xs mt-auto">
+                    <div className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center bg-sand border border-line text-ink text-xs mt-auto">
                       <MessageCircle size={12} />
                     </div>
-                    <div role="status" className="p-3 rounded-xl rounded-bl-xs bg-[#ECE8DE] border border-[#D8D3C9] flex items-center gap-1.5">
-                      <motion.div animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 0.9, repeat: Infinity, delay: 0 }} className="w-1.5 h-1.5 bg-[#242424] rounded-full" />
-                      <motion.div animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 0.9, repeat: Infinity, delay: 0.2 }} className="w-1.5 h-1.5 bg-[#242424] rounded-full" />
-                      <motion.div animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 0.9, repeat: Infinity, delay: 0.4 }} className="w-1.5 h-1.5 bg-[#242424] rounded-full" />
+                    <div role="status" className="p-3 rounded-xl rounded-bl-xs bg-sand border border-line flex items-center gap-1.5">
+                      <motion.div animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 0.9, repeat: Infinity, delay: 0 }} className="w-1.5 h-1.5 bg-ink rounded-full" />
+                      <motion.div animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 0.9, repeat: Infinity, delay: 0.2 }} className="w-1.5 h-1.5 bg-ink rounded-full" />
+                      <motion.div animate={{ opacity: [0.3, 1, 0.3] }} transition={{ duration: 0.9, repeat: Infinity, delay: 0.4 }} className="w-1.5 h-1.5 bg-ink rounded-full" />
                     </div>
                   </div>
                 </div>
@@ -268,7 +268,7 @@ export default function Chatbot() {
                     <button
                       key={i}
                       onClick={() => handleSendMessage(suggestion)}
-                      className="text-left text-xs text-[#242424] bg-[#ECE8DE]/70 hover:bg-[#ECE8DE] border border-[#D8D3C9] p-2 rounded-lg transition-colors cursor-pointer"
+                      className="text-left text-xs text-ink bg-sand/70 hover:bg-sand border border-line p-2 rounded-lg transition-colors cursor-pointer"
                     >
                       {suggestion}
                     </button>
@@ -284,7 +284,7 @@ export default function Chatbot() {
                 event.preventDefault();
                 handleSendMessage(inputValue);
               }}
-              className="p-3 border-t border-[#D8D3C9] bg-[#ECE8DE]"
+              className="p-3 border-t border-line bg-sand"
             >
               <div className="relative flex items-center">
                 <input
@@ -296,12 +296,12 @@ export default function Chatbot() {
                   disabled={isTyping}
                   aria-label="Ask Kamel AI a question"
                   placeholder={isTyping ? 'Thinking…' : 'Ask a question…'}
-                  className="w-full bg-[#F8F6F0] text-[#242424] text-xs sm:text-sm placeholder:text-[#6B6862]/70 rounded-full pl-3.5 pr-10 py-2.5 border border-[#D8D3C9] focus:outline-none focus:border-[#242424] transition-colors"
+                  className="w-full bg-paper text-ink text-xs sm:text-sm placeholder:text-muted/70 rounded-full pl-3.5 pr-10 py-2.5 border border-line focus:outline-none focus:border-ink transition-colors"
                 />
                 <button
                   type="submit"
                   disabled={!inputValue.trim() || isTyping}
-                  className="absolute right-1.5 w-7 h-7 flex items-center justify-center bg-[#242424] rounded-full text-[#F8F6F0] hover:bg-[#3A3937] disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
+                  className="absolute right-1.5 w-7 h-7 flex items-center justify-center bg-ink rounded-full text-paper hover:bg-ink-soft disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
                   aria-label="Send Message"
                 >
                   <Send size={12} />

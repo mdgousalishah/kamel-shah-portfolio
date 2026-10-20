@@ -4,6 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#F3F0E8" />
+    <script>
+      (function () {
+        try {
+          var p = location.pathname.toLowerCase();
+          if (localStorage.getItem('ks-theme') === 'dark' && p.indexOf('kamel-shah') === -1 && p.indexOf('/showcase') !== 0) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            document.querySelector('meta[name="theme-color"]').setAttribute('content', '#151413');
+          }
+        } catch (e) {}
+      })();
+    </script>
     <meta name="google-site-verification" content="1dvTfRgKngmmh4ebAhg3f22a40PyDQAajg_E1GK3fK4" />
     <title>Kamel Shah (Mohammed Gous Ali Shah) | Full-Stack Web Developer</title>
     <meta name="description" content="Portfolio of Kamel Shah (Mohammed Gous Ali Shah), a full-stack web developer in Parbhani, Maharashtra, building with React, Node.js and Laravel." />

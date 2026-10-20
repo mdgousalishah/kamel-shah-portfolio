@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
 import { SITE_CONFIG } from '../data/config';
+import ThemeToggle from './ThemeToggle';
 
 const NAV_ITEMS = SITE_CONFIG.navLinks.filter(
   (link) => link.href !== '#home' && link.href !== '#contact'
@@ -136,6 +137,7 @@ export default function Navigation() {
           </nav>
 
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <a href="#contact" className="btn btn-primary btn-sm hidden sm:inline-flex">
               Contact
               <ArrowUpRight size={14} aria-hidden="true" />

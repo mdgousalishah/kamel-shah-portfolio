@@ -11,15 +11,19 @@
   --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-serif: 'Newsreader', Georgia, Cambria, 'Times New Roman', Times, serif;
 
-  --color-ivory: #F3F0E8;
-  --color-paper: #F8F6F0;
-  --color-sand: #ECE8DE;
-  --color-ink: #242424;
-  --color-ink-soft: #3A3937;
-  --color-muted: #6B6862;
-  --color-line: #D8D3C9;
-  --color-night: #1C1C1B;
+  /* Point at the runtime tokens below so light/dark switch without rebuilding classes. */
+  --color-ivory: var(--bg);
+  --color-paper: var(--paper);
+  --color-sand: var(--sand);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-night: var(--night);
 }
+
+/* `dark:` utilities follow the site's own theme toggle, not the OS setting. */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
 :root {
   color-scheme: light;
@@ -36,6 +40,25 @@
   --gutter: clamp(1.25rem, 4.5vw, 3rem);
   --section-y: clamp(4.5rem, 10vw, 8.5rem);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Dark theme — same warm editorial feel, inverted. */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #151413;
+  --paper: #1D1C1A;
+  --sand: #262522;
+  --ink: #EEEAE2;
+  --ink-soft: #D2CDC3;
+  --muted: #9C978D;
+  --line: #34322E;
+  --night: #0D0D0C;
+}
+
+/* Smooth colour change when the theme is toggled (class added briefly by the toggle). */
+.theme-switching,
+.theme-switching * {
+  transition: background-color 0.35s ease, border-color 0.35s ease, color 0.35s ease, fill 0.35s ease !important;
 }
 
 html,
@@ -94,7 +117,7 @@ a, button {
 }
 
 ::selection {
-  background: rgba(36, 36, 36, 0.14);
+  background: color-mix(in srgb, var(--ink) 16%, transparent);
   color: var(--ink);
 }
 
@@ -122,7 +145,7 @@ a, button {
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #B9B3A7; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
 
 @layer components {
 /* ── Layout ─────────────────────────────────────────────────── */
@@ -392,7 +415,7 @@ button:hover > .zoom-on-hover img {
 }
 
 .field::placeholder {
-  color: #A9A49B;
+  color: color-mix(in srgb, var(--muted) 75%, transparent);
 }
 
 .field:focus {
@@ -547,4 +570,64 @@ button:hover > .zoom-on-hover img {
 
 .service-card--cta:hover {
   background: var(--ink-soft);
+}
+
+/* ── Hero extras ───────────────────────────────────────────── */
+
+@keyframes word-rise {
+  from { opacity: 0; transform: translate3d(0, 0.45em, 0) rotate(2deg); filter: blur(8px); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0) rotate(0); filter: blur(0); }
+}
+
+.hero-word {
+  display: inline-block;
+  opacity: 0;
+  transform-origin: 0 100%;
+  animation: word-rise 1s var(--ease-out) forwards;
+}
+
+.hero-glow {
+  position: absolute;
+  inset: 8% -10% -6% -10%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, #E8622C 16%, transparent), transparent 75%);
+  filter: blur(30px);
+  pointer-events: none;
+}
+
+.hero-chip {
+  position: absolute;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 16px 40px -24px rgba(0, 0, 0, 0.45);
+  font-size: 0.78rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.hero-chip--bl { left: -1.25rem; bottom: 3.25rem; animation-name: rise, chip-float; animation-duration: 0.9s, 6s; animation-delay: 0.45s, 1.4s; animation-iteration-count: 1, infinite; animation-timing-function: var(--ease-out), ease-in-out; }
+.hero-chip--tr { right: -1rem; top: 1.5rem; animation-name: rise, chip-float; animation-duration: 0.9s, 7s; animation-delay: 0.55s, 1.6s; animation-iteration-count: 1, infinite; animation-timing-function: var(--ease-out), ease-in-out; }
+
+@keyframes chip-float {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -6px, 0); }
+}
+
+/* Keep chips inside the screen on narrow layouts. */
+@media (max-width: 640px) {
+  .hero-chip--bl { left: 0.5rem; }
+  .hero-chip--tr { right: 0.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-word { opacity: 1; animation: none; transform: none; filter: none; }
+  .hero-chip--bl, .hero-chip--tr { animation: none; opacity: 1; }
 }

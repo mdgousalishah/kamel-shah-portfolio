@@ -298,7 +298,7 @@ export default function Contact() {
                       <div
                         role="alert"
                         id="contact-error-banner"
-                        className="mt-6 flex items-start gap-2 rounded-md border border-[#D9B4AA] bg-[#F7EBE6] p-3 text-[#8A3A26]"
+                        className="mt-6 flex items-start gap-2 rounded-md border border-[#D9B4AA] bg-[#F7EBE6] p-3 text-[#8A3A26] dark:border-[#6B3A2E] dark:bg-[#2A1C18] dark:text-[#F0B9A8]"
                       >
                         <AlertCircle size={15} className="mt-0.5 shrink-0" />
                         <span className="text-sm leading-relaxed">{errorMsg}</span>

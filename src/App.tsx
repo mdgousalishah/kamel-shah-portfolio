@@ -12,6 +12,7 @@ import Education from './sections/Education';
 import Certifications from './sections/Certifications';
 import Contact from './sections/Contact';
 import Footer from './components/Footer';
+import { applyTheme, getStoredTheme } from './lib/theme';
 // Loaded on demand so the home page ships less JavaScript up front.
 const Chatbot = lazy(() => import('./components/Chatbot'));
 const KamelShahProfile = lazy(() => import('./pages/KamelShahProfile'));
@@ -76,6 +77,11 @@ export default function App() {
     setCurrentPath('/');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  // Profile and showcase pages always stay light; the main page uses the saved theme.
+  useEffect(() => {
+    applyTheme(getStoredTheme());
+  }, [currentPath]);
 
   const finishLoading = useCallback(() => setLoading(false), []);
 

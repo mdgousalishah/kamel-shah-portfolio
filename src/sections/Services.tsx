@@ -130,7 +130,7 @@ function ServicesTrack() {
           })}
 
           <a href="#contact" className="service-card service-card--cta group">
-            <span className="eyebrow !text-[#B9B3A7]">Next step</span>
+            <span className="eyebrow !text-ivory/60">Next step</span>
             <span className="mt-auto block font-serif text-[clamp(1.8rem,2.8vw,2.5rem)] leading-[1.1] text-ivory">
               Have a project in mind?
             </span>

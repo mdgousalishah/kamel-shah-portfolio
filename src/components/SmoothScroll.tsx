@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import Lenis from 'lenis';
 
 /**
  * Smooth, eased wheel scrolling (Lenis), like landonorris.com.
@@ -16,6 +15,11 @@ export default function SmoothScroll() {
     const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     if (reduce || !fine) return;
 
+    // Loaded only here, so phones (native scrolling) never download it.
+    let cleanup = () => {};
+    let cancelled = false;
+    import('lenis').then(({ default: Lenis }) => {
+      if (cancelled) return;
     const lenis = new Lenis({
       lerp: 0.1,
       autoRaf: true,
@@ -46,10 +50,16 @@ export default function SmoothScroll() {
     const mo = new MutationObserver(syncLock);
     mo.observe(document.body, { attributes: true, attributeFilter: ['style'] });
 
-    return () => {
+    cleanup = () => {
       document.removeEventListener('click', onClick);
       mo.disconnect();
       lenis.destroy();
+    };
+    });
+
+    return () => {
+      cancelled = true;
+      cleanup();
     };
   }, []);
 

@@ -14,4 +14,10 @@
     <loc>https://kamel-shah-portfolio.vercel.app/privacy</loc>
     <lastmod>2026-10-18</lastmod>
   </url>
+  <url>
+    <loc>https://kamel-shah-portfolio.vercel.app/work/campusone</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>

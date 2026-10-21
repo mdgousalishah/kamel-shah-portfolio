@@ -4,20 +4,28 @@ import ScrollProgress from './components/ScrollProgress';
 import Navigation from './components/Navigation';
 import Preloader from './components/Preloader';
 import HeroAbout from './sections/HeroAbout';
-import Experience from './sections/Experience';
-import Skills from './sections/Skills';
-import Projects from './sections/Projects';
-import Services from './sections/Services';
-import Education from './sections/Education';
-import Certifications from './sections/Certifications';
-import Contact from './sections/Contact';
-import Footer from './components/Footer';
 import SmoothScroll from './components/SmoothScroll';
 import { applyTheme, getStoredTheme } from './lib/theme';
+import { startPauseOffscreen } from './lib/pauseOffscreen';
 // Loaded on demand so the home page ships less JavaScript up front.
 const Chatbot = lazy(() => import('./components/Chatbot'));
+// Sections below the hero/About load in their own chunk, right after the first paint.
+const BelowFold = lazy(() => import('./sections/BelowFold'));
+const LazyFooter = lazy(() => import('./sections/BelowFold').then((m) => ({ default: m.Footer })));
+
+/** Shows the footer only once every section above it has mounted. */
+function FooterWhenReady() {
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    const on = () => setReady(true);
+    window.addEventListener('ks-sections-ready', on);
+    return () => window.removeEventListener('ks-sections-ready', on);
+  }, []);
+  return ready ? <LazyFooter /> : null;
+}
 const KamelShahProfile = lazy(() => import('./pages/KamelShahProfile'));
 const Showcase = lazy(() => import('./pages/Showcase'));
+const CampusOneCaseStudy = lazy(() => import('./pages/CampusOneCaseStudy'));
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -30,6 +38,7 @@ export default function App() {
 
   const isProfileRoute = currentPath.toLowerCase().includes('kamel-shah');
   const isShowcaseRoute = currentPath.toLowerCase().startsWith('/showcase');
+  const isCaseStudyRoute = currentPath.toLowerCase().replace(/\/+$/, '') === '/work/campusone';
 
   useEffect(() => {
     const handlePopState = () => {
@@ -79,6 +88,9 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // Looping decorative animations pause while off-screen.
+  useEffect(() => startPauseOffscreen(), []);
+
   // Profile and showcase pages always stay light; the main page uses the saved theme.
   useEffect(() => {
     applyTheme(getStoredTheme());
@@ -95,10 +107,16 @@ export default function App() {
 
       {/* Brief branded intro (logo) */}
       <AnimatePresence mode="wait">
-        {loading && !isShowcaseRoute && <Preloader key="preloader" onComplete={finishLoading} />}
+        {loading && !isShowcaseRoute && !isCaseStudyRoute && <Preloader key="preloader" onComplete={finishLoading} />}
       </AnimatePresence>
 
-      {isShowcaseRoute ? (
+      {isCaseStudyRoute ? (
+        /* Project case study page */
+        <>
+          <SmoothScroll />
+          <Suspense fallback={<div className="min-h-screen" />}><CampusOneCaseStudy /></Suspense>
+        </>
+      ) : isShowcaseRoute ? (
         /* Experimental museum + parallax landing page */
         <Suspense fallback={<div className="min-h-screen" />}><Showcase /></Suspense>
       ) : isProfileRoute ? (
@@ -111,15 +129,13 @@ export default function App() {
           <Navigation />
           <main id="main-content" tabIndex={-1} className="relative w-full outline-none">
             <HeroAbout />
-            <Skills />
-            <Experience />
-            <Projects />
-            <Services />
-            <Education />
-            <Certifications />
-            <Contact />
+            <Suspense fallback={<div className="min-h-screen" aria-hidden="true" />}>
+              <BelowFold />
+            </Suspense>
           </main>
-          <Footer />
+          <Suspense fallback={null}>
+            <FooterWhenReady />
+          </Suspense>
         </>
       )}
 

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#F3F0E8" />
+    <script>
+      (function () {
+        try {
+          var p = location.pathname.toLowerCase();
+          if (localStorage.getItem('ks-theme') === 'dark' && p.indexOf('kamel-shah') === -1 && p.indexOf('/showcase') !== 0) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            document.querySelector('meta[name="theme-color"]').setAttribute('content', '#151413');
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <meta name="google-site-verification" content="1dvTfRgKngmmh4ebAhg3f22a40PyDQAajg_E1GK3fK4" />
+    <title>CampusOne case study — multi-tenant school ERP | Kamel Shah</title>
+    <meta name="description" content="How Kamel Shah is building CampusOne: a multi-tenant school ERP with three portals, five roles and PostgreSQL Row-Level Security for strict tenant isolation." />
+    <meta name="author" content="Mohammed Gous Ali Shah" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href="https://kamel-shah-portfolio.vercel.app/work/campusone" />
+
+    <!-- Open Graph (WhatsApp, LinkedIn, Facebook previews) -->
+    <meta property="og:type" content="profile" />
+    <meta property="og:site_name" content="Kamel Shah" />
+    <meta property="og:locale" content="en_IN" />
+    <meta property="og:url" content="https://kamel-shah-portfolio.vercel.app/work/campusone" />
+    <meta property="og:title" content="CampusOne case study — multi-tenant school ERP | Kamel Shah" />
+    <meta property="og:description" content="How Kamel Shah is building CampusOne: a multi-tenant school ERP with three portals, five roles and PostgreSQL Row-Level Security for strict tenant isolation." />
+    <meta property="og:image" content="https://kamel-shah-portfolio.vercel.app/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Mohammed Gous Ali Shah (Kamel Shah), full-stack web developer" />
+    <meta property="profile:first_name" content="Mohammed Gous Ali" />
+    <meta property="profile:last_name" content="Shah" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Kamelshah07" />
+    <meta name="twitter:creator" content="@Kamelshah07" />
+    <meta name="twitter:title" content="CampusOne case study — multi-tenant school ERP | Kamel Shah" />
+    <meta name="twitter:description" content="How Kamel Shah is building CampusOne: a multi-tenant school ERP with three portals, five roles and PostgreSQL Row-Level Security for strict tenant isolation." />
+    <meta name="twitter:image" content="https://kamel-shah-portfolio.vercel.app/og-image.jpg" />
+    <meta name="twitter:image:alt" content="Mohammed Gous Ali Shah (Kamel Shah), full-stack web developer" />
+
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <link rel="preload" as="image" type="image/webp" href="/Photos/optimized/hero-portrait-600.webp"
+      imagesrcset="/Photos/optimized/hero-portrait-600.webp 600w, /Photos/optimized/hero-portrait.webp 1000w"
+      imagesizes="(min-width: 1024px) 36vw, (min-width: 640px) 28rem, 92vw" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Fonts load without blocking the first paint (text shows immediately in a fallback font). -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500;1,6..72,600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500;1,6..72,600&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500;1,6..72,600&display=swap"></noscript>
+    <!-- Structured Data (JSON-LD) -->
+    <!-- Vercel Web Analytics: cookieless page-view counts (enable it in Vercel → Analytics). -->
+    <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+    <script defer src="/_vercel/insights/script.js"></script>
+      <style>
+      .boot-splash{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;background:#F3F0E8;z-index:998}
+      .boot-splash img{height:48px;width:auto}
+      .boot-splash span{font:600 12px/1 Inter,system-ui,sans-serif;letter-spacing:.3em;color:#6B6862}
+      [data-theme='dark'] .boot-splash{background:#151413}
+      [data-theme='dark'] .boot-splash span{color:#9C978D}
+    </style>
+  </head>
+  <body>
+    <div id="root"><div class="boot-splash" aria-hidden="true"><img src="/Photos/optimized/logo.webp" alt="" width="320" height="127" /><span>KAMEL SHAH</span></div></div>
+    <noscript>
+      <p>Mohammed Gous Ali Shah (Kamel Shah) — Full-Stack Web Developer, Parbhani, Maharashtra.
+      Email <a href="mailto:kamelshah2003@gmail.com">kamelshah2003@gmail.com</a> ·
+      <a href="https://github.com/mdgousalishah">GitHub</a> ·
+      <a href="https://www.linkedin.com/in/mohammed-gous-ali-shah-988657214/">LinkedIn</a>.
+      Please enable JavaScript to view the full portfolio.</p>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -13,7 +13,6 @@ import { SITE_CONFIG } from '../data/config';
 import { PROJECTS } from '../data/projects';
 import PortraitReveal from '../components/PortraitReveal';
 import { drawArmour } from '../components/heroArmour';
-import { SIGNATURE_HEIGHT, SIGNATURE_PATH, SIGNATURE_WIDTH } from '../components/signaturePaths';
 
 const FACTS = [
   { label: 'Focus', value: 'Full-stack web development' },
@@ -24,6 +23,8 @@ const FACTS = [
 const NAME_WORDS = ['Mohammed', 'Gous', 'Ali Shah'];
 const building = PROJECTS.find((p) => /in development/i.test(p.category));
 const ALT_PORTRAIT = '/Photos/optimized/hero-portrait-red.webp';
+/** Smaller copy for phones/tablets and the small marquee card. */
+const ALT_PORTRAIT_SMALL = '/Photos/optimized/hero-portrait-red-600.webp';
 
 /**
  * Pinned hero sequence (desktop only), modelled on landonorris.com:
@@ -138,11 +139,29 @@ function MarqueeRows({ x1, x2 }: { x1: MotionValue<string>; x2: MotionValue<stri
  * Kamel's handwritten signature, drawn over the portrait as the hero scrolls:
  * a soft-edged mask sweeps left to right, so the ink appears the way a pen lays it down.
  */
+type SignatureData = typeof import('../components/signaturePaths');
+
+/** The traced signature is ~40KB of path data, so it loads after the first paint, not with it. */
+function useSignature() {
+  const [data, setData] = useState<SignatureData | null>(null);
+  useEffect(() => {
+    let alive = true;
+    import('../components/signaturePaths').then((m) => alive && setData(m));
+    return () => {
+      alive = false;
+    };
+  }, []);
+  return data;
+}
+
 function Signature({ length }: { length: MotionValue<number> }) {
+  const sig = useSignature();
   const uid = useId().replace(/:/g, '');
   const fade = `sig-fade-${uid}`;
   const mask = `sig-mask-${uid}`;
   // The sweep is a little wider than the signature so its soft edge fully clears the last stroke.
+  if (!sig) return null;
+  const { SIGNATURE_WIDTH, SIGNATURE_HEIGHT, SIGNATURE_PATH } = sig;
   const sweepW = SIGNATURE_WIDTH * 1.12;
   return (
     <svg aria-hidden="true" viewBox={`0 0 ${SIGNATURE_WIDTH} ${SIGNATURE_HEIGHT}`} className="hero-signature pointer-events-none">
@@ -206,7 +225,8 @@ function HeroText() {
         ))}
       </p>
 
-      <p className="lead rise d-3 mt-5 max-w-[34rem]">
+      {/* No fade-in: this paragraph is the largest text on first load, so it should paint immediately. */}
+      <p className="lead mt-5 max-w-[34rem]">
         I build practical web experiences, full-stack applications, and digital solutions with a
         focus on clarity, usability, and reliable engineering.
       </p>
@@ -230,10 +250,12 @@ function HeroText() {
 }
 
 function Portrait({ pinned }: { pinned: boolean }) {
+  // The pinned (desktop) portrait is large; phones and tablets get the 600px copy.
+  const alt = pinned ? ALT_PORTRAIT : ALT_PORTRAIT_SMALL;
   return (
     <div className={`frame unveil aspect-[4/5] ${pinned ? 'hero-portrait--pinned' : ''}`}>
       <PortraitReveal
-        alt={ALT_PORTRAIT}
+        alt={alt}
         altLabel="red-lit studio portrait of Mohammed Gous Ali Shah with a holographic armour overlay"
         focal={{ x: 0.5, y: 0.285 }}
         anchor={{ x: 0.45, y: 0.25 }}
@@ -264,7 +286,7 @@ function Portrait({ pinned }: { pinned: boolean }) {
 function BuildingChip() {
   if (!building) return null;
   return (
-    <div className="hero-chip-layer hero-chip-layer--bl">
+    <div className="hero-chip-layer hero-chip-layer--bl" data-pause-offscreen>
       <a href="#projects" className="hero-chip hero-chip--bl rise d-5 group">
         <span className="relative flex h-2 w-2">
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60" />
@@ -410,7 +432,7 @@ function MarqueeBand() {
       <Contours className="hero-contours hero-contours--night" />
       <MarqueeRows x1={x1} x2={x2} />
       <div className="hero-band__card">
-        <img src={ALT_PORTRAIT} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover object-[50%_27%] grayscale" />
+        <img src={ALT_PORTRAIT_SMALL} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover object-[50%_27%] grayscale" />
         <Signature length={scribble} />
       </div>
     </div>

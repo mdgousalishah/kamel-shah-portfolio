@@ -124,9 +124,16 @@
     <!-- Vercel Web Analytics: cookieless page-view counts (enable it in Vercel → Analytics). -->
     <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
     <script defer src="/_vercel/insights/script.js"></script>
+      <style>
+      .boot-splash{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;background:#F3F0E8;z-index:998}
+      .boot-splash img{height:48px;width:auto}
+      .boot-splash span{font:600 12px/1 Inter,system-ui,sans-serif;letter-spacing:.3em;color:#6B6862}
+      [data-theme='dark'] .boot-splash{background:#151413}
+      [data-theme='dark'] .boot-splash span{color:#9C978D}
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><div class="boot-splash" aria-hidden="true"><img src="/Photos/optimized/logo.webp" alt="" width="320" height="127" /><span>KAMEL SHAH</span></div></div>
     <noscript>
       <p>Mohammed Gous Ali Shah (Kamel Shah) — Full-Stack Web Developer, Parbhani, Maharashtra.
       Email <a href="mailto:kamelshah2003@gmail.com">kamelshah2003@gmail.com</a> ·

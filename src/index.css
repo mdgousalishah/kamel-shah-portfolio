@@ -849,3 +849,9 @@ html.lenis, html.lenis body { height: auto; }
   object-fit: cover;
   object-position: top;
 }
+
+/* Looping animations pause while off-screen (see src/lib/pauseOffscreen.ts). */
+.is-offscreen,
+.is-offscreen * {
+  animation-play-state: paused !important;
+}

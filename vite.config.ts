@@ -36,6 +36,7 @@ export default defineConfig(({ mode }) => {
           main: path.resolve(__dirname, 'index.html'),
           profile: path.resolve(__dirname, 'kamel-shah/index.html'),
           showcase: path.resolve(__dirname, 'showcase/index.html'),
+          campusone: path.resolve(__dirname, 'work/campusone/index.html'),
         },
         output: {
           manualChunks(id) {

@@ -217,7 +217,7 @@ export default function ContactRobot(props: ContactRobotProps) {
   const eyes = `translate(${look.x.toFixed(2)} ${look.y.toFixed(2)})`;
 
   return (
-    <div aria-hidden="true" className="robot pointer-events-none select-none" data-mood={mood} data-typing={typing ? 'true' : undefined}>
+    <div aria-hidden="true" className="robot pointer-events-none select-none" data-pause-offscreen data-mood={mood} data-typing={typing ? 'true' : undefined}>
       {/* Speech bubble */}
       <div className="mb-1.5 flex h-[2.6rem] items-end justify-center">
         <AnimatePresence mode="wait" initial={false}>

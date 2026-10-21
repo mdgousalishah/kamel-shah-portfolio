@@ -68,7 +68,7 @@ export default function Statement() {
                 </span>
               ),
             )}
-            <span className="statement__cursor" />
+            <span className="statement__cursor" data-pause-offscreen />
           </p>
         </div>
       </div>

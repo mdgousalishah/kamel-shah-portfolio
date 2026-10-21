@@ -17,7 +17,7 @@ const GROUPS = [
   { key: 'ai-cloud', label: 'AI & Cloud', ids: ['cert-azure-essentials', 'cert-agentic-ai', 'cert-ai-masterclass'] },
   { key: 'dev', label: 'Development', ids: ['cert-deloitte-tech', 'cert-wordpress', 'cert-nielit'] },
   { key: 'data', label: 'Data & Business', ids: ['cert-seo', 'cert-business-analysis', 'cert-data-analysis', 'cert-sdn-work-productivity'] },
-  { key: 'leadership', label: 'Leadership', ids: ['cert-vbyld-2027', 'cert-nasha-mukt'] },
+  { key: 'leadership', label: 'Leadership', ids: ['cert-vbyld-2027-essay', 'cert-vbyld-2027', 'cert-nasha-mukt'] },
 ] as const;
 
 type FilterKey = 'all' | (typeof GROUPS)[number]['key'];
@@ -188,9 +188,10 @@ export default function Certifications() {
                     <button
                       type="button"
                       onClick={(e) => open(cert, e.currentTarget)}
-                      aria-label={`View certificate: ${cert.title}, ${cert.issuer}`}
                       className="group block w-full text-left"
                     >
+                      {/* The visible text names the certificate; this just says what the button does. */}
+                      <span className="sr-only">View certificate: </span>
                       <Depth strength={5} tilt tiltStrength={4}>
                       <div className="frame zoom-on-hover relative aspect-[4/3] bg-paper p-3 shadow-[0_20px_50px_-36px_rgba(0,0,0,0.45)]">
                         <CertThumb cert={cert} />

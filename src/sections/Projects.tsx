@@ -176,15 +176,25 @@ function ProjectBody({ project }: { project: Project }) {
         )}
       </ul>
 
-      {(project.link || project.github) && (
+      {(project.caseStudy || project.link || project.github) && (
         <div className="mt-6 flex flex-wrap items-center gap-3">
+          {project.caseStudy && (
+            <a
+              href={project.caseStudy}
+              className="btn btn-primary !min-h-[44px] !px-5"
+              aria-label={`Read case study: ${project.title}`}
+            >
+              Read case study
+              <ArrowUpRight size={15} aria-hidden="true" />
+            </a>
+          )}
           {project.link && (
             <a
               href={project.link}
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-primary !min-h-[44px] !px-5"
-              aria-label={`Visit the live ${project.title} site (opens in a new tab)`}
+              aria-label={`Live site: ${project.title} (opens in a new tab)`}
             >
               Live site
               <ArrowUpRight size={15} aria-hidden="true" />

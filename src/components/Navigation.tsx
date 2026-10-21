@@ -29,13 +29,19 @@ export default function Navigation() {
       },
       { rootMargin: '-35% 0px -60% 0px', threshold: 0 }
     );
-    ids.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
+    const observeAll = () => {
+      ids.forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) observer.observe(el);
+      });
+    };
+    observeAll();
+    // Sections below the fold arrive in a separate chunk; start tracking them when they do.
+    window.addEventListener('ks-sections-ready', observeAll);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('ks-sections-ready', observeAll);
       observer.disconnect();
     };
   }, []);

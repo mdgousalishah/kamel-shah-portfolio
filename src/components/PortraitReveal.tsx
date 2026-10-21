@@ -135,13 +135,31 @@ export default function PortraitReveal({
     cells.current = list;
   };
 
-  // Preload the alternate photo once (it is the only extra hero asset).
-  useEffect(() => {
+  // Load the alternate photo once the page has finished loading, so it never competes
+  // with the first paint. Hovering or tapping before then loads it straight away.
+  const ensureAlt = () => {
+    if (imgRef.current?.src.endsWith(alt)) return;
     const img = new Image();
     img.decoding = 'async';
-    img.onload = buildPhotoLayer;
+    img.onload = () => {
+      buildPhotoLayer();
+      schedule();
+    };
     img.src = alt;
     imgRef.current = img;
+  };
+  useEffect(() => {
+    let idle = 0;
+    const start = () => {
+      const ric = (window as Window & { requestIdleCallback?: (cb: () => void) => number }).requestIdleCallback;
+      idle = ric ? ric(ensureAlt) : window.setTimeout(ensureAlt, 300);
+    };
+    if (document.readyState === 'complete') start();
+    else window.addEventListener('load', start, { once: true });
+    return () => {
+      window.removeEventListener('load', start);
+      window.clearTimeout(idle);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [alt]);
 
@@ -285,6 +303,7 @@ export default function PortraitReveal({
 
   const onPointerMove = (e: React.PointerEvent) => {
     if (e.pointerType !== 'mouse' || reduce || revealed) return;
+    ensureAlt();
     const p = toLocal(e.clientX, e.clientY);
     const now = performance.now();
     const prev = last.current;
@@ -311,6 +330,7 @@ export default function PortraitReveal({
   };
 
   const toggle = (x = 0.5, y = 0.35) => {
+    ensureAlt();
     const next = !revealed;
     setRevealed(next);
     if (!reduce) {
@@ -332,7 +352,11 @@ export default function PortraitReveal({
       role="button"
       tabIndex={0}
       aria-pressed={revealed}
-      aria-label={revealed ? 'Show the original portrait' : `Reveal another portrait: ${altLabel}`}
+      aria-label={
+        fineHover
+          ? revealed ? 'Show the original portrait' : `Reveal another portrait: ${altLabel}`
+          : revealed ? 'Tap to go back to the original portrait' : `Tap the photo to reveal another portrait: ${altLabel}`
+      }
       onPointerMove={onPointerMove}
       onPointerLeave={onPointerLeave}
       onClick={onClick}

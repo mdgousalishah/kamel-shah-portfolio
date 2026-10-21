@@ -11,6 +11,8 @@ export interface Project {
   description: string | string[];
   link?: string;
   github?: string;
+  /** Link to a full case study page, when there is one. */
+  caseStudy?: string;
   featured?: boolean;
   image: string;
   /** Optimised copy served first; `image` remains the original fallback. */
@@ -20,6 +22,7 @@ export interface Project {
 export const PROJECTS: Project[] = [
   {
     id: "campusone",
+    caseStudy: "/work/campusone",
     number: "01",
     title: "CampusOne",
     category: "Multi-Tenant School ERP SaaS · In development",
@@ -79,7 +82,7 @@ export const PROJECTS: Project[] = [
       "Structured server-side controllers in PHP and Laravel with MySQL database integration."
     ],
     link: "https://the-soap-soal.vercel.app/",
-    github: "https://github.com/mdgousalishah",
+    github: "https://github.com/mdgousalishah/theSoap-soal",
     featured: true,
     image: "/Photos/Soap-and-Soul.png",
     imageWebp: "/Photos/optimized/Soap-and-Soul.webp"
@@ -97,7 +100,7 @@ export const PROJECTS: Project[] = [
       "Optimized for fast loading and clean readability across mobile and desktop devices."
     ],
     link: "https://anh-parbhani-git-fix-vercel-mohammed-gous-ali-shahs-projects.vercel.app/index.html",
-    github: "https://github.com/mdgousalishah",
+    github: "https://github.com/mdgousalishah/ANH-Parbhani",
     image: "/Photos/Masjid.png",
     imageWebp: "/Photos/optimized/Masjid.webp"
   },
@@ -114,7 +117,7 @@ export const PROJECTS: Project[] = [
       "Ensured cross-browser compatibility and responsive performance on all screen sizes."
     ],
     link: "https://shah-construction-ru5d.vercel.app/index.html",
-    github: "https://github.com/mdgousalishah",
+    github: "https://github.com/mdgousalishah/Shah-Construction",
     image: "/Photos/Shah-Construction.png",
     imageWebp: "/Photos/optimized/Shah-Construction.webp"
   },

@@ -472,6 +472,9 @@ button:hover > .zoom-on-hover img {
 .robot-dot { animation: robot-dot 0.9s ease-in-out infinite; }
 .robot-antenna { animation: robot-pulse 2.4s ease-in-out infinite; }
 .robot[data-mood='thinking'] .robot-antenna { animation-duration: 0.5s; }
+@keyframes robot-nod { 0%, 100% { transform: translateY(0) rotate(0); } 40% { transform: translateY(1.5px) rotate(-2deg); } }
+.robot[data-typing='true'] .robot-body { animation: robot-nod 0.38s ease-out; }
+.robot[data-typing='true'] .robot-antenna { animation-duration: 0.35s; }
 
 /* ── Accessibility: reduced motion ──────────────────────────── */
 
@@ -596,9 +599,15 @@ button:hover > .zoom-on-hover img {
   pointer-events: none;
 }
 
-.hero-chip {
+.hero-chip-layer {
   position: absolute;
   z-index: 2;
+}
+
+.hero-chip-layer--bl { left: -1.25rem; bottom: 3.25rem; }
+
+.hero-chip {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -613,8 +622,7 @@ button:hover > .zoom-on-hover img {
   white-space: nowrap;
 }
 
-.hero-chip--bl { left: -1.25rem; bottom: 3.25rem; animation-name: rise, chip-float; animation-duration: 0.9s, 6s; animation-delay: 0.45s, 1.4s; animation-iteration-count: 1, infinite; animation-timing-function: var(--ease-out), ease-in-out; }
-.hero-chip--tr { right: -1rem; top: 1.5rem; animation-name: rise, chip-float; animation-duration: 0.9s, 7s; animation-delay: 0.55s, 1.6s; animation-iteration-count: 1, infinite; animation-timing-function: var(--ease-out), ease-in-out; }
+.hero-chip--bl { animation-name: rise, chip-float; animation-duration: 0.9s, 6s; animation-delay: 0.45s, 1.4s; animation-iteration-count: 1, infinite; animation-timing-function: var(--ease-out), ease-in-out; }
 
 @keyframes chip-float {
   0%, 100% { transform: translate3d(0, 0, 0); }
@@ -623,11 +631,220 @@ button:hover > .zoom-on-hover img {
 
 /* Keep chips inside the screen on narrow layouts. */
 @media (max-width: 640px) {
-  .hero-chip--bl { left: 0.5rem; }
-  .hero-chip--tr { right: 0.5rem; }
+  .hero-chip-layer--bl { left: 0.5rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hero-word { opacity: 1; animation: none; transform: none; filter: none; }
-  .hero-chip--bl, .hero-chip--tr { animation: none; opacity: 1; }
+  .hero-chip--bl { animation: none; opacity: 1; }
+}
+
+/* ── Hero: pinned sequence (landonorris.com-inspired) ──────── */
+
+.hero-title {
+  font-size: clamp(2.6rem, calc(1rem + 6.2vw), 5.5rem);
+}
+
+/* Pinned: the hero holds for one screen of scrolling. */
+.hero-pin {
+  height: calc(200vh - var(--nav-height));
+}
+
+.hero-stage {
+  position: sticky;
+  top: var(--nav-height);
+  height: calc(100vh - var(--nav-height));
+  overflow: hidden;
+}
+
+/* Everything has to fit on one screen while pinned. */
+.hero-stage .hero-title {
+  font-size: min(clamp(2.6rem, calc(1rem + 6.2vw), 5.5rem), 12.5vh);
+}
+
+.hero-portrait--pinned {
+  height: min(calc(100vh - var(--nav-height) - 7rem), 600px);
+  width: auto;
+}
+
+.hero-night {
+  position: absolute;
+  inset: 0;
+  background: var(--night);
+}
+
+.hero-contours { stroke: var(--line); opacity: 0.9; }
+.hero-contours--night { stroke: rgba(243, 240, 232, 0.08); }
+
+.hero-marquee {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+  font-size: clamp(3.5rem, 13vh, 9rem);
+  line-height: 0.95;
+  white-space: nowrap;
+}
+
+.hero-marquee__row {
+  width: max-content;
+  margin: 0;
+  white-space: nowrap;
+  text-wrap: nowrap; /* the global `p { text-wrap: pretty }` would otherwise re-enable wrapping */
+  will-change: transform;
+}
+
+.hero-marquee__row--serif {
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: #E8622C;
+}
+
+.hero-marquee__row--sans {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: #F3F0E8;
+}
+
+.hero-scribble {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: 135%;
+  transform: translate(-50%, -50%) rotate(-8deg);
+  overflow: visible;
+  z-index: 3;
+}
+
+/* Phones / tablets: the marquee as its own dark band under the hero. */
+.hero-band {
+  position: relative;
+  height: clamp(360px, 70vw, 520px);
+  overflow: hidden;
+  background: var(--night);
+}
+
+.hero-band .hero-marquee { font-size: clamp(3rem, 14vw, 6rem); }
+
+.hero-band__card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: clamp(130px, 36vw, 220px);
+  aspect-ratio: 4 / 5;
+  transform: translate(-50%, -50%);
+  border-radius: 4px;
+  overflow: visible;
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.6);
+}
+
+.hero-band__card img { border-radius: 4px; }
+
+/* ── Portrait reveal ───────────────────────────────────────── */
+
+.portrait-reveal { cursor: crosshair; outline-offset: 4px; }
+.portrait-reveal:focus-visible { outline: 2px solid var(--ink); }
+
+.portrait-reveal__full {
+  transition: clip-path 0.9s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.portrait-reveal__hint {
+  position: absolute;
+  right: 0.6rem;
+  bottom: 0.6rem;
+  z-index: 2;
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--paper) 85%, transparent);
+  color: var(--ink);
+  font-size: 0.7rem;
+  font-weight: 500;
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+
+/* Reduced motion with a mouse: a plain crossfade on hover instead of the trail. */
+.portrait-reveal--fade .portrait-reveal__full {
+  clip-path: none !important;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.portrait-reveal--fade:hover .portrait-reveal__full,
+.portrait-reveal--fade[aria-pressed='true'] .portrait-reveal__full { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .portrait-reveal__full { transition: none; }
+}
+
+/* ── Smooth scrolling (Lenis) ──────────────────────────────── */
+
+html.lenis, html.lenis body { height: auto; }
+.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+
+/* ── Scroll-lit statement ──────────────────────────────────── */
+
+.statement {
+  padding-block: clamp(4rem, 12vw, 9rem);
+}
+
+.statement__text {
+  margin: 0 auto;
+  max-width: 22ch;
+  text-align: center;
+  font-family: var(--font-sans);
+  font-weight: 650;
+  font-size: clamp(2rem, 5.4vw, 4.6rem);
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.statement__accent {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-style: italic;
+  text-transform: none;
+  letter-spacing: -0.02em;
+  color: #E8622C;
+}
+
+@keyframes statement-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+
+.statement__cursor {
+  display: inline-block;
+  width: 0.42em;
+  height: 0.8em;
+  margin-left: 0.05em;
+  vertical-align: -0.04em;
+  background: #E8622C;
+  animation: statement-blink 1s steps(1) infinite;
+}
+
+/* ── Floating hover preview ────────────────────────────────── */
+
+.hover-preview {
+  position: fixed;
+  z-index: 60;
+  width: 260px;
+  aspect-ratio: 16 / 10;
+  margin: 18px 0 0 18px; /* sits just below-right of the cursor */
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--sand);
+  box-shadow: 0 30px 60px -28px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+.hover-preview img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
 }

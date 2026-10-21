@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { motion, useMotionValueEvent, useReducedMotion, useScroll } from 'motion/react';
 import Reveal from '../components/Reveal';
 import { Headline } from '../components/Motion';
+import HoverPreview from '../components/HoverPreview';
 
 interface ExperienceItem {
   role: string;
@@ -10,6 +11,8 @@ interface ExperienceItem {
   kind: string;
   location: string;
   tasks: string[];
+  /** Optional image shown next to the cursor when the row is hovered. */
+  preview?: string;
 }
 
 const experiences: ExperienceItem[] = [
@@ -19,6 +22,8 @@ const experiences: ExperienceItem[] = [
     period: 'June 2023 — Present',
     kind: 'Ongoing role',
     location: 'Parbhani, Maharashtra, India',
+    // Ties to the CampusOne ERP rollout mentioned in this role.
+    preview: '/Photos/optimized/CampusOne.webp',
     tasks: [
       'Administer IT infrastructure across 5 institutional schools, maintaining 10–20 workstation computers, network switches, and peripherals.',
       'Diagnose and resolve hardware, operating system, and Wi-Fi/LAN connectivity issues for 100+ students and 10+ faculty members.',
@@ -160,6 +165,7 @@ export default function Experience() {
                 className="border-b border-line"
               >
                 <Reveal from="right" delay={i * 0.06}>
+                  <HoverPreview src={exp.preview}>
                   <div
                     className={`grid grid-cols-1 gap-4 py-8 transition-opacity duration-700 md:grid-cols-[12rem_1fr] md:gap-10 md:py-10 ${
                       desktop && !reduce && active !== i ? 'opacity-45' : 'opacity-100'
@@ -187,6 +193,7 @@ export default function Experience() {
                       </ul>
                     </div>
                   </div>
+                  </HoverPreview>
                 </Reveal>
               </li>
             ))}

@@ -12,6 +12,7 @@ import Education from './sections/Education';
 import Certifications from './sections/Certifications';
 import Contact from './sections/Contact';
 import Footer from './components/Footer';
+import SmoothScroll from './components/SmoothScroll';
 import { applyTheme, getStoredTheme } from './lib/theme';
 // Loaded on demand so the home page ships less JavaScript up front.
 const Chatbot = lazy(() => import('./components/Chatbot'));
@@ -106,6 +107,7 @@ export default function App() {
       ) : (
         /* Main portfolio page — natural document flow, no scroll-jacking */
         <>
+          <SmoothScroll />
           <Navigation />
           <main id="main-content" tabIndex={-1} className="relative w-full outline-none">
             <HeroAbout />

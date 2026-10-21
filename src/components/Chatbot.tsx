@@ -221,6 +221,7 @@ export default function Chatbot() {
             <div
               aria-live="polite"
               aria-relevant="additions text"
+              data-lenis-prevent
               className="flex-1 overflow-y-auto p-4 flex flex-col gap-3.5 scrollbar-thin"
             >
               {messages.map((msg) => (

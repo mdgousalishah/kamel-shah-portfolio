@@ -12,6 +12,7 @@ import { PROJECTS, type Project } from '../data/projects';
 import { SITE_CONFIG } from '../data/config';
 import Reveal from '../components/Reveal';
 import { Headline } from '../components/Motion';
+import HoverPreview from '../components/HoverPreview';
 
 /** A GitHub link that is just the profile root is labelled honestly, not as a repository. */
 const sourceLabel = (url: string) =>
@@ -309,7 +310,7 @@ export default function Projects() {
             <nav aria-label="Jump to a project" className="work-switcher">
               <ol className="flex items-center gap-1 rounded-full border border-line bg-paper/90 p-1 shadow-[0_8px_30px_-18px_rgba(36,36,36,0.35)] backdrop-blur">
                 {PROJECTS.map((p, i) => (
-                  <li key={p.id}>
+                  <HoverPreview as="li" key={p.id} src={p.imageWebp ?? p.image}>
                     <button
                       type="button"
                       onClick={() => jumpTo(i)}
@@ -320,7 +321,7 @@ export default function Projects() {
                     >
                       {p.title}
                     </button>
-                  </li>
+                  </HoverPreview>
                 ))}
               </ol>
             </nav>

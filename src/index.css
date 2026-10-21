@@ -706,14 +706,15 @@ button:hover > .zoom-on-hover img {
   color: #F3F0E8;
 }
 
-.hero-scribble {
+.hero-signature {
   position: absolute;
   left: 50%;
-  top: 46%;
-  width: 135%;
-  transform: translate(-50%, -50%) rotate(-8deg);
+  top: 64%;
+  width: 165%;
+  transform: translate(-50%, -50%) rotate(-5deg);
   overflow: visible;
   z-index: 3;
+  filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.45));
 }
 
 /* Phones / tablets: the marquee as its own dark band under the hero. */

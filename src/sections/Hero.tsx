@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { ArrowDown, ArrowUpRight, Download } from 'lucide-react';
 import {
   AnimatePresence,
@@ -13,6 +13,7 @@ import { SITE_CONFIG } from '../data/config';
 import { PROJECTS } from '../data/projects';
 import PortraitReveal from '../components/PortraitReveal';
 import { drawArmour } from '../components/heroArmour';
+import { SIGNATURE_HEIGHT, SIGNATURE_PATH, SIGNATURE_WIDTH } from '../components/signaturePaths';
 
 const FACTS = [
   { label: 'Focus', value: 'Full-stack web development' },
@@ -133,22 +134,43 @@ function MarqueeRows({ x1, x2 }: { x1: MotionValue<string>; x2: MotionValue<stri
   );
 }
 
-const SCRIBBLE =
-  'M18 168 C 60 70, 92 30, 116 58 S 96 176, 70 160 S 128 52, 168 40 S 176 150, 150 166 S 214 66, 250 52 S 276 120, 236 150 S 300 110, 334 40';
-
-function Scribble({ length }: { length: MotionValue<number> }) {
-  // Round line caps would show as dots at length 0, so stay hidden until drawing starts.
-  const visible = useTransform(length, [0, 0.015], [0, 1]);
+/**
+ * Kamel's handwritten signature, drawn over the portrait as the hero scrolls:
+ * a soft-edged mask sweeps left to right, so the ink appears the way a pen lays it down.
+ */
+function Signature({ length }: { length: MotionValue<number> }) {
+  const uid = useId().replace(/:/g, '');
+  const fade = `sig-fade-${uid}`;
+  const mask = `sig-mask-${uid}`;
+  // The sweep is a little wider than the signature so its soft edge fully clears the last stroke.
+  const sweepW = SIGNATURE_WIDTH * 1.12;
   return (
-    <svg aria-hidden="true" viewBox="0 0 350 200" className="hero-scribble pointer-events-none">
-      <motion.path
-        d={SCRIBBLE}
-        fill="none"
+    <svg aria-hidden="true" viewBox={`0 0 ${SIGNATURE_WIDTH} ${SIGNATURE_HEIGHT}`} className="hero-signature pointer-events-none">
+      <defs>
+        <linearGradient id={fade} x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0.9" stopColor="#fff" />
+          <stop offset="1" stopColor="#000" />
+        </linearGradient>
+        <mask id={mask} maskUnits="userSpaceOnUse" x="0" y="0" width={SIGNATURE_WIDTH} height={SIGNATURE_HEIGHT}>
+          <motion.rect
+            x="0"
+            y="0"
+            width={sweepW}
+            height={SIGNATURE_HEIGHT}
+            fill={`url(#${fade})`}
+            style={{ scaleX: length, originX: 0 }}
+          />
+        </mask>
+      </defs>
+      <path
+        d={SIGNATURE_PATH}
+        fill="#E8622C"
+        fillRule="evenodd"
+        // A thin matching stroke thickens the ink a touch so it reads well at small sizes.
         stroke="#E8622C"
-        strokeWidth="7"
-        strokeLinecap="round"
+        strokeWidth="5"
         strokeLinejoin="round"
-        style={{ pathLength: length, opacity: visible }}
+        mask={`url(#${mask})`}
       />
     </svg>
   );
@@ -364,7 +386,7 @@ function PinnedHero() {
                   <span className="font-serif italic">Kamel Shah</span>
                 </figcaption>
               </motion.div>
-              <Scribble length={scribble} />
+              <Signature length={scribble} />
             </motion.figure>
           </div>
         </div>
@@ -389,7 +411,7 @@ function MarqueeBand() {
       <MarqueeRows x1={x1} x2={x2} />
       <div className="hero-band__card">
         <img src={ALT_PORTRAIT} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover object-[50%_27%] grayscale" />
-        <Scribble length={scribble} />
+        <Signature length={scribble} />
       </div>
     </div>
   );

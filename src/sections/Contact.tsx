@@ -4,7 +4,7 @@ import { SITE_CONFIG, SOCIAL_LINKS, whatsappHref } from '../data/config';
 import { ArrowUpRight, CheckCircle, X, Loader2, AlertCircle } from 'lucide-react';
 import Reveal from '../components/Reveal';
 import { Headline } from '../components/Motion';
-import ContactRobot, { type RobotField } from '../components/ContactRobot';
+import ContactRobot, { PixelDock, type RobotField } from '../components/ContactRobot';
 
 // ── Success Toast ─────────────────────────────────────────────────────────────
 
@@ -83,6 +83,27 @@ export default function Contact() {
   const [formState, setFormState] = useState<FormState>('idle');
   const [errorMsg, setErrorMsg] = useState('');
   const [showToast, setShowToast] = useState(false);
+  // Show the slim Pixel dock when the big robot is off screen but the form is still in view.
+  const robotSpotRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const [robotOnScreen, setRobotOnScreen] = useState(true);
+  const [formOnScreen, setFormOnScreen] = useState(false);
+  useEffect(() => {
+    const robot = robotSpotRef.current;
+    const form = formRef.current;
+    if (!robot || !form) return;
+    const navOffset = '-76px 0px 0px 0px';
+    const ro = new IntersectionObserver(([e]) => setRobotOnScreen(e.isIntersecting), { rootMargin: navOffset });
+    const fo = new IntersectionObserver(([e]) => setFormOnScreen(e.isIntersecting), { rootMargin: '-120px 0px -80px 0px' });
+    ro.observe(robot);
+    fo.observe(form);
+    return () => {
+      ro.disconnect();
+      fo.disconnect();
+    };
+  }, []);
+  const showDock = !robotOnScreen && formOnScreen;
+
   // Drives the robot above the form.
   const [focused, setFocused] = useState<RobotField>(null);
   const [submitHover, setSubmitHover] = useState(false);
@@ -259,7 +280,7 @@ export default function Contact() {
 
             {/* Form */}
             <Reveal from="right" blur={false} className="lg:col-span-7" delay={0.08}>
-              <div className="relative z-10 -mb-[7px]">
+              <div ref={robotSpotRef} className="relative z-10 -mb-[7px]">
                 <ContactRobot
                   focused={focused}
                   values={formData}
@@ -269,7 +290,18 @@ export default function Contact() {
                   minMessage={10}
                 />
               </div>
+              {/* Slim copy of Pixel under the nav while the big one is scrolled away. */}
+              <PixelDock
+                visible={showDock}
+                focused={focused}
+                values={formData}
+                formState={formState}
+                submitHover={submitHover}
+                sentName={sentName}
+                minMessage={10}
+              />
               <form
+                ref={formRef}
                 onSubmit={handleSubmit}
                 onFocus={(e) => {
                   const name = (e.target as HTMLElement).getAttribute('name') ?? '';

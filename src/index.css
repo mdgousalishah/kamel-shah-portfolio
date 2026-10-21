@@ -752,7 +752,7 @@ button:hover > .zoom-on-hover img {
 .portrait-reveal__hint {
   position: absolute;
   right: 0.6rem;
-  bottom: 0.6rem;
+  top: 0.6rem; /* top corner: clear of the floating chat button and the CampusOne chip */
   z-index: 2;
   padding: 0.35rem 0.6rem;
   border-radius: 999px;

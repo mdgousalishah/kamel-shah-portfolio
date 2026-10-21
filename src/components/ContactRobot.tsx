@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'motion/react';
 
 /**
@@ -26,54 +27,112 @@ type Mood = 'idle' | 'happy' | 'sad' | 'excited' | 'thinking' | 'meter';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-function deriveState(p: ContactRobotProps): { mood: Mood; line: string } {
-  const v = p.values;
-  const first = v.firstName.trim();
-  const last = v.lastName.trim();
-  const email = v.email.trim();
-  const msgLen = v.message.trim().length;
-  const ready = Boolean(first && last && EMAIL_RE.test(email) && msgLen >= p.minMessage);
+/** "kamel" → "Kamel" (keeps what the visitor typed otherwise). */
+const nice = (name: string) => (name ? name.charAt(0).toUpperCase() + name.slice(1) : '');
 
-  if (p.formState === 'loading') return { mood: 'thinking', line: 'Sending… beep boop.' };
+/** Keeps long emails from blowing up the speech bubble. */
+const shortEmail = (email: string) => (email.length > 26 ? `${email.slice(0, 24)}…` : email);
+
+const greeting = () => {
+  const h = new Date().getHours();
+  if (h < 5) return 'Up late';
+  if (h < 12) return 'Good morning';
+  if (h < 17) return 'Good afternoon';
+  return 'Good evening';
+};
+
+/** Rough topic of the message, so Pixel can react to what it is about. */
+function topicOf(message: string): string | null {
+  const m = message.toLowerCase();
+  // "How did you make this website?" is a question about the build, not a new project.
+  if (/\bhow\b[^.?!]*\b(do|does|dose|did)\b[^.?!]*\b(make|made|build|built|create|created)\b/.test(m)) return 'how';
+  if (/\b(job|hiring|hire|role|position|opening|vacancy|interview|internship|opportunit)/.test(m)) return 'role';
+  if (/\b(collab|partner|together|team up)/.test(m)) return 'collab';
+  if (/\b(website|web ?site|app|project|build|develop|store|shop|ecommerce|portal|landing)/.test(m)) return 'project';
+  if (/\b(seo|marketing|ranking|google)/.test(m)) return 'seo';
+  if (/\b(bug|fix|issue|error|broken|maintenance|support)/.test(m)) return 'fix';
+  return null;
+}
+
+const TOPIC_LINES: Record<string, (n: string) => string> = {
+  how: (n) => `Curious how it's built${n ? `, ${n}` : ''}? Kamel will explain.`,
+  role: (n) => `A role${n ? `, ${n}` : ''}? Kamel is all ears.`,
+  collab: (n) => `A collaboration! Love it${n ? `, ${n}` : ''}.`,
+  project: (n) => `A new project! Tell me the scope${n ? `, ${n}` : ''}.`,
+  seo: () => 'SEO talk — Kamel can help with that.',
+  fix: () => "Something to fix? Describe what's happening.",
+};
+
+/**
+ * Picks Pixel's mood and line from the live form values.
+ * `key` changes only when the *kind* of line changes, so the bubble animates
+ * between steps but updates smoothly while someone types.
+ */
+function deriveState(p: ContactRobotProps): { mood: Mood; line: string; key: string } {
+  const v = p.values;
+  const first = nice(v.firstName.trim().split(/\s+/)[0] || '');
+  const last = nice(v.lastName.trim());
+  const email = v.email.trim();
+  const message = v.message.trim();
+  const msgLen = message.length;
+  const digits = v.phone.replace(/\D/g, '').replace(/^91(?=\d{10}$)/, '');
+  const emailOk = EMAIL_RE.test(email);
+  const missing = [
+    !first && 'first name',
+    !last && 'last name',
+    !emailOk && 'email',
+    msgLen < p.minMessage && 'message',
+  ].filter(Boolean) as string[];
+  const ready = missing.length === 0;
+  const you = first ? `, ${first}` : '';
+
+  if (p.formState === 'loading') return { mood: 'thinking', key: 'loading', line: `Sending${first ? ` your note, ${first}` : ''}… beep boop.` };
   if (p.formState === 'success') {
-    return { mood: 'happy', line: `Delivered! Kamel will reply soon${p.sentName ? `, ${p.sentName}` : ''}.` };
+    const n = nice(p.sentName);
+    return { mood: 'happy', key: 'success', line: `Delivered! Kamel will reply soon${n ? `, ${n}` : ''}.` };
   }
-  if (p.formState === 'error') return { mood: 'sad', line: "Uh-oh, that didn't go through. See the note below." };
+  if (p.formState === 'error') return { mood: 'sad', key: 'error', line: "Uh-oh, that didn't go through. See the note below." };
 
   if (p.submitHover) {
     return ready
-      ? { mood: 'excited', line: 'Ooh. Do it. Press it.' }
-      : { mood: 'sad', line: 'Fill in the starred fields first.' };
+      ? { mood: 'excited', key: 'hover-ready', line: `Ready when you are${you}. Press it!` }
+      : { mood: 'sad', key: 'hover-missing', line: `Still need your ${missing.join(', ')}.` };
   }
 
   switch (p.focused) {
     case 'firstName':
       return first
-        ? { mood: 'happy', line: `Nice to meet you, ${first}!` }
-        : { mood: 'idle', line: "Let's start with your name." };
+        ? { mood: 'happy', key: 'first-filled', line: `${greeting()}, ${first}! Nice to meet you.` }
+        : { mood: 'idle', key: 'first-empty', line: "Let's start with your name." };
     case 'lastName':
       return last
-        ? { mood: 'happy', line: `${first || 'Hello'} ${last}. Got it.` }
-        : { mood: 'idle', line: 'And your last name?' };
+        ? { mood: 'happy', key: 'last-filled', line: `${first ? `${first} ${last}` : last} — that has a nice ring to it.` }
+        : { mood: 'idle', key: 'last-empty', line: first ? `And your last name, ${first}?` : 'And your last name?' };
     case 'email':
-      if (!email) return { mood: 'idle', line: 'Where should Kamel reply?' };
-      return EMAIL_RE.test(email)
-        ? { mood: 'happy', line: 'Perfect. Replies go there.' }
-        : { mood: 'idle', line: "Hmm, that email isn't finished yet." };
+      if (!email) return { mood: 'idle', key: 'email-empty', line: `Where should the reply go${you}?` };
+      if (!email.includes('@')) return { mood: 'thinking', key: 'email-typing', line: 'Keep going… waiting for the @.' };
+      if (!emailOk) return { mood: 'thinking', key: 'email-domain', line: 'Almost there — just the domain now.' };
+      return { mood: 'happy', key: 'email-ok', line: `Got it. Replies go to ${shortEmail(email)}` };
     case 'phone':
-      return { mood: 'idle', line: 'Optional. WhatsApp works too.' };
-    case 'message':
+      if (!digits) return { mood: 'idle', key: 'phone-empty', line: `Optional${you}. WhatsApp works too.` };
+      if (digits.length < 10) return { mood: 'thinking', key: 'phone-typing', line: `${digits.length} of 10 digits…` };
+      return { mood: 'happy', key: 'phone-ok', line: 'Number saved. A call works too.' };
+    case 'message': {
+      if (!msgLen) return { mood: 'meter', key: 'msg-empty', line: `What's on your mind${you}?` };
       if (msgLen < p.minMessage) {
         const left = p.minMessage - msgLen;
-        return { mood: 'meter', line: `${left} more character${left === 1 ? '' : 's'}, please.` };
+        return { mood: 'meter', key: 'msg-short', line: `${left} more character${left === 1 ? '' : 's'}, please.` };
       }
+      const topic = topicOf(message);
+      if (topic) return { mood: 'meter', key: `msg-${topic}`, line: TOPIC_LINES[topic](first) };
       return msgLen < 140
-        ? { mood: 'meter', line: "Tell me more, I'm listening." }
-        : { mood: 'meter', line: 'Great detail. Kamel will love this.' };
+        ? { mood: 'meter', key: 'msg-ok', line: "Tell me more, I'm listening." }
+        : { mood: 'meter', key: 'msg-long', line: `Great detail${you}. Kamel will love this.` };
+    }
     default:
-      if (ready) return { mood: 'excited', line: "All set. Hit Send when you're ready." };
-      if (first || email || msgLen) return { mood: 'idle', line: "Still here when you're ready." };
-      return { mood: 'idle', line: "Hi, I'm Pixel. I take messages straight to Kamel." };
+      if (ready) return { mood: 'excited', key: 'ready', line: `All set${you}. Hit Send when you're ready.` };
+      if (first || email || msgLen) return { mood: 'idle', key: 'waiting', line: `Still here when you're ready${you}.` };
+      return { mood: 'idle', key: 'hello', line: "Hi, I'm Pixel. I take messages straight to Kamel." };
   }
 }
 
@@ -92,7 +151,21 @@ const ACCENT = '#E8622C'; // matches the orange in the logo
 const BLUSH = '#E79A86';
 
 export default function ContactRobot(props: ContactRobotProps) {
-  const { mood, line } = deriveState(props);
+  const { mood, line, key } = deriveState(props);
+
+  // A quick nod each time a key is pressed in the form.
+  const [typing, setTyping] = useState(false);
+  const typed = Object.values(props.values).join('\u0000');
+  const firstRender = useRef(true);
+  useEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
+    setTyping(true);
+    const t = window.setTimeout(() => setTyping(false), 380);
+    return () => window.clearTimeout(t);
+  }, [typed]);
   const headRef = useRef<SVGSVGElement>(null);
   const [look, setLook] = useState({ x: 0, y: 0 });
 
@@ -144,12 +217,13 @@ export default function ContactRobot(props: ContactRobotProps) {
   const eyes = `translate(${look.x.toFixed(2)} ${look.y.toFixed(2)})`;
 
   return (
-    <div aria-hidden="true" className="robot pointer-events-none select-none" data-mood={mood}>
+    <div aria-hidden="true" className="robot pointer-events-none select-none" data-mood={mood} data-typing={typing ? 'true' : undefined}>
       {/* Speech bubble */}
       <div className="mb-1.5 flex h-[2.6rem] items-end justify-center">
         <AnimatePresence mode="wait" initial={false}>
           <motion.p
-            key={line}
+            key={key}
+            layout
             initial={{ opacity: 0, y: 6, scale: 0.94 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -4, scale: 0.97 }}
@@ -255,5 +329,54 @@ export default function ContactRobot(props: ContactRobotProps) {
         </g>
       </svg>
     </div>
+  );
+}
+
+/**
+ * Slim "Pixel says…" pill fixed under the nav. Shown by the contact form while
+ * the big robot is scrolled out of view, so the live replies stay visible.
+ * Decorative like Pixel itself, so hidden from screen readers.
+ */
+export function PixelDock({ visible, ...props }: ContactRobotProps & { visible: boolean }) {
+  const { mood, line } = deriveState(props);
+  if (typeof document === 'undefined') return null;
+  // Portalled to <body>: the form column is animated with a transform, which would break position: fixed.
+  return createPortal(
+    <AnimatePresence>
+      {visible && (
+        <motion.div
+          aria-hidden="true"
+          initial={{ opacity: 0, y: -12, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -10, scale: 0.97 }}
+          transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+          className="pixel-dock pointer-events-none fixed left-1/2 z-40 flex max-w-[calc(100vw-2rem)] -translate-x-1/2 items-center gap-2.5 rounded-full border border-line bg-paper py-1.5 pl-1.5 pr-4 shadow-[0_14px_40px_-20px_rgba(0,0,0,0.45)]"
+          style={{ top: 'calc(var(--nav-height) + 0.5rem)' }}
+          data-mood={mood}
+        >
+          <svg viewBox="0 0 40 32" width="40" height="32" className="shrink-0">
+            <rect x="2" y="2" width="36" height="28" rx="9" fill={PAPER} stroke={INK} strokeWidth="2.2" />
+            <rect x="7" y="7" width="26" height="18" rx="5" fill={INK} />
+            {mood === 'happy' || mood === 'excited' ? (
+              <g fill="none" stroke={IVORY} strokeWidth="2" strokeLinecap="round">
+                <path d="M12.5 17 Q15 14 17.5 17" />
+                <path d="M22.5 17 Q25 14 27.5 17" />
+              </g>
+            ) : (
+              <g fill={IVORY}>
+                <circle cx="15" cy="16" r="2.3" />
+                <circle cx="25" cy="16" r="2.3" />
+              </g>
+            )}
+            <circle cx="20" cy="2" r="2" fill={ACCENT} />
+          </svg>
+          <span className="min-w-0 truncate text-[0.8rem] font-medium text-ink">
+            <span className="text-muted">Pixel: </span>
+            {line}
+          </span>
+        </motion.div>
+      )}
+    </AnimatePresence>,
+    document.body,
   );
 }

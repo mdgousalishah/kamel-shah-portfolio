@@ -102,10 +102,12 @@ export default function Contact() {
       fo.disconnect();
     };
   }, []);
-  const showDock = !robotOnScreen && formOnScreen;
 
   // Drives the robot above the form.
   const [focused, setFocused] = useState<RobotField>(null);
+  // Only for someone actually filling the form — not for visitors just scrolling past.
+  const engaged = focused !== null || Object.values(formData).some((v) => String(v ?? '').trim() !== '');
+  const showDock = !robotOnScreen && formOnScreen && engaged;
   const [submitHover, setSubmitHover] = useState(false);
   const [sentName, setSentName] = useState('');
   const [sentEmail, setSentEmail] = useState('');

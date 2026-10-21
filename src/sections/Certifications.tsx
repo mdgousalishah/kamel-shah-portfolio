@@ -182,7 +182,7 @@ export default function Certifications() {
                         : { x: 0, y: 0, rotate: 0, scale: 1, opacity: 1 }
                     }
                     exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
-                    transition={{ type: 'spring', stiffness: 120, damping: 20, mass: 0.9, delay: canDeal && inView ? Math.min(idx, 11) * 0.05 : 0 }}
+                    transition={{ type: 'spring', stiffness: 230, damping: 30, mass: 0.8, delay: canDeal && inView ? Math.min(idx, 11) * 0.03 : 0 }}
                     style={{ zIndex: certificates.length - idx }}
                   >
                     <button

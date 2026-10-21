@@ -165,7 +165,6 @@ export default function Experience() {
                 className="border-b border-line"
               >
                 <Reveal from="right" delay={i * 0.06}>
-                  <HoverPreview src={exp.preview}>
                   <div
                     className={`grid grid-cols-1 gap-4 py-8 transition-opacity duration-700 md:grid-cols-[12rem_1fr] md:gap-10 md:py-10 ${
                       desktop && !reduce && active !== i ? 'opacity-45' : 'opacity-100'
@@ -178,10 +177,13 @@ export default function Experience() {
                     </div>
 
                     <div className="min-w-0">
-                      <h3 className="font-serif text-[1.65rem] leading-tight text-ink sm:text-[1.85rem]">
-                        {exp.role}
-                      </h3>
-                      <p className="mt-1 text-[0.9375rem] text-muted">{exp.company}</p>
+                      {/* Preview only from the title line, so it never covers the task text below. */}
+                      <HoverPreview src={exp.preview} className="w-fit">
+                        <h3 className="font-serif text-[1.65rem] leading-tight text-ink sm:text-[1.85rem]">
+                          {exp.role}
+                        </h3>
+                        <p className="mt-1 text-[0.9375rem] text-muted">{exp.company}</p>
+                      </HoverPreview>
 
                       <ul className="mt-5 space-y-2.5">
                         {exp.tasks.map((task) => (
@@ -193,7 +195,6 @@ export default function Experience() {
                       </ul>
                     </div>
                   </div>
-                  </HoverPreview>
                 </Reveal>
               </li>
             ))}

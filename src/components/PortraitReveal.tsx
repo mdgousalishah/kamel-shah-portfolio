@@ -26,6 +26,11 @@ interface Props {
   focal?: { x: number; y: number };
   /** Where that point should land in the frame (0–1). */
   anchor?: { x: number; y: number };
+  /**
+   * Optional extra drawing on top of the alternate photo (e.g. a HUD), in the photo's own
+   * coordinates: `map(u, v)` turns 0–1 photo coordinates into canvas pixels.
+   */
+  decorate?: (ctx: CanvasRenderingContext2D, map: (u: number, v: number) => [number, number], drawnWidth: number) => void;
   className?: string;
 }
 
@@ -59,6 +64,7 @@ export default function PortraitReveal({
   altLabel,
   focal = { x: 0.5, y: 0.28 },
   anchor = { x: 0.46, y: 0.25 },
+  decorate,
   className = '',
 }: Props) {
   const frameRef = useRef<HTMLDivElement>(null);
@@ -110,6 +116,7 @@ export default function PortraitReveal({
     const dy = Math.min(0, Math.max(H - dh, anchor.y * H - focal.y * dh));
     ctx.clearRect(0, 0, W, H);
     ctx.drawImage(img, dx, dy, dw, dh);
+    decorate?.(ctx, (u, v) => [dx + u * dw, dy + v * dh], dw);
     photoLayer.current = layer;
   };
 

@@ -12,6 +12,7 @@ import {
 import { SITE_CONFIG } from '../data/config';
 import { PROJECTS } from '../data/projects';
 import PortraitReveal from '../components/PortraitReveal';
+import { drawArmour } from '../components/heroArmour';
 
 const FACTS = [
   { label: 'Focus', value: 'Full-stack web development' },
@@ -21,7 +22,7 @@ const FACTS = [
 
 const NAME_WORDS = ['Mohammed', 'Gous', 'Ali Shah'];
 const building = PROJECTS.find((p) => /in development/i.test(p.category));
-const ALT_PORTRAIT = '/Photos/optimized/hero-portrait-bw.webp';
+const ALT_PORTRAIT = '/Photos/optimized/hero-portrait-red.webp';
 
 /**
  * Pinned hero sequence (desktop only), modelled on landonorris.com:
@@ -211,9 +212,10 @@ function Portrait({ pinned }: { pinned: boolean }) {
     <div className={`frame unveil aspect-[4/5] ${pinned ? 'hero-portrait--pinned' : ''}`}>
       <PortraitReveal
         alt={ALT_PORTRAIT}
-        altLabel="black-and-white studio portrait of Mohammed Gous Ali Shah"
-        focal={{ x: 0.5, y: 0.27 }}
-        anchor={{ x: 0.45, y: 0.24 }}
+        altLabel="red-lit studio portrait of Mohammed Gous Ali Shah with a holographic armour overlay"
+        focal={{ x: 0.5, y: 0.285 }}
+        anchor={{ x: 0.45, y: 0.25 }}
+        decorate={drawArmour}
         className="h-full w-full"
       >
         <picture>

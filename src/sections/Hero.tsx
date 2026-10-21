@@ -20,7 +20,7 @@ const FACTS = [
   { label: 'Based in', value: 'Parbhani, Maharashtra, India' }
 ];
 
-const NAME_WORDS = ['Mohammed', 'Gous', 'Ali Shah'];
+const NAME_WORDS = ['Md.', 'Gous', 'Ali Shah'];
 const building = PROJECTS.find((p) => /in development/i.test(p.category));
 const ALT_PORTRAIT = '/Photos/optimized/hero-portrait-red.webp';
 /** Smaller copy for phones/tablets and the small marquee card. */
@@ -404,7 +404,7 @@ function PinnedHero() {
               <motion.div style={{ opacity: captionOpacity }}>
                 <BuildingChip />
                 <figcaption className="rise d-5 mt-3 flex items-center justify-between text-xs text-muted">
-                  <span>Mohammed Gous Ali Shah</span>
+                  <span>Md. Gous Ali Shah</span>
                   <span className="font-serif italic">Kamel Shah</span>
                 </figcaption>
               </motion.div>
@@ -454,7 +454,7 @@ function FlowHero() {
               <Portrait pinned={false} />
               <BuildingChip />
               <figcaption className="rise d-5 mt-3 flex items-center justify-between text-xs text-muted">
-                <span>Mohammed Gous Ali Shah</span>
+                <span>Md. Gous Ali Shah</span>
                 <span className="font-serif italic">Kamel Shah</span>
               </figcaption>
             </figure>

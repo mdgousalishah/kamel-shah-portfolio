@@ -855,3 +855,55 @@ html.lenis, html.lenis body { height: auto; }
 .is-offscreen * {
   animation-play-state: paused !important;
 }
+
+/* ── Skills: auto-scrolling rows ───────────────────────── */
+.skill-marquee {
+  display: grid;
+  gap: 0.75rem;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.skill-marquee__row {
+  display: flex;
+  width: max-content;
+  animation: skill-marquee var(--marquee-duration, 40s) linear infinite;
+}
+.skill-marquee__row--reverse { animation-direction: reverse; }
+.skill-marquee:hover .skill-marquee__row { animation-play-state: paused; }
+.skill-marquee__track {
+  display: flex;
+  flex-shrink: 0;
+  gap: 0.75rem;
+  padding-right: 0.75rem; /* same as gap, so the seam between copies is even */
+  list-style: none;
+  margin: 0;
+}
+.skill-marquee__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  white-space: nowrap;
+  padding: 0.7rem 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper);
+  font-family: var(--font-serif);
+  font-size: clamp(1.05rem, 0.95rem + 0.5vw, 1.4rem);
+  line-height: 1;
+  color: var(--ink);
+}
+.skill-marquee__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #E8622C;
+}
+@keyframes skill-marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* The grouped grid below already lists every skill, so drop the moving copy. */
+  .skill-marquee { display: none; }
+}

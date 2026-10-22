@@ -28,6 +28,39 @@ const skillCategories = [
   }
 ];
 
+// Unique skills for the two auto-scrolling rows (the grid below stays the full, grouped list).
+const unique = (list: string[]) => Array.from(new Set(list));
+const ROW_ONE = unique(skillCategories.slice(0, 3).flatMap((g) => g.skills));
+const ROW_TWO = unique(skillCategories.slice(3).flatMap((g) => g.skills)).filter((s) => !ROW_ONE.includes(s));
+const MARQUEE_ROWS = [ROW_ONE, ROW_TWO];
+
+function SkillMarquee() {
+  return (
+    // Decorative: every skill is also in the grouped grid, so screen readers skip this.
+    <div aria-hidden="true" className="skill-marquee mt-10 lg:mt-12" data-pause-offscreen>
+      {MARQUEE_ROWS.map((row, r) => (
+        <div
+          key={r}
+          className={`skill-marquee__row ${r % 2 ? 'skill-marquee__row--reverse' : ''}`}
+          style={{ ['--marquee-duration' as string]: `${row.length * 3.2}s` }}
+        >
+          {/* Two identical copies; the track slides by exactly one copy for a seamless loop. */}
+          {[0, 1].map((copy) => (
+            <ul key={copy} className="skill-marquee__track">
+              {row.map((skill) => (
+                <li key={skill} className="skill-marquee__item">
+                  <span className="skill-marquee__dot" />
+                  {skill}
+                </li>
+              ))}
+            </ul>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function Skills() {
   return (
     <section id="skills" aria-labelledby="skills-title" className="section">
@@ -40,6 +73,8 @@ export default function Skills() {
         <Headline id="skills-title" className="h-section max-w-[20ch]">
             The tools I work with, grouped by discipline.
           </Headline>
+
+        <SkillMarquee />
 
         <div className="mt-12 grid grid-cols-1 gap-x-12 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
           {skillCategories.map((group, i) => (

@@ -14,7 +14,7 @@ const thumbFor = (image: string) => {
 
 /** Filter groups for the certificate grid (keyed by certificate id, so the data file stays unchanged). */
 const GROUPS = [
-  { key: 'ai-cloud', label: 'AI & Cloud', ids: ['cert-azure-essentials', 'cert-agentic-ai', 'cert-ai-masterclass'] },
+  { key: 'ai-cloud', label: 'AI & Cloud', ids: ['cert-azure-essentials', 'cert-nptel-postgresql-ai', 'cert-agentic-ai', 'cert-ai-masterclass'] },
   { key: 'dev', label: 'Development', ids: ['cert-deloitte-tech', 'cert-wordpress', 'cert-nielit'] },
   { key: 'data', label: 'Data & Business', ids: ['cert-seo', 'cert-business-analysis', 'cert-data-analysis', 'cert-sdn-work-productivity'] },
   { key: 'leadership', label: 'Leadership', ids: ['cert-vbyld-2027-essay', 'cert-vbyld-2027', 'cert-nasha-mukt'] },

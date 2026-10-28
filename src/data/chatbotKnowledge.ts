@@ -123,13 +123,25 @@ export const CHATBOT_KNOWLEDGE = {
       details: "5 hours of in-class and online training in workplace productivity tools, completed through PepSupplyChainStars."
     },
     {
+      name: "Viksit Bharat Young Leaders Dialogue (VBYLD) 2027 Essay",
+      issuer: "Ministry of Youth Affairs and Sports / MyBharat",
+      year: "October 7, 2026",
+      details: "Certificate of Participation for the online essay on the Viksit Bharat Young Leaders Dialogue 2027, conducted on MY Bharat."
+    },
+    {
+      name: "PostgreSQL for AI Applications: Vector Databases, Embeddings, and RAG",
+      issuer: "NPTEL+ (IIT Madras)",
+      year: "October 3–4, 2026",
+      details: "NPTEL+ online workshop by Dr. Arup Kumar Chattopadhyay and Mr. Subendu Gorai, instructors of the IIT Madras BS Degree Program, covering vector databases, embeddings and RAG on PostgreSQL."
+    },
+    {
       name: "Microsoft Azure Essentials",
       issuer: "Microsoft and LinkedIn Learning",
       year: "October 5, 2026",
       details: "Professional Certificate covering Cloud Computing, Microsoft Azure Architecture, and cloud services (Certificate ID: 1a101259252798a35f716c0fc58ef5208f49a78ba816eefa61a53830744c75a8)."
     },
     {
-      name: "Visit Bharat Young Leaders Dialogue (VBYLD) 2027 Quiz",
+      name: "Viksit Bharat Young Leaders Dialogue (VBYLD) 2027 Quiz",
       issuer: "Ministry of Youth Affairs and Sports / MyBharat / MyGov",
       details: "Certificate of Participation in national youth dialogue and leadership quiz."
     },

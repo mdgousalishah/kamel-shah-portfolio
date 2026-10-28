@@ -29,6 +29,20 @@ export const CERTIFICATIONS: Certification[] = [
     skills: ["Productivity Tools", "Digital Workplace Skills", "Office Software", "Workflow Efficiency"]
   },
   {
+    id: "cert-vbyld-2027-essay",
+    title: "Viksit Bharat Young Leaders Dialogue (VBYLD) 2027 Essay",
+    issuer: "Ministry of Youth Affairs and Sports / MyBharat",
+    type: "Certificate of Participation",
+    date: "October 7, 2026",
+    datetime: "2026-10-07",
+    category: "National Leadership & Governance",
+    recipient: "Mohammed Gous Ali Shah",
+    verificationAvailable: true,
+    certificateFile: "/certificates/certificate_b19f34856065c6e2f50583b888211f7e_2445_bfeca96b3dbd.pdf",
+    image: "/Photos/vbyld-2027-essay.jpg",
+    skills: ["Essay Writing", "Youth Leadership", "National Governance"]
+  },
+  {
     id: "cert-azure-essentials",
     title: "Microsoft Azure Essentials",
     issuer: "Microsoft and LinkedIn Learning",
@@ -41,6 +55,19 @@ export const CERTIFICATIONS: Certification[] = [
     certificateFile: "/certificates/CertificateOfCompletion_Microsoft Azure Essentials Professional Certificate by Microsoft and LinkedIn.pdf",
     image: "/Photos/microsoft-azure-essentials.jpg",
     skills: ["Microsoft Azure", "Cloud Computing", "Identity & Access Management", "Cloud Architecture"]
+  },
+  {
+    id: "cert-nptel-postgresql-ai",
+    title: "PostgreSQL for AI Applications: Vector Databases, Embeddings, and RAG",
+    issuer: "NPTEL+ · IIT Madras",
+    type: "Workshop Certificate",
+    date: "October 3–4, 2026",
+    datetime: "2026-10-04",
+    category: "AI & Databases",
+    recipient: "Mohammed Gous Ali Shah Mohammed Mushtaque Ahmed",
+    verificationAvailable: true,
+    image: "/Photos/nptel-postgresql-ai-rag.jpg",
+    skills: ["PostgreSQL", "Vector Databases", "Embeddings", "Retrieval-Augmented Generation (RAG)"]
   },
   {
     id: "cert-agentic-ai",
@@ -144,7 +171,6 @@ export const CERTIFICATIONS: Certification[] = [
     recipient: "Mohammed Gous Ali Shah Mohammed Mushtaque Ahmed",
     verificationAvailable: true,
     image: "/Photos/vbyld-2027-quiz.jpg",
-    certificateFile: "/certificates/certificate_b19f34856065c6e2f50583b888211f7e_2445_bfeca96b3dbd.pdf",
     skills: ["Youth Leadership", "National Governance", "Innovation Awareness"]
   },
   {

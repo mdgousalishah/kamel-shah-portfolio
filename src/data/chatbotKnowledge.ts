@@ -117,18 +117,6 @@ export const CHATBOT_KNOWLEDGE = {
   },
   certifications: [
     {
-      name: "Work Productivity Tools (Microcertificate)",
-      issuer: "Skills Development Network (SDN), supported by Wadhwani Foundation",
-      year: "October 18, 2026",
-      details: "5 hours of in-class and online training in workplace productivity tools, completed through PepSupplyChainStars."
-    },
-    {
-      name: "Viksit Bharat Young Leaders Dialogue (VBYLD) 2027 Essay",
-      issuer: "Ministry of Youth Affairs and Sports / MyBharat",
-      year: "October 7, 2026",
-      details: "Certificate of Participation for the online essay on the Viksit Bharat Young Leaders Dialogue 2027, conducted on MY Bharat."
-    },
-    {
       name: "PostgreSQL for AI Applications: Vector Databases, Embeddings, and RAG",
       issuer: "NPTEL+ (IIT Madras)",
       year: "October 3–4, 2026",
@@ -141,17 +129,11 @@ export const CHATBOT_KNOWLEDGE = {
       details: "Professional Certificate covering Cloud Computing, Microsoft Azure Architecture, and cloud services (Certificate ID: 1a101259252798a35f716c0fc58ef5208f49a78ba816eefa61a53830744c75a8)."
     },
     {
-      name: "Viksit Bharat Young Leaders Dialogue (VBYLD) 2027 Quiz",
-      issuer: "Ministry of Youth Affairs and Sports / MyBharat / MyGov",
-      details: "Certificate of Participation in national youth dialogue and leadership quiz."
-    },
-    {
       name: "Technology Job Simulation",
       issuer: "Deloitte / Forage",
       year: "September 26, 2026",
       details: "Completed practical tasks in Coding and Development."
     },
-
     {
       name: "The AI Masterclass",
       issuer: "Dhruv Rathee Academy",
@@ -163,7 +145,7 @@ export const CHATBOT_KNOWLEDGE = {
       year: "2026"
     },
     {
-      name: "Build a Free Website with WordPress",
+      name: "Introduction to Data Analysis Using Microsoft Excel",
       issuer: "Coursera Project Network",
       year: "2024"
     },
@@ -173,7 +155,7 @@ export const CHATBOT_KNOWLEDGE = {
       year: "2024"
     },
     {
-      name: "Introduction to Data Analysis Using Microsoft Excel",
+      name: "Build a Free Website with WordPress",
       issuer: "Coursera Project Network",
       year: "2024"
     },
@@ -186,6 +168,23 @@ export const CHATBOT_KNOWLEDGE = {
       name: "Adobe Illustrator & Graphic Design Training",
       issuer: "Design Academy",
       year: "2024"
+    },
+    {
+      name: "Work Productivity Tools (Microcertificate)",
+      issuer: "Skills Development Network (SDN), supported by Wadhwani Foundation",
+      year: "October 18, 2026",
+      details: "5 hours of in-class and online training in workplace productivity tools, completed through PepSupplyChainStars."
+    },
+    {
+      name: "Viksit Bharat Young Leaders Dialogue (VBYLD) 2027 Essay",
+      issuer: "Ministry of Youth Affairs and Sports / MyBharat",
+      year: "October 7, 2026",
+      details: "Certificate of Participation for the online essay on the Viksit Bharat Young Leaders Dialogue 2027, conducted on MY Bharat."
+    },
+    {
+      name: "Viksit Bharat Young Leaders Dialogue (VBYLD) 2027 Quiz",
+      issuer: "Ministry of Youth Affairs and Sports / MyBharat / MyGov",
+      details: "Certificate of Participation in national youth dialogue and leadership quiz."
     }
   ],
   services: [

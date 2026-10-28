@@ -13,34 +13,20 @@ export interface Certification {
   certificateFile?: string;
 }
 
+/** Ordered by impact: in-demand technical skills and strongest issuers first. */
 export const CERTIFICATIONS: Certification[] = [
   {
-    id: "cert-sdn-work-productivity",
-    title: "Work Productivity Tools",
-    issuer: "Skills Development Network (SDN) · Wadhwani Foundation",
-    type: "Microcertificate of Completion",
-    date: "October 18, 2026",
-    datetime: "2026-10-18",
-    category: "Workplace Productivity",
-    recipient: "Mohammad Gous Ali Shah",
+    id: "cert-nptel-postgresql-ai",
+    title: "PostgreSQL for AI Applications: Vector Databases, Embeddings, and RAG",
+    issuer: "NPTEL+ · IIT Madras",
+    type: "Workshop Certificate",
+    date: "October 3–4, 2026",
+    datetime: "2026-10-04",
+    category: "AI & Databases",
+    recipient: "Mohammed Gous Ali Shah Mohammed Mushtaque Ahmed",
     verificationAvailable: true,
-    certificateFile: "/certificates/SDN Work Productivity Tools Certificate.pdf",
-    image: "/Photos/sdn-work-productivity-tools.jpg",
-    skills: ["Productivity Tools", "Digital Workplace Skills", "Office Software", "Workflow Efficiency"]
-  },
-  {
-    id: "cert-vbyld-2027-essay",
-    title: "Viksit Bharat Young Leaders Dialogue (VBYLD) 2027 Essay",
-    issuer: "Ministry of Youth Affairs and Sports / MyBharat",
-    type: "Certificate of Participation",
-    date: "October 7, 2026",
-    datetime: "2026-10-07",
-    category: "National Leadership & Governance",
-    recipient: "Mohammed Gous Ali Shah",
-    verificationAvailable: true,
-    certificateFile: "/certificates/certificate_b19f34856065c6e2f50583b888211f7e_2445_bfeca96b3dbd.pdf",
-    image: "/Photos/vbyld-2027-essay.jpg",
-    skills: ["Essay Writing", "Youth Leadership", "National Governance"]
+    image: "/Photos/nptel-postgresql-ai-rag.jpg",
+    skills: ["PostgreSQL", "Vector Databases", "Embeddings", "Retrieval-Augmented Generation (RAG)"]
   },
   {
     id: "cert-azure-essentials",
@@ -55,19 +41,6 @@ export const CERTIFICATIONS: Certification[] = [
     certificateFile: "/certificates/CertificateOfCompletion_Microsoft Azure Essentials Professional Certificate by Microsoft and LinkedIn.pdf",
     image: "/Photos/microsoft-azure-essentials.jpg",
     skills: ["Microsoft Azure", "Cloud Computing", "Identity & Access Management", "Cloud Architecture"]
-  },
-  {
-    id: "cert-nptel-postgresql-ai",
-    title: "PostgreSQL for AI Applications: Vector Databases, Embeddings, and RAG",
-    issuer: "NPTEL+ · IIT Madras",
-    type: "Workshop Certificate",
-    date: "October 3–4, 2026",
-    datetime: "2026-10-04",
-    category: "AI & Databases",
-    recipient: "Mohammed Gous Ali Shah Mohammed Mushtaque Ahmed",
-    verificationAvailable: true,
-    image: "/Photos/nptel-postgresql-ai-rag.jpg",
-    skills: ["PostgreSQL", "Vector Databases", "Embeddings", "Retrieval-Augmented Generation (RAG)"]
   },
   {
     id: "cert-agentic-ai",
@@ -119,15 +92,15 @@ export const CERTIFICATIONS: Certification[] = [
     skills: ["Technical SEO", "Keyword Research", "On-Page Optimization", "Website Visibility"]
   },
   {
-    id: "cert-wordpress",
-    title: "Build a Free Website with WordPress",
+    id: "cert-data-analysis",
+    title: "Introduction to Data Analysis Using Microsoft Excel",
     issuer: "Coursera Project Network",
     type: "Guided Project Certificate",
     date: "2024",
-    category: "CMS & Web Development",
-    image: "/Photos/coursera-wordpress.jpg",
-    certificateFile: "/certificates/Coursera Build a Free Websit with WordPress.pdf",
-    skills: ["WordPress Architecture", "Content Management", "Responsive UI", "Web Deployment"]
+    category: "Data Analytics",
+    image: "/Photos/coursera-data-analysis-excel.jpg",
+    certificateFile: "/certificates/Coursera Introduction to Data Analysis Using Microsoft Excel..pdf",
+    skills: ["Data Modeling", "Pivot Tables", "Formulas & Functions", "Data Visualization"]
   },
   {
     id: "cert-business-analysis",
@@ -141,15 +114,15 @@ export const CERTIFICATIONS: Certification[] = [
     skills: ["Process Mapping", "Requirement Gathering", "Workflow Analysis", "System Optimization"]
   },
   {
-    id: "cert-data-analysis",
-    title: "Introduction to Data Analysis Using Microsoft Excel",
+    id: "cert-wordpress",
+    title: "Build a Free Website with WordPress",
     issuer: "Coursera Project Network",
     type: "Guided Project Certificate",
     date: "2024",
-    category: "Data Analytics",
-    image: "/Photos/coursera-data-analysis-excel.jpg",
-    certificateFile: "/certificates/Coursera Introduction to Data Analysis Using Microsoft Excel..pdf",
-    skills: ["Data Modeling", "Pivot Tables", "Formulas & Functions", "Data Visualization"]
+    category: "CMS & Web Development",
+    image: "/Photos/coursera-wordpress.jpg",
+    certificateFile: "/certificates/Coursera Build a Free Websit with WordPress.pdf",
+    skills: ["WordPress Architecture", "Content Management", "Responsive UI", "Web Deployment"]
   },
   {
     id: "cert-nielit",
@@ -160,6 +133,34 @@ export const CERTIFICATIONS: Certification[] = [
     category: "Hardware & Robotics",
     image: "/Photos/nielit-uas-bootcamp.jpg",
     skills: ["Unmanned Aerial Systems", "Embedded Hardware", "Drone Architectures", "Sensors & Flight Control"]
+  },
+  {
+    id: "cert-sdn-work-productivity",
+    title: "Work Productivity Tools",
+    issuer: "Skills Development Network (SDN) · Wadhwani Foundation",
+    type: "Microcertificate of Completion",
+    date: "October 18, 2026",
+    datetime: "2026-10-18",
+    category: "Workplace Productivity",
+    recipient: "Mohammad Gous Ali Shah",
+    verificationAvailable: true,
+    certificateFile: "/certificates/SDN Work Productivity Tools Certificate.pdf",
+    image: "/Photos/sdn-work-productivity-tools.jpg",
+    skills: ["Productivity Tools", "Digital Workplace Skills", "Office Software", "Workflow Efficiency"]
+  },
+  {
+    id: "cert-vbyld-2027-essay",
+    title: "Viksit Bharat Young Leaders Dialogue (VBYLD) 2027 Essay",
+    issuer: "Ministry of Youth Affairs and Sports / MyBharat",
+    type: "Certificate of Participation",
+    date: "October 7, 2026",
+    datetime: "2026-10-07",
+    category: "National Leadership & Governance",
+    recipient: "Mohammed Gous Ali Shah",
+    verificationAvailable: true,
+    certificateFile: "/certificates/certificate_b19f34856065c6e2f50583b888211f7e_2445_bfeca96b3dbd.pdf",
+    image: "/Photos/vbyld-2027-essay.jpg",
+    skills: ["Essay Writing", "Youth Leadership", "National Governance"]
   },
   {
     id: "cert-vbyld-2027",
